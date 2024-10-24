@@ -2,24 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IUser } from "../features/auth/authSlice";
 
-// Интерфейс для параметров авторизации
-interface LoginPayload {
-  username: string;
-  password: string;
-}
-
-// Асинхронное действие для входа
-export const login = createAsyncThunk(
-  "/api/admin/login",
-  async (payload: LoginPayload, { rejectWithValue }) => {
-    try {
-      const response = await axios.post("/api/auth/login", payload); // Ваш API эндпоинт для логина администратора
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
 
 // Получение всех пользователей (доступно администратору)
 export const fetchAllUsers = createAsyncThunk(
@@ -85,7 +67,7 @@ export const deleteUser = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      return console.log("deleteUser")
+      return userId;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to delete user");
     }

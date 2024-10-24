@@ -11,9 +11,6 @@ const NewsItem: React.FC<NewsItemProps> = ({ article }) => {
     <li className="news-item">
       <h2>{article.title}</h2>
       <p>{article.summary}</p>
-      {article.image && (
-        <img src={article.image} alt={article.title} className="news-image" />
-      )}
       <a href={article.url} target="_blank" rel="noopener noreferrer">
         Читать далее
       </a>

@@ -8,22 +8,23 @@ import './newsList.module.css';
 const NewsList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { news, isLoading, error } = useSelector((state: RootState) => state.news);
+  
 
   useEffect(() => {
     dispatch(fetchNews());
   }, [dispatch]);
 
   if (isLoading) {
-    return <p>Загрузка новостей...</p>;
+    return <p>Loading news...</p>;
   }
 
   if (error) {
-    return <div style={{ color: 'red' }}>Ошибка: {error}</div>;
+    return <div style={{ color: 'red' }}>Error: {error}</div>;
   }
 
   return (
     <div className="news-list">
-      <h1>Новости</h1>
+      <h1>News</h1>
       <ul>
         {news.map((article: { id: React.Key | null | undefined; }) => (
           <NewsItem key={article.id} article={article} /> // Используем компонент NewsItem для каждой статьи

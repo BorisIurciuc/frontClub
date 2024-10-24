@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, fetchAllUsers, getUser } from "./adminActions";
 import { RootState, AppDispatch } from "../../app/store"; // Импортируйте типы
+import { IUser } from "../features/auth/authSlice";
 
 const UserList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch(); // Используем AppDispatch для типизации dispatch

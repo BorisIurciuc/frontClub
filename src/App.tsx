@@ -12,13 +12,13 @@ import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { getUserWithToken } from "./components/features/auth/authAction.ts";
 import ActivityDetail from "./components/activityDetail/ActivityDetail";
 import { Footer } from "./components/footer/Footer";
-import ProjectCreators from "./components/projectCreators/ProjectCreators.tsx";
 import DashBoard from "./components/dashBoard/DashBoard.tsx";
 import AdminPanel from "./components/adminPanel/AdminPanel.tsx";
 import UserList from "./components/adminPanel/UserList.tsx";
 import NewsList from "./components/news/NewsList.tsx";
 import RegistrationConfirmed from "./components/registrationConfirm/RegistrationConfirmed.tsx";
 import School from "./components/school/School.tsx";
+import ProjectCreators from "./components/projectCreators/ProjectCreators.tsx";
 
 const App = () => {
   const dispatch = useAppDispatch();

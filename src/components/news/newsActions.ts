@@ -1,14 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ReactNode } from "react";
 
 // Определите интерфейс для новостей
 export interface INews {
+  summary: ReactNode;
+  url: string | undefined;
   id: number;
   title: string;
-  summary: string;
-  image?: string; // Необязательное поле для изображения
-  url: string; // Ссылка на полную статью
+  description: string;
+  createdBy: string;
+  createdAt: Date;
+  
 }
 
 // Создание новости
@@ -83,15 +87,27 @@ export const getNewsById = createAsyncThunk<INews, number>(
 );
 
 
-// Получение новостей из API
+
+// Получение всех новостей с токеном авторизации
 export const fetchNews = createAsyncThunk<INews[], void>(
   "news/fetchNews",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get<INews[]>("/api/news"); // Измените URL на правильный
-      return response.data;
+      // Получение токена из localStorage
+      const token = localStorage.getItem("token");
+
+      // Выполнение запроса на получение новостей с передачей токена в заголовке
+      const response = await axios.get<INews[]>("/api/news", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Добавляем токен в заголовок
+        },
+      });
+
+      return response.data; // Возвращаем данные ответа (массив новостей)
     } catch (error: any) {
+      // Обработка ошибки и передача сообщения об ошибке через rejectWithValue
       return rejectWithValue(error.response?.data?.message || "Failed to fetch news");
     }
   }
 );
+
