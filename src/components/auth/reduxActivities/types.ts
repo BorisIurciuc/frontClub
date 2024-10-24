@@ -2,7 +2,7 @@ export interface IActivity {
     id: number;
     title: string;
     adress: string;
-    dateTime: Date
+    startDate: string;
     image: string;   
     description: string;
 };

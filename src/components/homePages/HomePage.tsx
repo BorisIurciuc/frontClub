@@ -2,51 +2,110 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 import Loader from "../loader/Loader";
 import styles from "./homePage.module.css";
-import { useNavigate } from "react-router-dom";
-import { FaBook, FaEye, FaGift, FaPlus, FaVideo } from "react-icons/fa";
+import { useNavigate, Link } from "react-router-dom";
+import { FaEye, FaPlus } from "react-icons/fa";
+import { motion } from "framer-motion";
+import axios from "axios";
+import { IActivity } from "../auth/reduxActivities/types";
 
-export default function HomePage() {
+interface ActivityCardProps {
+  activity: IActivity;
+}
+
+const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => (
+  <Link
+    to={`/activityList/${activity.id}`}
+    state={{ activity }}
+    className={styles.activityCard}
+  >
+    <h3>{activity.title}</h3>
+    <p>
+      <strong>Date:</strong> {activity.startDate}
+    </p>
+  </Link>
+);
+
+const HomePage: React.FC = () => {
   const isLoading = useAppSelector((state) => state.user.isLoading);
-  const [showLoader, setShowLoader] = useState(true);
+  const [activities, setActivities] = useState<IActivity[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loadingActivities, setLoadingActivities] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setShowLoader(true);
-    if (isLoading) {
-      const timer = setTimeout(() => setShowLoader(false), 100);
-      return () => clearTimeout(timer);
-    } else {
-      setShowLoader(false);
-    }
-  }, [isLoading]);
+    const fetchActivities = async () => {
+      setLoadingActivities(true);
+      try {
+        const response = await axios.get("/api/activity");
+        setActivities(response.data);
+      } catch (error) {
+        console.error("Error fetching activities:", error);
+        setError("Failed to load activities. Please try again later.");
+      } finally {
+        setLoadingActivities(false);
+      }
+    };
 
-  const handleCreateCourse = () => {
-    navigate("/activityList/addActivity");
+    fetchActivities();
+  }, []);
+
+  const handleCreateCourse = () => navigate("/activityList/addActivity");
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+  };
+
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.6 } },
   };
 
   return (
     <div className={styles.container}>
-      {showLoader && <Loader />}
-      
-      {/* Добавляем изображение фона */}
+      {isLoading && <Loader />}
+      {loadingActivities && <Loader />}
+      {error && <p className={styles.error}>{error}</p>}
+
       <div className={styles.imageContainer}>
-        <img
+        <motion.img
           src="/src/components/homePages/imgHomePage/decoration-retour-ecole-livres_23-2147662350.jpg"
           alt="Books and school decoration"
           className={styles.backgroundImage}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.8 }}
+          transition={{ duration: 1 }}
         />
       </div>
 
       <header className={styles.header}>
-        <h1 className={styles.title}>Welcome to the Conversation Club!</h1>
-        <p className={styles.subtitle}>
+        <motion.h1
+          className={styles.title}
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+        >
+          Welcome to the Conversation Club!
+        </motion.h1>
+        <motion.p
+          className={styles.subtitle}
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+          transition={{ delay: 0.2 }}
+        >
           Learn, communicate, and grow together!
-        </p>
+        </motion.p>
       </header>
 
-      <div className={styles.highlightSection}>
+      <motion.div
+        className={styles.highlightSection}
+        initial="hidden"
+        animate="visible"
+        variants={fadeIn}
+      >
         <img
-          src="/src/components/homePages/imgHomePage/crayons.jpg"
+          src="/src/components/homePages/imgHomePage/langue.avif"
           alt="Colorful crayons"
           className={styles.highlightImage}
         />
@@ -55,46 +114,84 @@ export default function HomePage() {
             Expand Your Language Skills with Ease
           </h2>
           <p className={styles.highlightText}>
-            Whether you're a beginner or an advanced learner, our platform
-            provides a variety of language courses tailored to your level.
-            Explore courses in English, Spanish, French, and many more! Want to
-            share your knowledge? You can also create your own language course
-            and help others improve their skills. Learn at your own pace,
-            communicate with fellow learners, and unlock your full potential
-            with Conversation Club!
+            Whether you’re just starting or already an advanced learner, our
+            platform offers a diverse range of language courses tailored to your
+            proficiency level. Dive into engaging courses in English, Spanish,
+            French, and many more!
+          </p>
+
+          <h3 className={styles.subTitle}>Why Choose Us?</h3>
+          <ul className={styles.benefitsList}>
+            <li>
+              <strong>Create Your Own Course:</strong> Share your knowledge and
+              design a course that empowers others to improve their skills.
+            </li>
+            <li>
+              <strong>Flexible Learning:</strong> Learn at your own pace,
+              fitting your studies into your busy life.
+            </li>
+            <li>
+              <strong>Community Connection:</strong> Engage with fellow learners
+              through discussions and collaborative activities, enriching your
+              learning experience.
+            </li>
+          </ul>
+
+          <p className={styles.cta}>
+            Unlock your full potential and embark on your language learning
+            journey with the Conversation Club today!
           </p>
         </div>
-      </div>
+      </motion.div>
 
-      <div className={styles.courseSection}>
+      <motion.div
+        className={styles.courseSection}
+        initial="hidden"
+        animate="visible"
+        variants={fadeInUp}
+        transition={{ delay: 0.4 }}
+      >
         <h2 className={styles.sectionTitle}>Course Selection</h2>
         <div className={styles.courseGrid}>
-          <button onClick={handleCreateCourse} className={styles.courseButton}>
+          <motion.button
+            onClick={handleCreateCourse}
+            className={styles.courseButton}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <FaPlus /> Create Course
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={() => navigate("/activityList")}
             className={styles.courseButton}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <FaEye /> View Courses
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
 
-      <div className={styles.newsContainer}>
-        <h2 className={styles.sectionTitle}>App News</h2>
-        <div className={styles.newsGrid}>
-          <div className={styles.newsItem}>
-            <FaBook /> New English courses have been added!
-          </div>
-          <div className={styles.newsItem}>
-            <FaVideo /> A new video call feature is coming soon!
-          </div>
-          <div className={styles.newsItem}>
-            <FaGift /> Don't miss our subscription promotion!
-          </div>
+      <motion.div
+        className={styles.activitiesContainer}
+        initial="hidden"
+        animate="visible"
+        variants={fadeInUp}
+        transition={{ delay: 0.6 }}
+      >
+        <h2 className={styles.sectionTitle}>Available Activities</h2>
+        <div className={styles.activityGrid}>
+          {activities.length === 0 ? (
+            <p>No activities available at the moment.</p>
+          ) : (
+            activities.map((activity) => (
+              <ActivityCard key={activity.id} activity={activity} />
+            ))
+          )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
-}
+};
+
+export default HomePage;
