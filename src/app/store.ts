@@ -1,14 +1,17 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import authSlice from "../components/auth/features/authSlice";
-import reduxActivitiesSlice from "../components/auth/reduxActivities/reduxActivitiesSlice";
+import authSlice from "../components/features/auth/authSlice";
+import reduxActivitiesSlice from "../components/reduxActivities/reduxActivitiesSlice";
 import adminReducer from '../components/adminPanel/adminSlice';
+import newsReducer from "../components/news/newsSlise"
+
 
 
 export const store = configureStore({
   reducer: {
     admin: adminReducer,
-    reduxActivities: reduxActivitiesSlice.reducer,
+    reduxActivities: reduxActivitiesSlice,
     user: authSlice.reducer,
+    news: newsReducer,
   },
 });
 
@@ -20,4 +23,3 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
-export default store;

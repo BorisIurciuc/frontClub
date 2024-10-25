@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useAppDispatch } from '../../app/hooks';
 import Button from '../button/Button';
 import Input from '../input/Input';
-import { registerUser } from './features/authAction';
+import { registerUser } from '../features/auth/authAction';
 import styles from './auth.module.css';
 import { useState } from 'react';
 import Loader from '../loader/Loader';

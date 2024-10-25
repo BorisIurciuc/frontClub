@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./header.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Link, useLocation } from "react-router-dom";
-import { logoutUser } from "../auth/features/authSlice";
-import { cleanActivities } from "../auth/reduxActivities/reduxActivitiesSlice";
+import { logoutUser } from "../features/auth/authSlice";
+import { cleanActivities } from "../reduxActivities/reduxActivitiesSlice";
 import { links } from "./links"; // Импортируем функцию links
 
 interface HeaderProps {
@@ -15,7 +15,7 @@ export const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
   const location = useLocation();
 
   const { user } = useAppSelector((store) => store.user);
-  const isAuthenticated = Boolean(user?.username); // Используем переменную
+  const isAuthenticated = Boolean(user?.username); // Используем переменную isAuthenticated
 
   const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -24,8 +24,8 @@ export const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
     window.location.href = "/";
   };
 
-  const userLinks = links(isAuthenticated, isAdmin); // Используем переменную здесь
-  
+  const userLinks = links(isAuthenticated, isAdmin); // Используем переменную для получения ссылок
+
   return (
     <header className={styles.header}>
       <div className={styles.header_container}>
@@ -33,24 +33,23 @@ export const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
       </div>
       <nav className={styles.navbar}>
         <div className={styles.navLinks}>
-          {/*<span className={styles.username}>{user?.username}</span>*/}
-
           {userLinks.map((link) => (
             <Link
               key={link.pathname}
-              className={
-                location.pathname === link.pathname ? styles.active : ""
-              }
+              className={location.pathname === link.pathname ? styles.active : ""}
               to={link.pathname}
             >
               {link.title}
             </Link>
           ))}
 
-          {isAdmin && (
-            <Link to="/admin" className={styles.adminLink}>
-              Admin Panel
-            </Link>
+          {/* Проверяем, является ли пользователь администратором и аутентифицирован ли он */}
+          {isAuthenticated && user?.roles.includes("ROLE_ADMIN") && (
+            <li>
+              <Link to="/admin" className={styles.adminLink}>
+                Admin Panel
+              </Link>
+            </li>
           )}
         </div>
         {isAuthenticated ? (
@@ -59,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
               <span className={styles.username}>{user?.username}</span>
             </Link>
             <Link onClick={handleLogout} to="/">
-            Sign out
+              Sign out
             </Link>
           </div>
         ) : (

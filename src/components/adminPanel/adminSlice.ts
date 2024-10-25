@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchAllUsers, deleteUser, updateUser, createUser, getUser } from "./adminActions";
-import { IUser } from "../auth/features/authSlice"; // Предположим, что IUser уже определен в authSlice
+import { fetchAllUsers, deleteUser, getUser } from "./adminActions";
+import { IUser } from "../features/auth/authSlice"; // Предположим, что IUser уже определен в authSlice
 
 // Интерфейс для состояния admin
 interface AdminState {
@@ -57,21 +57,21 @@ const adminSlice = createSlice({
         state.loading = false;
       })
 
-      // Обрабатываем асинхронные действия для updateUser
-      .addCase(updateUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateUser.fulfilled, (state, action: PayloadAction<IUser>) => {
-        state.users = state.users.map((user) =>
-          user.id === action.payload.id ? action.payload : user
-        );
-        state.loading = false;
-      })
-      .addCase(updateUser.rejected, (state, action) => {
-        state.error = action.error.message || "Failed to update user.";
-        state.loading = false;
-      })
+      // // Обрабатываем асинхронные действия для updateUser
+      // .addCase(updateUser.pending, (state) => {
+      //   state.loading = true;
+      //   state.error = null;
+      // })
+      // .addCase(updateUser.fulfilled, (state, action: PayloadAction<IUser>) => {
+      //   state.users = state.users.map((user) =>
+      //     user.id === action.payload.id ? action.payload : user
+      //   );
+      //   state.loading = false;
+      // })
+      // .addCase(updateUser.rejected, (state, action) => {
+      //   state.error = action.error.message || "Failed to update user.";
+      //   state.loading = false;
+      // })
 
       // Обрабатываем асинхронные действия для getUser
       .addCase(getUser.pending, (state) => {
@@ -86,20 +86,6 @@ const adminSlice = createSlice({
         state.error = action.error.message || "Failed to fetch user.";
         state.loading = false;
       })
-
-      // Обрабатываем асинхронные действия для createUser
-      .addCase(createUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createUser.fulfilled, (state, action: PayloadAction<IUser>) => {
-        state.users.push(action.payload);
-        state.loading = false;
-      })
-      .addCase(createUser.rejected, (state, action) => {
-        state.error = action.error.message || "Failed to create user.";
-        state.loading = false;
-      });
   },
 });
 

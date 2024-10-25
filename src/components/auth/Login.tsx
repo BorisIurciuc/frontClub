@@ -7,7 +7,7 @@ import Input from "../input/Input";
 import styles from "./auth.module.css";
 import { useState } from "react";
 import Loader from "../loader/Loader";
-import { loginUser, loginAdmin } from "./features/authAction"; // Добавили экшен для логина администратора
+import { loginUser, loginAdmin } from "../features/auth/authAction"; // Добавили экшен для логина администратора
 
 export interface ILoginFormValues {
   username: string;

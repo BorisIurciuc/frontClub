@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useAppDispatch } from "../../app/hooks";
 import { useState, useEffect } from "react";
-import { addActivity } from "../auth/reduxActivities/reduxActivitiesAction";
+import { addActivity } from "../reduxActivities/reduxActivitiesAction";
 import style from "./formAddActivities.module.css";
 import axios from "axios";
 

@@ -1,59 +1,44 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ReactNode } from "react";
 
 // Определите интерфейс для новостей
 export interface INews {
+  summary: ReactNode;
+  url: string | undefined;
   id: number;
   title: string;
-  summary: string;
-  image?: string; // Необязательное поле для изображения
-  url: string; // Ссылка на полную статью
+  description: string;
+  createdBy: string;
+  createdAt: Date;
 }
 
-// Создание новости
-export const createNews = createAsyncThunk<INews, INews>(
-  "news/createNews",
-  async (newsData, { rejectWithValue }) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post<INews>("/api/news", newsData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to create news");
-    }
-  }
-);
-
-// Удаление новости
-export const deleteNews = createAsyncThunk<INews, number>(
+// Действие для удаления новости по ID с токеном авторизации
+export const deleteNews = createAsyncThunk<void, number>(
   "news/deleteNews",
-  async (_newsId, { rejectWithValue }) => {
+  async (newsId, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.delete<INews>(`/api/news/{id}`, {
+      const token = localStorage.getItem("token"); // Получение токена из localStorage
+      await axios.delete(`/api/news/${newsId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data;
+      return newsId; // Возвращаем ID удаленной новости
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to delete news");
     }
   }
 );
 
-// Обновление новости
+// Действие для обновления новости
 export const updateNews = createAsyncThunk<INews, INews>(
   "news/updateNews",
   async (newsData, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.put<INews>(`/api/news/{id}`, newsData, {
+      const response = await axios.put<INews>(`/api/news/${newsData.id}`, newsData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -62,15 +47,16 @@ export const updateNews = createAsyncThunk<INews, INews>(
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to update news");
     }
-  } 
+  }
 );
-// Получение новости по ID
-export const getNewsById = createAsyncThunk<INews, number>(
-  "/api/news/{id}",
-  async (_newsId, { rejectWithValue }) => {
+
+// Действие для получения всех новостей с токеном авторизации
+export const fetchNews = createAsyncThunk<INews[], void>(
+  "news/fetchNews",
+  async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get<INews>(`/api/news/{id}`, {
+      const token = localStorage.getItem("token"); // Получение токена из localStorage
+      const response = await axios.get<INews[]>("/api/news", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -79,19 +65,23 @@ export const getNewsById = createAsyncThunk<INews, number>(
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch news");
     }
-  }   
+  }
 );
 
-
-// Получение новостей из API
-export const fetchNews = createAsyncThunk<INews[], void>(
-  "news/fetchNews",
-  async (_, { rejectWithValue }) => {
+// Действие для получения конкретной новости по ID с токеном авторизации
+export const getNewsById = createAsyncThunk<INews, number>(
+  "news/getNewsById",
+  async (newsId, { rejectWithValue }) => {
     try {
-      const response = await axios.get<INews[]>("/api/news"); // Измените URL на правильный
+      const token = localStorage.getItem("token"); // Получение токена из localStorage
+      const response = await axios.get<INews>(`/api/news/${newsId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch news");
+      return rejectWithValue(error.response?.data?.message || "Failed to fetch news by ID");
     }
   }
 );

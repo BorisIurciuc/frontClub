@@ -6,7 +6,7 @@ import buttonStyles from "../button/button.module.css";
 import SearchBar from "../searchBar/SearchBar";
 import ScrollToTopButton from "../scrollToTopButton/ScrollToTopButton";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { getActivities } from "../auth/reduxActivities/reduxActivitiesAction";
+import { getActivities } from "../auth/reduxActivitiesAction";
 
 interface IActivity {
   id: number;
@@ -20,7 +20,7 @@ const ActivityList: React.FC = () => {
   const [filteredActivities, setFilteredActivities] = useState<IActivity[]>([]);
   const [userRegisteredActivities, setUserRegisteredActivities] = useState<Set<number>>(new Set());
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
-  const userRole = useAppSelector((state) => state.user.role); 
+//  const userRole = useAppSelector((state) => state.user.role); 
   const [loading, setLoading] = useState(false);
 
   const fetchRegisteredActivities = async () => {
@@ -104,7 +104,7 @@ const ActivityList: React.FC = () => {
               <p className={styles.activityStartDate}>Start: {activity.startDate}</p>
 
               <Link
-                to={`/activityList/${activity.id}`}
+                to={`/activity/${activity.id}`}
                 state={{ activity }}
                 className={buttonStyles.button}
                 aria-label={`More about ${activity.title}`}
@@ -122,7 +122,6 @@ const ActivityList: React.FC = () => {
                       Participate
                     </button>
                   ) : (
-                   
                     userRegisteredActivities.has(activity.id) && (
                       <button
                         className={`${buttonStyles.button} ${styles.revokeButton}`}

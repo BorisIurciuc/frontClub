@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosResponse } from "axios";
 import { ITokenDto, IUser, IUserData } from "./authSlice";
-import { ILoginFormValues } from "../Login";
+import { ILoginFormValues } from "../../auth/Login";
 
 
 export const fetchAllUsers = createAsyncThunk<

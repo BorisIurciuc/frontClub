@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styles from './activityDetail.module.css';
 import BackButton from '../backButton/BackButton';
+import { useAppSelector } from '../../app/hooks'; // Добавьте импорт useAppSelector
 
 interface Activity {
   id: number;
@@ -11,9 +12,13 @@ interface Activity {
   startDate: string;
   image: string;
   description: string;
+  authorId: number;
 }
 
 const ActivityDetail: React.FC = () => {
+  // Получаем информацию о пользователе из Redux store
+  const user = useAppSelector((state) => state.user.user);
+  
   const location = useLocation();
   const activity = location.state?.activity as Activity | undefined;
 
@@ -21,9 +26,11 @@ const ActivityDetail: React.FC = () => {
     return <div>Activity not found</div>;
   }
 
-
   const handleParticipate = async (activityId: number) => {
     try {
+      // Теперь вы можете использовать user.id
+      console.log("Current user ID:", user?.id);
+      
       const response = await axios.put(`/api/activity/${activityId}/add-user`, null, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`, 
@@ -53,14 +60,18 @@ const ActivityDetail: React.FC = () => {
         <strong>Date:</strong> {activity.startDate}
       </p>
       <p className={styles.activityDetailDescription}>{activity.description}</p>
-
+      <p>Author - {activity.authorId}</p>
+      <p>user - {user?.id}</p>
       
-      <button
-        className={styles.participateButton}
-        onClick={() => handleParticipate(activity.id)}
-      >
-        Participate
-      </button>
+      {/* Можно добавить проверку, является ли текущий пользователь автором */}
+      {user?.id !== activity.authorId && (
+        <button
+          className={styles.participateButton}
+          onClick={() => handleParticipate(activity.id)}
+        >
+          Participate
+        </button>
+      )}
 
       <BackButton />
     </div>

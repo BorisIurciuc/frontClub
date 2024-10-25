@@ -1,25 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IUser } from "../auth/features/authSlice";
+import { IUser } from "../features/auth/authSlice";
 
-// Интерфейс для параметров авторизации
-interface LoginPayload {
-  username: string;
-  password: string;
-}
-
-// Асинхронное действие для входа
-export const login = createAsyncThunk(
-  "/api/admin/login",
-  async (payload: LoginPayload, { rejectWithValue }) => {
-    try {
-      const response = await axios.post("/api/auth/login", payload); // Ваш API эндпоинт для логина администратора
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
 
 // Получение всех пользователей (доступно администратору)
 export const fetchAllUsers = createAsyncThunk(
@@ -41,10 +23,10 @@ export const fetchAllUsers = createAsyncThunk(
 
 export const getUser = createAsyncThunk(
   "admin/getUser",
-  async (_, { rejectWithValue }) => {
+  async (id: number, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get<IUser>("/api/users", {
+      const response = await axios.get<IUser>(`/api/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -52,24 +34,6 @@ export const getUser = createAsyncThunk(
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch user");
-    }
-  }
-);
-
-// Создание пользователя (доступно администратору)
-export const createUser = createAsyncThunk(
-  "admin/createUser",
-  async (userData: Partial<IUser>, { rejectWithValue }) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post("/api/users", userData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to create user");
     }
   }
 );
@@ -98,7 +62,7 @@ export const deleteUser = createAsyncThunk(
   async (userId: number, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`/api/users/{id}`, {
+      await axios.delete(`/api/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -111,20 +75,20 @@ export const deleteUser = createAsyncThunk(
 );
 
 
-// Обновление данных пользователя (доступно администратору или пользователю)
-export const updateUser = createAsyncThunk(
-  "admin/updateUser",
-  async ({ id, data }: { id: number; data: Partial<IUser> }, { rejectWithValue }) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.put(`/api/users/{id}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to update user");
-    }
-  }
-);
+// // Обновление данных пользователя (доступно администратору или пользователю)
+// export const updateUser = createAsyncThunk(
+//   "admin/updateUser",
+//   async ({ id, data }: { id: number; data: Partial<IUser> }, { rejectWithValue }) => {
+//     try {
+//       const token = localStorage.getItem("token");
+//       const response = await axios.put(`/api/users/{id}`, data, {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+//       return response.data;
+//     } catch (error: any) {
+//       return rejectWithValue(error.response?.data?.message || "Failed to update user");
+//     }
+//   }
+// );

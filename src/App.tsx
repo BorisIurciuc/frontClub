@@ -10,7 +10,7 @@ import { UserProvider } from "./components/userContext/UserContext";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 
-import { getUserWithToken } from "./components/auth/features/authAction.ts";
+import { getUserWithToken } from "./components/features/auth/authAction.ts";
 import ActivityDetail from "./components/activityDetail/ActivityDetail";
 import { Footer } from "./components/footer/Footer";
 import ProjectCreators from "./components/projectCreators/ProjectCreators.tsx";
@@ -19,7 +19,7 @@ import AdminPanel from "./components/adminPanel/AdminPanel.tsx";
 import UserList from "./components/adminPanel/UserList.tsx";
 import NewsList from "./components/news/NewsList.tsx";
 import RegistrationConfirmed from "./components/registrationConfirm/RegistrationConfirmed.tsx";
-import School from "./components/school/School.tsx";
+// import School from "./components/school/School.tsx";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -56,9 +56,9 @@ const App = () => {
               />
             }
           />
-          <Route path="/activity-list/:id" element={<ActivityDetail />} />
+          <Route path="/activity/:id" element={<ActivityDetail />} />
           <Route path="/dashboard" element={<DashBoard />} />
-          <Route path="/school" element={<ProtectedRoute element={<School />} />} />
+          {/* <Route path="/school" element={<ProtectedRoute element={<School />} />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/project-creators" element={<ProjectCreators />} />

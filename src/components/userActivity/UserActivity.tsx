@@ -1,205 +1,162 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import styles from "./userActivity.module.css";
+import styles from "../activityList/activityList.module.css";
 import buttonStyles from "../button/button.module.css";
+import SearchBar from "../searchBar/SearchBar";
 import ScrollToTopButton from "../scrollToTopButton/ScrollToTopButton";
-import { useAppSelector } from "../../app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { getActivities } from "../auth/reduxActivitiesAction";
 
 interface IActivity {
-    id: number;
-    title: string;
-    image: string;
-    startDate: string;
-    description: string;
-    authorId: number;
+  id: number;
+  title: string;
+  image: string;
+  startDate: string;
+  authorId: number;  
 }
 
-const UserActivity: React.FC = () => {
-    const [userActivities, setUserActivities] = useState<IActivity[]>([]);
-    const [subscribedActivities, setSubscribedActivities] = useState<IActivity[]>([]);
-    const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [deleting, setDeleting] = useState<number | null>(null);
-    const [unsubscribing, setUnsubscribing] = useState<number | null>(null);
+const ActivityList: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const [filteredActivities, setFilteredActivities] = useState<IActivity[]>([]);
+  const [userRegisteredActivities, setUserRegisteredActivities] = useState<Set<number>>(new Set());
+  const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
 
-    const fetchUserActivities = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get("/api/activity/user/activities/created", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-            setUserActivities(response.data);
-        } catch (error) {
-            setError("Error loading created activities. Please try again later.");
-            console.error("Error fetching user activities:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+  const currentUserId = useAppSelector((state) => state.user.user?.id);  
 
-    const fetchSubscribedActivities = async () => {
-        try {
-            const response = await axios.get("/api/activity/my-activities", {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-            setSubscribedActivities(response.data);
-        } catch (error) {
-            setError("Error loading subscribed activities. Please try again later.");
-            console.error("Error fetching subscribed activities:", error);
-        }
-    };
+// const userRole = useAppSelector((state) => state.user.role); 
 
-    const handleDelete = async (activityId: number) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this activity?");
-        if (!confirmDelete) return;
+  const [loading, setLoading] = useState(false);
 
-        setDeleting(activityId);
-        try {
-            await axios.delete(`/api/activity/${activityId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-            alert("Activity deleted successfully.");
-            setUserActivities((prevActivities) =>
-                prevActivities.filter((activity) => activity.id !== activityId)
-            );
-        } catch (error) {
-            console.error("Error deleting activity:", error);
-            alert("Failed to delete the activity. Please try again.");
-        } finally {
-            setDeleting(null);
-        }
-    };
-
-    const handleUnsubscribe = async (activityId: number) => {
-        const confirmUnsubscribe = window.confirm("Are you sure you want to unsubscribe from this activity?");
-        if (!confirmUnsubscribe) return;
-
-        setUnsubscribing(activityId);
-        try {
-            await axios.delete(`/api/activity/${activityId}/remove-user`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
-            alert("Unsubscribed successfully.");
-            setSubscribedActivities((prevActivities) =>
-                prevActivities.filter((activity) => activity.id !== activityId)
-            );
-        } catch (error) {
-            console.error("Error unsubscribing from activity:", error);
-            alert("Failed to unsubscribe. Please try again.");
-        } finally {
-            setUnsubscribing(null);
-        }
-    };
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            fetchUserActivities();
-            fetchSubscribedActivities();
-        }
-    }, [isAuthenticated]);
-
-    if (loading) {
-        return <div>Loading...</div>;
+  const fetchRegisteredActivities = async () => {
+    try {
+      const response = await axios.get("/api/activity/user/registered-activities", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const registeredActivities = new Set<number>(response.data);
+      setUserRegisteredActivities(registeredActivities);
+    } catch (error) {
+      console.error("Error fetching registered activities:", error);
     }
+  };
 
-    if (error) {
-        return <div>{error}</div>;
+  useEffect(() => {
+    dispatch(getActivities());
+    if (isAuthenticated) {
+      fetchRegisteredActivities();
     }
+  }, [dispatch, isAuthenticated]);
 
-    return (
-        <>
-            <div className={styles.activityContainer}>
-                <div className={styles.activityUserContainer}>
-                    <h2 className={styles.sectionTitle}>Your Created Activities</h2>
-                    {userActivities.length > 0 ? (
-                        userActivities.map((activity) => (
-                            <div key={activity.id} className={styles.activityList}>
-                                <img
-                                    src={activity.image}
-                                    alt={activity.title}
-                                    className={styles.activityImage}
-                                />
-                                <h3 className={styles.activityTitle}>{activity.title}</h3>
-                                <p className={styles.activityStartDate}>
-                                    Начало: {activity.startDate}
-                                </p>
-                                <p className={styles.activityDescription}>{activity.description}</p>
-                                <div className={styles.buttonContainer}>
-                                    <Link
-                                        to={`/activityList/${activity.id}`}
-                                        state={{ activity }}
-                                        className={buttonStyles.button}
-                                        aria-label={`more ${activity.title}`}
-                                    >
-                                        More
-                                    </Link>
-                                    <button
-                                        onClick={() => handleDelete(activity.id)}
-                                        className={buttonStyles.button}
-                                        disabled={deleting === activity.id}
-                                    >
-                                        {deleting === activity.id ? "Deleting..." : "Delete"}
-                                    </button>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <div className={styles.noResults}>You have no created activities.</div>
-                    )}
-                </div>
+  const handleParticipate = async (activityId: number) => {
+    // const authorId = filteredActivities.find((activity) => activity.id === activityId)?.authorId;
+   
+    try {
+      const response = await axios.put(`/api/activity/${activityId}/add-user`, null, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        
+      });
+      if (response.status === 200) {
+        alert("Successfully registered for the activity!");
+        setUserRegisteredActivities((prev) => new Set([...prev, activityId]));
+      }
+    } catch (error) {
+      console.error("Error registering for activity:", error);
+      alert("Failed to register for the activity. Please try again.");
+    }
+  };
 
-                <div className={styles.activityUserContainer}>
-                    <h2 className={styles.sectionTitle}>Subscribed Activities</h2>
-                    {subscribedActivities.length > 0 ? (
-                        subscribedActivities.map((activity) => (
-                            <div key={activity.id} className={styles.activityList}>
-                                <img
-                                    src={activity.image}
-                                    alt={activity.title}
-                                    className={styles.activityImage}
-                                />
-                                <h3 className={styles.activityTitle}>{activity.title}</h3>
-                                <p className={styles.activityStartDate}>
-                                    Начало: {activity.startDate}
-                                </p>
-                                <p className={styles.activityDescription}>{activity.description}</p>
-                                <div className={styles.buttonContainer}>
-                                    <Link
-                                        to={`/activityList/${activity.id}`}
-                                        state={{ activity }}
-                                        className={buttonStyles.button}
-                                        aria-label={`more ${activity.title}`}
-                                    >
-                                        More
-                                    </Link>
-                                    <button
-                                        onClick={() => handleUnsubscribe(activity.id)}
-                                        className={buttonStyles.button}
-                                        disabled={unsubscribing === activity.id}
-                                    >
-                                        {unsubscribing === activity.id ? "Unsubscribing..." : "Unsubscribe"}
-                                    </button>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <div className={styles.noResults}>You have no subscribed activities.</div>
-                    )}
-                </div>
+  const handleRevokeParticipation = async (activityId: number) => {
+    setLoading(true);
+    try {
+      const response = await axios.delete(`/api/activity/${activityId}/remove-user`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.status === 200) {
+        alert("You have successfully revoked your participation!");
+        setUserRegisteredActivities((prev) => {
+          const updatedSet = new Set(prev);
+          updatedSet.delete(activityId);
+          return updatedSet;
+        });
+      }
+    } catch (error) {
+      console.error("Error revoking participation:", error);
+      alert("Failed to revoke your participation. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.headerContainer}>
+        <h2 className={styles.pageTitle}>Activity</h2>
+        <Link to="addActivity" className={`${buttonStyles.button} ${styles.addButton}`}>
+          Add activity
+        </Link>
+      </div>
+      <SearchBar onFiltered={setFilteredActivities} />
+      <div className={styles.activityListContainer}>
+        {filteredActivities.length > 0 ? (
+          filteredActivities.map((activity) => (
+            <div key={activity.id} className={styles.activityList}>
+              <img src={activity.image} alt={activity.title} className={styles.activityImage} />
+              <h3 className={styles.activityTitle}>{activity.title}</h3>
+              <p className={styles.activityStartDate}>Start: {activity.startDate}</p>
+              <Link
+                to={`/activityList/${activity.id}`}
+                state={{ activity }}
+                className={buttonStyles.button}
+                aria-label={`More about ${activity.title}`}
+              >
+                More
+              </Link>
+
+              {isAuthenticated && (
+                <>
+                 
+                  {currentUserId === activity.authorId ? (
+                    <Link
+                      to={`/activityList/update/${activity.id}`}
+                      className={`${buttonStyles.button} ${styles.editButton}`}
+                    >
+                      Edit Activity
+                    </Link>
+                  ) : !userRegisteredActivities.has(activity.id) ? (
+                    <button
+                      className={`${buttonStyles.button} ${styles.participateButton}`}
+                      onClick={() => handleParticipate(activity.id)}
+                    >
+                      Participate
+                    </button>
+                  ) : (
+
+                    <button
+                      className={`${buttonStyles.button} ${styles.revokeButton}`}
+                      onClick={() => handleRevokeParticipation(activity.id)}
+                      disabled={loading}
+                    >
+                      {loading ? "Revoking..." : "Revoke"}
+                    </button>
+
+                  )}
+                </>
+              )}
             </div>
-            <ScrollToTopButton />
-        </>
-    );
+          ))
+        ) : (
+          <div className={styles.noResults}>No activities match the search query.</div>
+        )}
+      </div>
+      <ScrollToTopButton />
+    </>
+  );
 };
 
-export default UserActivity;
+export default ActivityList;

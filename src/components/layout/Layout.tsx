@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks"; 
-import { getActivities } from "../auth/reduxActivities/reduxActivitiesAction";
+import { getActivities } from "../reduxActivities/reduxActivitiesAction";
 import { Header } from "../header/Header";
 import { links } from "../header/links";
 import styles from "../layout/layout.module.css";
