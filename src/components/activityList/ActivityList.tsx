@@ -6,7 +6,7 @@ import buttonStyles from "../button/button.module.css";
 import SearchBar from "../searchBar/SearchBar";
 import ScrollToTopButton from "../scrollToTopButton/ScrollToTopButton";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { getActivities } from "../reduxActivities/reduxActivitiesAction";
+// import { getActivities } from "../auth/reduxActivities/reduxActivitiesAction";
 
 interface IActivity {
   id: number;
@@ -20,8 +20,8 @@ const ActivityList: React.FC = () => {
   const [filteredActivities, setFilteredActivities] = useState<IActivity[]>([]);
   const [userRegisteredActivities, setUserRegisteredActivities] = useState<Set<number>>(new Set());
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
-  const userRole = useAppSelector((state) => state.user.role); 
-  const [loadingIds, setLoadingIds] = useState<Set<number>>(new Set()); // Локальная загрузка для каждой активности
+  // const userRole = useAppSelector((state) => state.user.role); 
+  const [loading, setLoading] = useState(false);
 
   const fetchRegisteredActivities = async () => {
     try {
@@ -46,7 +46,6 @@ const ActivityList: React.FC = () => {
 
   const handleParticipate = async (activityId: number) => {
     try {
-      setLoadingIds((prev) => new Set([...prev, activityId])); // Устанавливаем локальную загрузку
       const response = await axios.put(`/api/activity/${activityId}/add-user`, null, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -59,18 +58,12 @@ const ActivityList: React.FC = () => {
     } catch (error) {
       console.error("Error registering for activity:", error);
       alert("Failed to register for the activity. Please try again.");
-    } finally {
-      setLoadingIds((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(activityId); // Убираем из загружаемых после завершения
-        return newSet;
-      });
     }
   };
 
   const handleRevokeParticipation = async (activityId: number) => {
+    setLoading(true);
     try {
-      setLoadingIds((prev) => new Set([...prev, activityId])); // Локальная загрузка для ревокации
       const response = await axios.delete(`/api/activity/${activityId}/remove-user`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -88,11 +81,7 @@ const ActivityList: React.FC = () => {
       console.error("Error revoking participation:", error);
       alert("Failed to revoke your participation. Please try again.");
     } finally {
-      setLoadingIds((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(activityId);
-        return newSet;
-      });
+      setLoading(false);
     }
   };
 
@@ -100,11 +89,9 @@ const ActivityList: React.FC = () => {
     <>
       <div className={styles.headerContainer}>
         <h2 className={styles.pageTitle}>Activity</h2>
-        {userRole === "ROLE_ADMIN" && (
-          <Link to="addActivity" className={`${buttonStyles.button} ${styles.addButton}`}>
-            Add activity
-          </Link>
-        )}
+        <Link to="addActivity" className={`${buttonStyles.button} ${styles.addButton}`}>
+          Add activity
+        </Link>
       </div>
       <SearchBar onFiltered={setFilteredActivities} />
 
@@ -131,18 +118,19 @@ const ActivityList: React.FC = () => {
                     <button
                       className={`${buttonStyles.button} ${styles.participateButton}`}
                       onClick={() => handleParticipate(activity.id)}
-                      disabled={loadingIds.has(activity.id)} // Блокируем кнопку, если идет процесс
                     >
-                      {loadingIds.has(activity.id) ? "Loading..." : "Participate"}
+                      Participate
                     </button>
                   ) : (
-                    <button
-                      className={`${buttonStyles.button} ${styles.revokeButton}`}
-                      onClick={() => handleRevokeParticipation(activity.id)}
-                      disabled={loadingIds.has(activity.id)} // Блокируем кнопку, если идет процесс
-                    >
-                      {loadingIds.has(activity.id) ? "Revoking..." : "Revoke Participation"}
-                    </button>
+                    userRegisteredActivities.has(activity.id) && (
+                      <button
+                        className={`${buttonStyles.button} ${styles.revokeButton}`}
+                        onClick={() => handleRevokeParticipation(activity.id)}
+                        disabled={loading}
+                      >
+                        {loading ? "Revoking..." : "Revoke Participation"}
+                      </button>
+                    )
                   )}
                 </>
               )}
@@ -158,4 +146,3 @@ const ActivityList: React.FC = () => {
 };
 
 export default ActivityList;
-
