@@ -16,6 +16,7 @@ import { Footer } from "./components/footer/Footer";
 import ProjectCreators from "./components/projectCreators/ProjectCreators.tsx";
 import DashBoard from "./components/dashBoard/DashBoard.tsx";
 import RegistrationConfirmed from "./components/registrationConfirm/RegistrationConfirmed.tsx";
+import EditProfile from "./components/editeProfile/EditProfile.tsx";
 
 
 
@@ -38,6 +39,7 @@ const App = () => {
             <Route index element={<HomePage />} />
             <Route path="/homePage" element={<HomePage />} />
             <Route path="/activityList" element={<ActivityList />} />
+            <Route path="/editProfile" element={<EditProfile />} />
             <Route
               path="/activityList/addActivity"
               element={
