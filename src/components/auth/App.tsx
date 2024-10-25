@@ -1,23 +1,26 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
-import ActivityList from "./components/activityList/ActivityList";
-import AddActivityForm from "./components/addActivitiesForm/AddActivitiesForm";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
-import HomePage from "./components/homePages/HomePage";
-import Layout from "./components/layout/Layout";
-import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
-import School from "./components/school/school";
-import { UserProvider } from "./components/userContext/UserContext";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { getUserWithToken } from "./components/auth/features/authAction";
-import ActivityDetail from "./components/activityDetail/ActivityDetail";
-import { Footer } from "./components/footer/Footer";
+import ActivityList from "../activityList/ActivityList";
+import AddActivityForm from "../addActivitiesForm/AddActivitiesForm";
+import Login from "./Login";
+import Register from "./Register";
 
-import ProjectCreators from "./components/projectCreators/ProjectCreators.tsx";
-import DashBoard from "./components/dashBoard/DashBoard.tsx";
-import RegistrationConfirmed from "./components/registrationConfirm/RegistrationConfirmed.tsx";
-import EditProfile from "./components/editeProfile/EditProfile.tsx";
+import HomePage from "../homePages/HomePage";
+import Layout from "../layout/Layout";
+import ProtectedRoute from "../protectedRoute/ProtectedRoute";
+import School from "../school/school";
+import { UserProvider } from "../userContext/UserContext";
+import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import ActivityDetail from "../activityDetail/ActivityDetail";
+import DashBoard from "../dashBoard/DashBoard";
+import EditProfile from "../editeProfile/EditProfile";
+import { Footer } from "../footer/Footer";
+import ProjectCreators from "../projectCreators/ProjectCreators";
+import RegistrationConfirmed from "../registrationConfirm/RegistrationConfirmed";
+import { getUserWithToken } from "./features/authAction";
+import ForgotPassword from "./ForgotPassword.tsx";
+import ResetPassword from "./ResetPassword.tsx";
+
 
 
 
@@ -28,14 +31,21 @@ import EditProfile from "./components/editeProfile/EditProfile.tsx";
 const App = () => {
   const isAuthenticated = useAppSelector((store) => store.user.isAuthenticated);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(getUserWithToken());
   }, [dispatch, isAuthenticated]);
+
   return (
     <UserProvider>
       <HashRouter>
         <Routes>
-        <Route path="/registration-confirmed" element={<RegistrationConfirmed />} />
+          <Route
+            path="/registration-confirmed"
+            element={<RegistrationConfirmed />}
+          />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="/homePage" element={<HomePage />} />
@@ -59,7 +69,7 @@ const App = () => {
             />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
-            <Route  path="/projectCreators" element={<ProjectCreators/>} />
+            <Route path="/projectCreators" element={<ProjectCreators />} />
             <Route path="*" element={<h1>Error 404 😵</h1>} />
           </Route>
         </Routes>

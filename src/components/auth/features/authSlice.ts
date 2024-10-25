@@ -28,6 +28,8 @@ interface IUserState {
   isLoading: boolean;
   error: string;
   isAuthenticated: boolean;
+  
+
 }
 
 const initialState: IUserState = {
@@ -35,6 +37,7 @@ const initialState: IUserState = {
   isLoading: false,
   error: "",
   isAuthenticated: false,
+
 };
 
 export const authSlice = createSlice({

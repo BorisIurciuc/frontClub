@@ -13,6 +13,7 @@ interface IActivity {
   title: string;
   image: string;
   startDate: string;
+  authorId: number;  
 }
 
 const ActivityList: React.FC = () => {
@@ -20,7 +21,11 @@ const ActivityList: React.FC = () => {
   const [filteredActivities, setFilteredActivities] = useState<IActivity[]>([]);
   const [userRegisteredActivities, setUserRegisteredActivities] = useState<Set<number>>(new Set());
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
-  // const userRole = useAppSelector((state) => state.user.role); 
+
+  const currentUserId = useAppSelector((state) => state.user.user?.id);  
+
+// const userRole = useAppSelector((state) => state.user.role); 
+
   const [loading, setLoading] = useState(false);
 
   const fetchRegisteredActivities = async () => {
@@ -45,11 +50,14 @@ const ActivityList: React.FC = () => {
   }, [dispatch, isAuthenticated]);
 
   const handleParticipate = async (activityId: number) => {
+    // const authorId = filteredActivities.find((activity) => activity.id === activityId)?.authorId;
+   
     try {
       const response = await axios.put(`/api/activity/${activityId}/add-user`, null, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
+        
       });
       if (response.status === 200) {
         alert("Successfully registered for the activity!");
@@ -94,7 +102,6 @@ const ActivityList: React.FC = () => {
         </Link>
       </div>
       <SearchBar onFiltered={setFilteredActivities} />
-
       <div className={styles.activityListContainer}>
         {filteredActivities.length > 0 ? (
           filteredActivities.map((activity) => (
@@ -102,7 +109,6 @@ const ActivityList: React.FC = () => {
               <img src={activity.image} alt={activity.title} className={styles.activityImage} />
               <h3 className={styles.activityTitle}>{activity.title}</h3>
               <p className={styles.activityStartDate}>Start: {activity.startDate}</p>
-
               <Link
                 to={`/activityList/${activity.id}`}
                 state={{ activity }}
@@ -114,7 +120,15 @@ const ActivityList: React.FC = () => {
 
               {isAuthenticated && (
                 <>
-                  {!userRegisteredActivities.has(activity.id) ? (
+                 
+                  {currentUserId === activity.authorId ? (
+                    <Link
+                      to={`/activityList/update/${activity.id}`}
+                      className={`${buttonStyles.button} ${styles.editButton}`}
+                    >
+                      Edit Activity
+                    </Link>
+                  ) : !userRegisteredActivities.has(activity.id) ? (
                     <button
                       className={`${buttonStyles.button} ${styles.participateButton}`}
                       onClick={() => handleParticipate(activity.id)}
@@ -122,15 +136,15 @@ const ActivityList: React.FC = () => {
                       Participate
                     </button>
                   ) : (
-                    userRegisteredActivities.has(activity.id) && (
-                      <button
-                        className={`${buttonStyles.button} ${styles.revokeButton}`}
-                        onClick={() => handleRevokeParticipation(activity.id)}
-                        disabled={loading}
-                      >
-                        {loading ? "Revoking..." : "Revoke Participation"}
-                      </button>
-                    )
+
+                    <button
+                      className={`${buttonStyles.button} ${styles.revokeButton}`}
+                      onClick={() => handleRevokeParticipation(activity.id)}
+                      disabled={loading}
+                    >
+                      {loading ? "Revoking..." : "Revoke"}
+                    </button>
+
                   )}
                 </>
               )}
