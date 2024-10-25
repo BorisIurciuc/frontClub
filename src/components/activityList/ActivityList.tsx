@@ -6,7 +6,7 @@ import buttonStyles from "../button/button.module.css";
 import SearchBar from "../searchBar/SearchBar";
 import ScrollToTopButton from "../scrollToTopButton/ScrollToTopButton";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-// import { getActivities } from "../auth/reduxActivities/reduxActivitiesAction";
+import { getActivities } from "../auth/reduxActivitiesAction";
 
 interface IActivity {
   id: number;
@@ -20,7 +20,7 @@ const ActivityList: React.FC = () => {
   const [filteredActivities, setFilteredActivities] = useState<IActivity[]>([]);
   const [userRegisteredActivities, setUserRegisteredActivities] = useState<Set<number>>(new Set());
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
-  // const userRole = useAppSelector((state) => state.user.role); 
+//  const userRole = useAppSelector((state) => state.user.role); 
   const [loading, setLoading] = useState(false);
 
   const fetchRegisteredActivities = async () => {
