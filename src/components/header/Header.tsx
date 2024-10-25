@@ -11,13 +11,14 @@ export const Header: React.FC = () => {
   const location = useLocation();
 
   const { user } = useAppSelector((store) => store.user);
-  const isAuthenticated = Boolean(user?.username);
+  let isAuthenticated = Boolean(user?.username);
 
   const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     dispatch(logoutUser());
     dispatch(cleanActivities());
     window.location.href = "/";
+    isAuthenticated = false
   };
 
   return (
