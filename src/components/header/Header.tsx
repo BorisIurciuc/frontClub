@@ -50,8 +50,8 @@ export const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
+      <img src={iconImage} alt="Header Icon" className={styles.icon} />
         <h1 className={styles.title}>Conversation Club</h1>
-        <img src={iconImage} alt="Header Icon" className={styles.icon} />
       </div>
       <nav className={styles.navbar}>
         {/* Mobile menu toggle button */}
