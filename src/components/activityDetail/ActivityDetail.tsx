@@ -62,6 +62,7 @@ const ActivityDetail: React.FC = () => {
       <p className={styles.activityDetailDescription}>{activity.description}</p>
       <p>Author - {activity.authorId}</p>
       <p>user - {user?.id}</p>
+      <p>user - {user?.username}</p>
       
       {/* Можно добавить проверку, является ли текущий пользователь автором */}
       {user?.id !== activity.authorId && (
