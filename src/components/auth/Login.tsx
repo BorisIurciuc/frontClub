@@ -52,10 +52,10 @@ export default function Login() {
         
         localStorage.setItem('club-token', response.token);
         
-        setSuccessMessage('Вход прошел успешно!'); 
+        setSuccessMessage('Login successful!'); 
         navigate('/'); 
       } catch (error) {
-        const errorMsg = typeof error === 'string' ? error : "Вход не удался. Попробуйте снова.";
+        const errorMsg = typeof error === 'string' ? error : "Failed to login.";
         setErrorMessage(errorMsg);
         console.error(error);
       } finally {
@@ -77,7 +77,7 @@ export default function Login() {
           </div>
           <Input
             name='username'
-            placeholder='Username'
+            placeholder='your username'
             type='text'
             error={formik.errors.username}
             value={formik.values.username}
@@ -85,13 +85,16 @@ export default function Login() {
           />
           <Input
             name='password'
-            placeholder='Пароль' 
+            placeholder='your password' 
             type='password'
             error={formik.errors.password}
             value={formik.values.password}
             onChange={formik.handleChange}
           />
-          <Button type='submit' name='Войти' disabled={loading} />
+          <Button type='submit' name='Login' disabled={loading} />
+          <p >
+            <a href="/#/forgot-password">Forgot Password?</a>
+          </p>
           <Link to='/register' className={styles.link}>Create account</Link>
         </form>
       )}

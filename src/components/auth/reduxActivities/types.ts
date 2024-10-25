@@ -4,5 +4,5 @@ export interface IActivity {
     adress: string;
     dateTime: Date
     image: string;   
-    description: string;
+    description: string;    
 };
