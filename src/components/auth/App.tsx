@@ -10,15 +10,22 @@ import ProtectedRoute from "../protectedRoute/ProtectedRoute";
 import School from "../school/school";
 import { UserProvider } from "../userContext/UserContext";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { getUserWithToken } from "./features/authAction";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import ActivityDetail from "../activityDetail/ActivityDetail";
+import DashBoard from "../dashBoard/DashBoard";
+import EditProfile from "../editeProfile/EditProfile";
 import { Footer } from "../footer/Footer";
 import ProjectCreators from "../projectCreators/ProjectCreators";
-import DashBoard from "../dashBoard/DashBoard";
 import RegistrationConfirmed from "../registrationConfirm/RegistrationConfirmed";
-import ForgotPassword from "./ForgotPassword";
-import ResetPassword from "./ResetPassword";
+import { getUserWithToken } from "./features/authAction";
+import ForgotPassword from "./ForgotPassword.tsx";
+import ResetPassword from "./ResetPassword.tsx";
+
+
+
+
+
+
 
 
 const App = () => {
@@ -43,6 +50,7 @@ const App = () => {
             <Route index element={<HomePage />} />
             <Route path="/homePage" element={<HomePage />} />
             <Route path="/activityList" element={<ActivityList />} />
+            <Route path="/editProfile" element={<EditProfile />} />
             <Route
               path="/activityList/addActivity"
               element={

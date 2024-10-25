@@ -21,7 +21,11 @@ const ActivityList: React.FC = () => {
   const [filteredActivities, setFilteredActivities] = useState<IActivity[]>([]);
   const [userRegisteredActivities, setUserRegisteredActivities] = useState<Set<number>>(new Set());
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
-  const currentUserId = useAppSelector((state) => state.user.user?.id);  // Get current user ID
+
+  const currentUserId = useAppSelector((state) => state.user.user?.id);  
+
+// const userRole = useAppSelector((state) => state.user.role); 
+
   const [loading, setLoading] = useState(false);
 
   const fetchRegisteredActivities = async () => {
@@ -132,6 +136,7 @@ const ActivityList: React.FC = () => {
                       Participate
                     </button>
                   ) : (
+
                     <button
                       className={`${buttonStyles.button} ${styles.revokeButton}`}
                       onClick={() => handleRevokeParticipation(activity.id)}
@@ -139,6 +144,7 @@ const ActivityList: React.FC = () => {
                     >
                       {loading ? "Revoking..." : "Revoke"}
                     </button>
+
                   )}
                 </>
               )}
