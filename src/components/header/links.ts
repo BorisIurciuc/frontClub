@@ -16,10 +16,16 @@ export const links = (isAuthenticated: boolean): ILink[] => {
   ];
 
   if (isAuthenticated) {
-    baseLinks.push({
+    baseLinks.push(
+        {
       pathname: '/school',
       title: 'School',
-    });
+        },
+        {
+          pathname: '/dashboard',
+          title: 'Dashboard',
+        },
+    );
   }
 
   return baseLinks;

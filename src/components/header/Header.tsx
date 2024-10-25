@@ -68,7 +68,7 @@ export const Header: React.FC = () => {
               {link.title === "Home" && <FaHome className={styles.iconLink} />}
               {link.title === "Profile" && <FaUser className={styles.iconLink} />}
               {link.title === "Courses" && <FaBook className={styles.iconLink} />}
-              {link.title === "School" && <FaSchool className={styles.iconLink} />}  
+              {link.title === "School" && <FaSchool className={styles.iconLink} />}
               <span className={styles.linkText}>{link.title}</span>
             </Link>
           ))}
