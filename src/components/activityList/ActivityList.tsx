@@ -104,7 +104,7 @@ const ActivityList: React.FC = () => {
               <p className={styles.activityStartDate}>Start: {activity.startDate}</p>
 
               <Link
-                to={`/activityList/${activity.id}`}
+                to={`/activity/${activity.id}`}
                 state={{ activity }}
                 className={buttonStyles.button}
                 aria-label={`More about ${activity.title}`}
