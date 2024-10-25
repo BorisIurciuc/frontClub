@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function EditProfile() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -7,9 +7,10 @@ function EditProfile() {
     const [user, setUser] = useState({
         username: '',
         email: '',
-       // password: '',
         id: ''
     });
+    const [initialUsername, setInitialUsername] = useState('');
+    const navigate = useNavigate();
 
     // Проверка наличия токена при загрузке компонента
     useEffect(() => {
@@ -17,37 +18,36 @@ function EditProfile() {
         if (token) {
             setAccessToken(token);
             setIsAuthenticated(true);
-        } else {
-            setIsAuthenticated(false);
         }
     }, []);
 
-    // Функция для загрузки информации о пользователе
-    const fetchUserData = async () => {
-        if (!accessToken) return;
-
-        try {
-            const response = await fetch(`/api/auth/me`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch user data');
-            }
-
-            const data = await response.json();
-            setUser(data); // API возвращает объект с полями пользователя
-        } catch (error) {
-            console.error('Ошибка при загрузке данных пользователя:', error);
-        }
-    };
-
-    // Загружаем данные пользователя при наличии токена
+    // Функция для получения данных пользователя
     useEffect(() => {
+        const fetchUserData = async () => {
+            if (!accessToken) return;
+
+            try {
+                const response = await fetch(`/api/auth/me`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Не удалось получить данные пользователя');
+                }
+
+                const data = await response.json();
+                setUser(data);
+                setInitialUsername(data.username);
+            } catch (error) {
+                console.error('Ошибка при загрузке данных пользователя:', error);
+                alert('Ошибка при загрузке данных пользователя. Пожалуйста, попробуйте позже.');
+            }
+        };
+
         if (accessToken) {
             fetchUserData();
         }
@@ -62,7 +62,7 @@ function EditProfile() {
         }));
     };
 
-    // Обработчик отправки формы для сохранения изменений
+    // Обработчик отправки формы для обновления данных
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!accessToken || !user.id) {
@@ -80,26 +80,61 @@ function EditProfile() {
                 body: JSON.stringify({
                     username: user.username,
                     email: user.email,
-                    // Можно добавить другие поля для обновления
                 }),
             });
 
-            if (!response.ok) {   //TODO выводится эта ошибка!!!
-                throw new Error('Failed to update user data');
+            if (!response.ok) {
+                throw new Error('Не удалось обновить данные пользователя');
             }
 
             const updatedUser = await response.json();
-            setUser(updatedUser); // Обновляем состояние с новыми данными
+            setUser(updatedUser);
             alert('Данные успешно обновлены!');
+
+            // Если имя пользователя изменилось, сбрасываем токен и перенаправляем
+            if (user.username !== initialUsername) {
+                localStorage.removeItem('token');
+                setIsAuthenticated(false);
+                navigate('/login');
+            }
         } catch (error) {
             console.error('Ошибка при обновлении данных пользователя:', error);
+            alert('Ошибка при обновлении данных. Пожалуйста, попробуйте позже.');
         }
     };
 
+    // Функция выхода из системы
+    const handleLogout2 = async () => {
+        try {
+            const response = await fetch(`/api/auth/logout`, {
+                method: 'DELETE', // Используем DELETE, как указано на сервере
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                localStorage.removeItem('token');
+                setIsAuthenticated(false);
+                setUser({ username: '', email: '', id: '' });
+                navigate('/login');
+            } else {
+                console.error("Logout failed:", response.statusText);
+                alert("Не удалось выйти из системы. Пожалуйста, попробуйте позже.");
+            }
+        } catch (error) {
+            console.error("An error occurred during logout:", error);
+            alert("Ошибка при выходе из системы. Пожалуйста, попробуйте позже.");
+        }
+    };
+
+    // Если пользователь не авторизован, отображаем сообщение
     if (!isAuthenticated) {
         return <div>Пожалуйста, войдите в систему для просмотра профиля.</div>;
     }
 
+    // Отображение формы для редактирования профиля
     return (
         <div>
             <h2>Мой профиль</h2>
@@ -122,22 +157,10 @@ function EditProfile() {
                         onChange={handleChange}
                     />
                 </div>
-                {/*<div>*/}
-                {/*    <label>Пароль:</label>*/}
-                {/*    <input*/}
-                {/*        type="password"*/}
-                {/*        name="password"*/}
-                {/*        // value={user.password}*/}
-                {/*        onChange={handleChange}*/}
-                {/*    />*/}
-                {/*</div>*/}
-                <button type="submit">Сохранить изменения</button> TODO!!!
+                <button type="submit" onClick={handleLogout2}>Сохранить изменения</button>
             </form>
         </div>
     );
 }
 
 export default EditProfile;
-
-
-
