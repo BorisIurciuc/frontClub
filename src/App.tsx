@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import ActivityList from "./components/activityList/ActivityList";
 import AddActivityForm from "./components/addActivitiesForm/AddActivitiesForm";
 import Login from "./components/auth/Login";
@@ -9,7 +9,8 @@ import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import { UserProvider } from "./components/userContext/UserContext";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { getUserWithToken } from "./components/auth/features/authAction";
+
+import { getUserWithToken } from "./components/auth/features/authAction.ts";
 import ActivityDetail from "./components/activityDetail/ActivityDetail";
 import { Footer } from "./components/footer/Footer";
 import ProjectCreators from "./components/projectCreators/ProjectCreators.tsx";
@@ -20,15 +21,16 @@ import NewsList from "./components/news/NewsList.tsx";
 import RegistrationConfirmed from "./components/registrationConfirm/RegistrationConfirmed.tsx";
 import School from "./components/school/School.tsx";
 
-
 const App = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const {isAuthenticated} = useAppSelector((store) => store.user);
+  const { isAuthenticated } = useAppSelector((store) => store.user);
+  
   useEffect(() => {
     dispatch(getUserWithToken()).then((res: unknown) => {
       if (res?.payload?.roles.includes("ROLE_ADMIN")) {
-        navigate("/admin");
+        // navigate("/admin");
+        <button onClick={() => navigate("/admin")}>AdminPanel</button>
       }
     });
   }, [dispatch, navigate, isAuthenticated]);
@@ -37,10 +39,7 @@ const App = () => {
     <UserProvider>
       <Routes>
         {/* Подтверждение регистрации */}
-        <Route
-          path="/registration-confirmed"
-          element={<RegistrationConfirmed />}
-        />
+        <Route path="/registration-confirmed" element={<RegistrationConfirmed />} />
 
         {/* Основной layout */}
         <Route path="/" element={<Layout />}>
@@ -57,26 +56,23 @@ const App = () => {
               />
             }
           />
-          <Route path="/activityList/:id" element={<ActivityDetail />} />
-          <Route path="/dashBoard" element={<DashBoard />} />
-          <Route
-            path="/school"
-            element={<ProtectedRoute element={<School />} />}
-          />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="projectCreators" element={<ProjectCreators />} />
+          <Route path="/activity-list/:id" element={<ActivityDetail />} />
+          <Route path="/dashboard" element={<DashBoard />} />
+          <Route path="/school" element={<ProtectedRoute element={<School />} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/project-creators" element={<ProjectCreators />} />
           <Route path="*" element={<h1>Error 404 😵</h1>} />
-        </Route>
 
-        {/* Панель администратора с защищенными маршрутами */}
-        <Route
-          path="/admin"
-          element={<ProtectedRoute element={<AdminPanel />} />}
-        >
-          <Route path="users" element={<UserList />} />
-          <Route path="activities" element={<ActivityList />} />
-          <Route path="news" element={<NewsList />} />
+          {/* Панель администратора с защищенными маршрутами */}
+          <Route
+            path="/admin"
+            element={<ProtectedRoute element={<AdminPanel />} />}
+          >
+            <Route path="users" element={<UserList />} />
+            <Route path="activities" element={<ActivityList />} />
+            <Route path="news" element={<NewsList />} />
+          </Route>
         </Route>
       </Routes>
 
