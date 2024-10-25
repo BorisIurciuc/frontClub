@@ -15,7 +15,7 @@ export const Header: React.FC = () => {
   const isAuthenticated = Boolean(user?.username);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // State for mobile menu
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -33,7 +33,6 @@ export const Header: React.FC = () => {
     setMobileMenuOpen((prev) => !prev);
   };
 
-  // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -54,7 +53,6 @@ export const Header: React.FC = () => {
         <h1 className={styles.title}>Conversation Club</h1>
       </div>
       <nav className={styles.navbar}>
-        {/* Mobile menu toggle button */}
         <div className={styles.mobileMenuToggle} onClick={toggleMobileMenu}>
           {mobileMenuOpen ? <FaTimes /> : <FaBars />}
         </div>
