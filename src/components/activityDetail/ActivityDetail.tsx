@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styles from './activityDetail.module.css';
 import BackButton from '../backButton/BackButton';
-import { useAppSelector } from '../../app/hooks'; // Добавьте импорт useAppSelector
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { getUser } from '../../components/adminPanel/adminActions'; // Импортируем action
 
 interface Activity {
   id: number;
@@ -16,11 +17,18 @@ interface Activity {
 }
 
 const ActivityDetail: React.FC = () => {
-  // Получаем информацию о пользователе из Redux store
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
+  const author = useAppSelector((state) => state.admin.user); // Получаем автора из админского стейта
   
   const location = useLocation();
   const activity = location.state?.activity as Activity | undefined;
+
+  useEffect(() => {
+    if (activity?.authorId) {
+      dispatch(getUser(activity.authorId)); // Получаем информацию об авторе при монтировании компонента
+    }
+  }, [dispatch, activity?.authorId]);
 
   if (!activity) {
     return <div>Activity not found</div>;
@@ -28,7 +36,6 @@ const ActivityDetail: React.FC = () => {
 
   const handleParticipate = async (activityId: number) => {
     try {
-      // Теперь вы можете использовать user.id
       console.log("Current user ID:", user?.id);
       
       const response = await axios.put(`/api/activity/${activityId}/add-user`, null, {
@@ -60,11 +67,9 @@ const ActivityDetail: React.FC = () => {
         <strong>Date:</strong> {activity.startDate}
       </p>
       <p className={styles.activityDetailDescription}>{activity.description}</p>
-      <p>Author - {activity.authorId}</p>
-      <p>user - {user?.id}</p>
-      <p>user - {user?.username}</p>
+      <p>Author - {author?.username}</p> {/* Отображаем имя автора */}
+      <p>Current user - {user?.username}</p>
       
-      {/* Можно добавить проверку, является ли текущий пользователь автором */}
       {user?.id !== activity.authorId && (
         <button
           className={styles.participateButton}
@@ -73,7 +78,6 @@ const ActivityDetail: React.FC = () => {
           Participate
         </button>
       )}
-
       <BackButton />
     </div>
   );
