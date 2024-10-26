@@ -91,8 +91,9 @@ function EditProfile() {
             setUser(updatedUser);
             alert('Данные успешно обновлены!');
 
-            // Если имя пользователя изменилось, сбрасываем токен и перенаправляем
-            if (user.username !== initialUsername) {
+            // Если имя пользователя изменилось, сбрасываем токен, выходим из учетной записи и перенаправляем на страницу логина
+            if (updatedUser.username !== initialUsername) {
+                alert('Имя пользователя изменилось. Пожалуйста, войдите снова.');
                 localStorage.removeItem('token');
                 setIsAuthenticated(false);
                 navigate('/login');
@@ -104,7 +105,7 @@ function EditProfile() {
     };
 
     // Функция выхода из системы
-    const handleLogout2 = async () => {
+    const handleLogout = async () => {
         try {
             const response = await fetch(`/api/auth/logout`, {
                 method: 'DELETE', // Используем DELETE, как указано на сервере
@@ -118,7 +119,10 @@ function EditProfile() {
                 localStorage.removeItem('token');
                 setIsAuthenticated(false);
                 setUser({ username: '', email: '', id: '' });
-                navigate('/login');
+
+                // Генерируем уникальный ключ
+                const uniqueKey = Date.now().toString();
+                navigate(`/login?key=${uniqueKey}`);
             } else {
                 console.error("Logout failed:", response.statusText);
                 alert("Не удалось выйти из системы. Пожалуйста, попробуйте позже.");
@@ -157,7 +161,7 @@ function EditProfile() {
                         onChange={handleChange}
                     />
                 </div>
-                <button type="submit" onClick={handleLogout2}>Сохранить изменения</button>
+                <button type="submit" onClick={handleLogout}>Сохранить изменения</button>
             </form>
         </div>
     );

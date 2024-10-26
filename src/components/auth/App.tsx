@@ -21,13 +21,6 @@ import { getUserWithToken } from "./features/authAction";
 import ForgotPassword from "./ForgotPassword.tsx";
 import ResetPassword from "./ResetPassword.tsx";
 
-
-
-
-
-
-
-
 const App = () => {
   const isAuthenticated = useAppSelector((store) => store.user.isAuthenticated);
   const dispatch = useAppDispatch();
