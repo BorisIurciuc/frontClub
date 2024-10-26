@@ -52,6 +52,7 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.PUT, "/api/activity/{activity_id}/add-user").hasAnyRole("ADMIN", "USER")
             .requestMatchers(HttpMethod.GET, "/api/activity/my-activities").hasAnyRole("ADMIN", "USER")
             .requestMatchers(HttpMethod.DELETE, "/api/activity/{activity_id}/remove-user").hasAnyRole("ADMIN", "USER")
+            .requestMatchers(HttpMethod.GET, "/api/activity/{id}/author").permitAll()
 
             // User management
             .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")

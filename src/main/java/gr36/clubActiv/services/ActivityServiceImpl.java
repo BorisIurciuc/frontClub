@@ -198,5 +198,16 @@ public class ActivityServiceImpl implements ActivityService {
         .collect(Collectors.toList());
   }
 
+  @Override
+  public String getActivityAuthorUsername(Long activityId) {
+    Activity activity = repository.findById(activityId)
+        .orElseThrow(() -> new ActivityNotFoundException(activityId));
+
+    if (activity.getAuthor() == null) {
+      throw new IllegalStateException("Activity " + activityId + " has no author");
+    }
+
+    return activity.getAuthor().getUsername();
+  }
 
 }

@@ -30,4 +30,6 @@ public interface ActivityService {
 
   List<ActivityDto> getActivitiesByAuthor(Long authorId);
 
+  String getActivityAuthorUsername(Long activityId);
+
 }
