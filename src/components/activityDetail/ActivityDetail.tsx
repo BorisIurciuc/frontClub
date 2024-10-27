@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import styles from './activityDetail.module.css';
 import BackButton from '../backButton/BackButton';
 import { useAppSelector } from '../../app/hooks';
@@ -67,8 +67,16 @@ const ActivityDetail: React.FC = () => {
         alert("Successfully registered for the activity!");
       }
     } catch (error) {
-      console.error("Error registering for activity:", error);
-      alert("Failed to register for the activity. Please try again.");
+      const axiosError = error as AxiosError;
+      
+      if (axiosError.response) {
+        // Получаем сообщение об ошибке напрямую из response.data
+        const errorMessage = axiosError.response.data;
+        console.log("Error response:", errorMessage);
+        alert(errorMessage || "Failed to register for the activity. Please try again.");
+      } else {
+        alert("Failed to register for the activity. Network error.");
+      }
     }
   };
 
@@ -101,6 +109,7 @@ const ActivityDetail: React.FC = () => {
       </div>
       
       <p>Current user: {user?.username}</p>
+      
       
       {user?.id !== activity.authorId && (
         <button
