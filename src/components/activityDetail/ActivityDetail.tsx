@@ -3,8 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styles from './activityDetail.module.css';
 import BackButton from '../backButton/BackButton';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { getUser } from '../../components/adminPanel/adminActions'; // Импортируем action
+import { useAppSelector } from '../../app/hooks';
 
 interface Activity {
   id: number;
@@ -17,18 +16,36 @@ interface Activity {
 }
 
 const ActivityDetail: React.FC = () => {
-  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.user);
-  const author = useAppSelector((state) => state.admin.user); // Получаем автора из админского стейта
+  const [authorName, setAuthorName] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
   
   const location = useLocation();
   const activity = location.state?.activity as Activity | undefined;
 
   useEffect(() => {
-    if (activity?.authorId) {
-      dispatch(getUser(activity.authorId)); // Получаем информацию об авторе при монтировании компонента
-    }
-  }, [dispatch, activity?.authorId]);
+    const fetchAuthorName = async () => {
+      if (!activity?.id) return;
+      
+      try {
+        setLoading(true);
+        const response = await axios.get(`/api/activity/${activity.id}/author`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        setAuthorName(response.data);
+      } catch (err) {
+        console.error("Error fetching author name:", err);
+        setError("Failed to load author information");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAuthorName();
+  }, [activity?.id]);
 
   if (!activity) {
     return <div>Activity not found</div>;
@@ -36,13 +53,16 @@ const ActivityDetail: React.FC = () => {
 
   const handleParticipate = async (activityId: number) => {
     try {
-      console.log("Current user ID:", user?.id);
+      const response = await axios.put(
+        `/api/activity/${activityId}/add-user`, 
+        null, 
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, 
+          },
+        }
+      );
       
-      const response = await axios.put(`/api/activity/${activityId}/add-user`, null, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, 
-        },
-      });
       if (response.status === 200) {
         alert("Successfully registered for the activity!");
       }
@@ -59,6 +79,7 @@ const ActivityDetail: React.FC = () => {
         src={activity.image}
         alt={activity.title}
         className={styles.activityDetailImage}
+        style={{ maxWidth: '500px', width: '100%', height: 'auto' }}
       />
       <p className={styles.activityDetailAddress}>
         <strong>Address:</strong> {activity.address}
@@ -67,8 +88,19 @@ const ActivityDetail: React.FC = () => {
         <strong>Date:</strong> {activity.startDate}
       </p>
       <p className={styles.activityDetailDescription}>{activity.description}</p>
-      <p>Author - {author?.username}</p> {/* Отображаем имя автора */}
-      <p>Current user - {user?.username}</p>
+      
+      <div className={styles.authorInfo}>
+        <strong>Author:</strong>{' '}
+        {loading ? (
+          'Loading...'
+        ) : error ? (
+          <span className={styles.error}>{error}</span>
+        ) : (
+          authorName
+        )}
+      </div>
+      
+      <p>Current user: {user?.username}</p>
       
       {user?.id !== activity.authorId && (
         <button
