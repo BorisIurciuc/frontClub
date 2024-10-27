@@ -55,7 +55,7 @@ public class ReviewController {
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
     Review review = reviewService.findById(id)
-        .orElseThrow(() -> new ReviewNotFounException("Review not found"));
+        .orElseThrow(() -> new ReviewNotFounException(id));
 
     boolean isAuthor = review.getCreatedBy().equals(username);
     boolean isAdmin = authentication.getAuthorities().stream()
@@ -86,7 +86,7 @@ public class ReviewController {
         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
     Review review = reviewService.findById(id)
-        .orElseThrow(() -> new ReviewNotFounException("Review not found"));
+        .orElseThrow(() -> new ReviewNotFounException(id));
     boolean isAuthor = review.getCreatedBy().equals(username);
 
     if (!isAuthor) {

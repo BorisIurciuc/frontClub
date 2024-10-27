@@ -42,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
   @Override
   public void update(Long id) {
     Review review = reviewRepository.findById(id)
-        .orElseThrow(() -> new ReviewNotFounException("Review not found"));
+        .orElseThrow(() -> new ReviewNotFounException(id));
     reviewRepository.saveAndFlush(reviewRepository.findById(id).get());
   }
 }
