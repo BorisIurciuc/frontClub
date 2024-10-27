@@ -1,6 +1,7 @@
 package gr36.clubActiv.services;
 
 import gr36.clubActiv.domain.entity.News;
+import gr36.clubActiv.exeption_handling.exeptions.NewsNotFoundException;
 import gr36.clubActiv.repository.NewsRepository;
 import gr36.clubActiv.services.interfaces.NewsService;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class NewsServiceImpl implements NewsService {
   @Override
   public News update(Long id, News newsDetails) {
     News news = newsRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("News not found"));
+            .orElseThrow(() -> new NewsNotFoundException(id));
 
     news.setTitle(newsDetails.getTitle());
     news.setDescription(newsDetails.getDescription());
@@ -45,7 +46,7 @@ public class NewsServiceImpl implements NewsService {
   @Override
   public void delete(Long id) {
     News news = newsRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("News not found"));
+            .orElseThrow(() -> new NewsNotFoundException(id));
 
     newsRepository.delete(news);
   }

@@ -26,7 +26,7 @@ public class ResponseServiceImpl implements ResponseService {
   @Override
   public Response addResponse(Long reviewId, Response response) {
     Review review = reviewRepository.findById(reviewId)
-        .orElseThrow(() -> new ReviewNotFounException("Review not found"));
+        .orElseThrow(() -> new ReviewNotFounException(reviewId));
     response.setReview(review);
     return responseRepository.save(response);
   }

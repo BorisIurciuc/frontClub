@@ -75,4 +75,22 @@ public class GlobalExceptionHandler {
     Response response = new Response(e.getMessage(), HttpStatus.BAD_REQUEST.value());
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
+
+  @ExceptionHandler(NewsNotFoundException.class)
+  public ResponseEntity<Response> handleException(NewsNotFoundException e) {
+    log.error("NewsNotFoundException occurred: {}", e.getMessage());
+
+    Response response = new Response(e.getMessage(), HttpStatus.NOT_FOUND.value());
+    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+  }
+
+  //ReviewNotFounException
+
+  @ExceptionHandler(ReviewNotFounException.class)
+  public ResponseEntity<Response> handleException(ReviewNotFounException e) {
+    log.error("ReviewNotFounException occurred: {}", e.getMessage());
+
+    Response response = new Response(e.getMessage(), HttpStatus.NOT_FOUND.value());
+    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+  }
 }
