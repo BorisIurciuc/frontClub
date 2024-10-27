@@ -210,19 +210,16 @@ public class ActivityController {
   }
 
   @GetMapping("/{id}/author")
-  public ResponseEntity<String> getActivityAuthorUsername(@PathVariable Long id) {
+  public ResponseEntity<?> getActivityAuthorUsername(@PathVariable Long id) {
     try {
-      log.info("Fetching author username for activity ID: {}", id);
-      String authorUsername = service.getActivityAuthorUsername(id);
-      return ResponseEntity.ok(authorUsername);
+      String username = service.getActivityAuthorUsername(id);
+      return ResponseEntity.ok(username);
     } catch (ActivityNotFoundException e) {
-      log.error("Activity not found with ID: {}", id);
-      return ResponseEntity.notFound().build();
-    } catch (IllegalStateException e) {
-      log.error("Error fetching author for activity ID {}: {}", id, e.getMessage());
-      return ResponseEntity.badRequest().body(e.getMessage());
+      // Позволим GlobalExceptionHandler обработать исключение
+      throw e;
     }
   }
+
 }
 
 
