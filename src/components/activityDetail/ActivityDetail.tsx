@@ -73,17 +73,7 @@ const ActivityDetail: React.FC = () => {
         // Получаем сообщение об ошибке напрямую из response.data
         const errorMessage = axiosError.response.data;
         console.log("Error response:", errorMessage);
-
-        switch(errorMessage) {
-          case "The user is already registered":
-            alert("Пользователь уже зарегистрирован в этой активности.");
-            break;
-          case "The activity author cannot add themselves to their own activity.":
-            alert("Автор активности не может добавлять себя в свою же активность.");
-            break;
-          default:
-            alert(errorMessage || "Failed to register for the activity. Please try again.");
-        }
+        alert(errorMessage || "Failed to register for the activity. Please try again.");
       } else {
         alert("Failed to register for the activity. Network error.");
       }
@@ -119,6 +109,7 @@ const ActivityDetail: React.FC = () => {
       </div>
       
       <p>Current user: {user?.username}</p>
+      
       
       {user?.id !== activity.authorId && (
         <button
