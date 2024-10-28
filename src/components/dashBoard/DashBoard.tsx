@@ -1,7 +1,6 @@
 import UserActivity from "../userActivity/UserActivity.tsx";
 import Button from "../button/Button.tsx";
 import {useNavigate} from "react-router-dom";
-import styles from './dashboard.module.css'
 
 const DashBoard = () => {
     const navigate = useNavigate();
@@ -10,11 +9,11 @@ const DashBoard = () => {
     }
 
     return (
-        <div className={styles.dashboard}>
+        <div>
             <div>
-                <p className={styles.p_dashboard}>Dash board</p>
+                <p>Dash board</p>
             </div>
-            <div className={styles.edit_btn}>
+            <div>
                 <Button name={"Edit profile"} onClick={handleEditProfileClick} />
             </div>
             <div>
