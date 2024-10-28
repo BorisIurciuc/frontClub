@@ -25,6 +25,10 @@ export const links = (isAuthenticated: boolean): ILink[] => {
           pathname: '/dashboard',
           title: 'Dashboard',
         },
+        {
+        pathname: '/review',
+        title: 'Review',
+        }
     );
   }
 

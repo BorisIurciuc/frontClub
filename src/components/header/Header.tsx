@@ -6,7 +6,7 @@ import { cleanActivities } from "../auth/reduxActivities/reduxActivitiesSlice";
 import { links } from "./links";
 import iconImage from "./imgHeder/icon.jpg";
 import styles from "./header.module.css";
-import { FaHome, FaUser, FaSignOutAlt, FaUserCircle, FaBars, FaTimes, FaBook, FaSchool } from 'react-icons/fa';
+import { FaHome, FaUser, FaSignOutAlt, FaUserCircle, FaBars, FaTimes, FaBook, FaSchool, FaComments } from 'react-icons/fa';
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -69,6 +69,9 @@ export const Header: React.FC = () => {
               {link.title === "Profile" && <FaUser className={styles.iconLink} />}
               {link.title === "Courses" && <FaBook className={styles.iconLink} />}
               {link.title === "School" && <FaSchool className={styles.iconLink} />}
+              {link.title === "Review" && <FaComments className={styles.iconLink} />}
+
+
               <span className={styles.linkText}>{link.title}</span>
             </Link>
           ))}
