@@ -3,11 +3,11 @@ import { useAppSelector } from "../../app/hooks";
 import Loader from "../loader/Loader";
 import styles from "./homePage.module.css";
 import { useNavigate, Link } from "react-router-dom";
-import { FaEye, FaPlus } from "react-icons/fa";
-import { motion } from "framer-motion";
 import axios from "axios";
 import { IActivity } from "../auth/reduxActivities/types";
 import ScrollToTopButton from "../scrollToTopButton/ScrollToTopButton";
+import { motion } from "framer-motion";
+import { FaPlus, FaEye } from "react-icons/fa";
 
 interface ActivityCardProps {
   activity: IActivity;

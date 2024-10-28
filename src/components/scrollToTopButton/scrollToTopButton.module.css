@@ -2,10 +2,10 @@
   align-items: center;
   background-color: #fff;
   border-radius: 50%;
-  bottom: 3vw;
+  bottom: 3vh;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
   display: flex;
-  height: 5vw;
+  height: 8vw;
   justify-content: center;
   max-height: 70px;
   max-width: 70px;
@@ -17,7 +17,7 @@
   right: 3vw;
   transition-duration: 0.4s;
   transition-property: opacity;
-  width: 5vw;
+  width: 8vw;
   z-index: 12000;
 }
 
@@ -29,4 +29,18 @@
 .bs-scroll-to-top-button__icon {
   height: 60%;
   width: 60%;
+}
+
+@media (max-width: 768px) {
+  .bs-scroll-to-top-button {
+    height: 10vw;
+    width: 10vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .bs-scroll-to-top-button {
+    height: 12vw;
+    width: 12vw;
+  }
 }
