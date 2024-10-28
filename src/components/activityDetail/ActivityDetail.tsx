@@ -74,6 +74,7 @@ const ActivityDetail: React.FC = () => {
         const errorMessage = axiosError.response.data;
         console.log("Error response:", errorMessage);
         alert(errorMessage || "Failed to register for the activity. Please try again.");
+
       } else {
         alert("Failed to register for the activity. Network error.");
       }
@@ -109,7 +110,6 @@ const ActivityDetail: React.FC = () => {
       </div>
       
       <p>Current user: {user?.username}</p>
-      
       
       {user?.id !== activity.authorId && (
         <button
