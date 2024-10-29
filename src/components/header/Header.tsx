@@ -48,7 +48,7 @@ export const Header: React.FC = () => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setDropdownOpen(false); 
+        setDropdownOpen(false);
       }
     };
 
@@ -57,24 +57,6 @@ export const Header: React.FC = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {
-    const handleClickOutsideMobileMenu = (event: MouseEvent) => {
-      const mobileMenu = document.querySelector(`.${styles.navLinks}`);
-      if (
-        mobileMenu &&
-        !mobileMenu.contains(event.target as Node) &&
-        mobileMenuOpen
-      ) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutsideMobileMenu);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideMobileMenu);
-    };
-  }, [mobileMenuOpen]); 
 
   return (
     <header className={styles.header}>
@@ -98,7 +80,7 @@ export const Header: React.FC = () => {
             mobileMenuOpen ? styles.active : ""
           }`}
         >
-          {links(isAuthenticated).map((link) => (
+          {links(isAuthenticated, user?.username).map((link) => (
             <Link
               key={link.pathname}
               className={`${styles.navLink} ${
