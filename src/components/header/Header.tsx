@@ -6,16 +6,25 @@ import { cleanActivities } from "../auth/reduxActivities/reduxActivitiesSlice";
 import { links } from "./links";
 import iconImage from "./imgHeder/icon.jpg";
 import styles from "./header.module.css";
-import { FaHome, FaUser, FaSignOutAlt, FaUserCircle, FaBars, FaTimes, FaBook, FaSchool } from 'react-icons/fa';
+import {
+  FaHome,
+  FaUser,
+  FaSignOutAlt,
+  FaUserCircle,
+  FaBars,
+  FaTimes,
+  FaBook,
+  FaSchool,
+} from "react-icons/fa";
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { user } = useAppSelector((store) => store.user);
-  let isAuthenticated = Boolean(user?.username);
+  const isAuthenticated = Boolean(user?.username);
 
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -23,20 +32,22 @@ export const Header: React.FC = () => {
     dispatch(logoutUser());
     dispatch(cleanActivities());
     window.location.href = "/";
-    isAuthenticated = false
-  };
-
-  const toggleDropdown = () => {
-    setDropdownOpen((prev) => !prev);
   };
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen((prev) => !prev);
   };
 
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     };
@@ -57,18 +68,30 @@ export const Header: React.FC = () => {
         <div className={styles.mobileMenuToggle} onClick={toggleMobileMenu}>
           {mobileMenuOpen ? <FaTimes /> : <FaBars />}
         </div>
-
-        <div className={`${styles.navLinks} ${mobileMenuOpen ? styles.active : ""}`}>
+        <div
+          className={`${styles.navLinks} ${
+            mobileMenuOpen ? styles.active : ""
+          }`}
+        >
           {links(isAuthenticated).map((link) => (
             <Link
               key={link.pathname}
-              className={`${styles.navLink} ${location.pathname === link.pathname ? styles.active : ""}`}
+              className={`${styles.navLink} ${
+                location.pathname === link.pathname ? styles.active : ""
+              }`}
               to={link.pathname}
+              onClick={() => setMobileMenuOpen(false)}
             >
               {link.title === "Home" && <FaHome className={styles.iconLink} />}
-              {link.title === "Profile" && <FaUser className={styles.iconLink} />}
-              {link.title === "Courses" && <FaBook className={styles.iconLink} />}
-              {link.title === "School" && <FaSchool className={styles.iconLink} />}
+              {link.title === "Profile" && (
+                <FaUser className={styles.iconLink} />
+              )}
+              {link.title === "Courses" && (
+                <FaBook className={styles.iconLink} />
+              )}
+              {link.title === "School" && (
+                <FaSchool className={styles.iconLink} />
+              )}
               <span className={styles.linkText}>{link.title}</span>
             </Link>
           ))}
@@ -83,12 +106,23 @@ export const Header: React.FC = () => {
                 <FaUserCircle className={styles.userIcon} />
               </div>
               {dropdownOpen && (
-                <div className={styles.dropdownMenu}>
-                  <Link to="/login" className={styles.dropdownItem} onClick={() => setDropdownOpen(false)}>
+                <div
+                  className={styles.dropdownMenu}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Link
+                    to="/login"
+                    className={styles.dropdownItem}
+                    onClick={() => setDropdownOpen(false)}
+                  >
                     Sign In
                   </Link>
-                  <Link to="/register" className={styles.dropdownItem} onClick={() => setDropdownOpen(false)}>
-                    Register
+                  <Link
+                    to="/register"
+                    className={styles.dropdownItem}
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Registration
                   </Link>
                 </div>
               )}
