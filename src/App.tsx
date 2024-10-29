@@ -1,25 +1,25 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
-import ActivityList from "../activityList/ActivityList";
-import AddActivityForm from "../addActivitiesForm/AddActivitiesForm";
-import Login from "./Login";
-import Register from "./Register";
-
-import HomePage from "../homePages/HomePage";
-import Layout from "../layout/Layout";
-import ProtectedRoute from "../protectedRoute/ProtectedRoute";
-import School from "../school/school";
-import { UserProvider } from "../userContext/UserContext";
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import ActivityDetail from "../activityDetail/ActivityDetail";
-import DashBoard from "../dashBoard/DashBoard";
-import EditProfile from "../editeProfile/EditProfile";
-import { Footer } from "../footer/Footer";
-import ProjectCreators from "../projectCreators/ProjectCreators";
-import RegistrationConfirmed from "../registrationConfirm/RegistrationConfirmed";
-import { getUserWithToken } from "./features/authAction";
-import ForgotPassword from "./ForgotPassword.tsx";
-import ResetPassword from "./ResetPassword.tsx";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import { useAppSelector, useAppDispatch } from "./app/hooks";
+import ActivityDetail from "./components/activityDetail/ActivityDetail";
+import ActivityList from "./components/activityList/ActivityList";
+import AddActivityForm from "./components/addActivitiesForm/AddActivitiesForm";
+import { getUserWithToken } from "./components/auth/features/authAction";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import ResetPassword from "./components/auth/ResetPassword";
+import DashBoard from "./components/dashBoard/DashBoard";
+import EditProfile from "./components/editeProfile/EditProfile";
+import { Footer } from "./components/footer/Footer";
+import HomePage from "./components/homePages/HomePage";
+import Layout from "./components/layout/Layout";
+import ProjectCreators from "./components/projectCreators/ProjectCreators";
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import RegistrationConfirmed from "./components/registrationConfirm/RegistrationConfirmed";
+import School from "./components/school/school";
+import { UserProvider } from "./components/userContext/UserContext";
+
 
 const App = () => {
   const isAuthenticated = useAppSelector((store) => store.user.isAuthenticated);

@@ -44,16 +44,14 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Check if the click was outside of the dropdown menu
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setDropdownOpen(false); // Close the dropdown if clicked outside
+        setDropdownOpen(false); 
       }
     };
 
-    // Event listener for mobile menu
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -62,7 +60,6 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     const handleClickOutsideMobileMenu = (event: MouseEvent) => {
-      // Close mobile menu when clicking outside of it
       const mobileMenu = document.querySelector(`.${styles.navLinks}`);
       if (
         mobileMenu &&
@@ -73,12 +70,11 @@ export const Header: React.FC = () => {
       }
     };
 
-    // Event listener for dropdown menu
     document.addEventListener("mousedown", handleClickOutsideMobileMenu);
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideMobileMenu);
     };
-  }, [mobileMenuOpen]); // Only run this effect if mobileMenuOpen state changes
+  }, [mobileMenuOpen]); 
 
   return (
     <header className={styles.header}>
