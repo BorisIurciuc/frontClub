@@ -86,13 +86,6 @@ body {
   transform: scale(1.1);
 }
 
-.username {
-  color: white; /* Цвет текста имени пользователя */
-  margin: 0 10px; /* Отступы вокруг имени пользователя */
-  font-weight: 500; /* Полужирный шрифт */
-  font-size: 16px; /* Размер шрифта */
-}
-
 .userIcon {
   font-size: 28px;
   color: white;

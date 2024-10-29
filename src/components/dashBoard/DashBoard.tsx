@@ -11,9 +11,6 @@ const DashBoard = () => {
 
     return (
         <div className={styles.dashboard}>
-            <div>
-                <p className={styles.p_dashboard}>Dash board</p>
-            </div>
             <div className={styles.edit_btn}>
                 <Button name={"Edit profile"} onClick={handleEditProfileClick} />
             </div>
