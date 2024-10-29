@@ -20,7 +20,7 @@ import RegistrationConfirmed from "../registrationConfirm/RegistrationConfirmed"
 import { getUserWithToken } from "./features/authAction";
 import ForgotPassword from "./ForgotPassword.tsx";
 import ResetPassword from "./ResetPassword.tsx";
-import Review from "../review/Review.tsx";
+import Review from "../review/Reviews.tsx";
 
 const App = () => {
   const isAuthenticated = useAppSelector((store) => store.user.isAuthenticated);
