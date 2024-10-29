@@ -44,19 +44,24 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element; 
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
+        !dropdownRef.current.contains(target)
       ) {
         setDropdownOpen(false);
+      }
+      if (mobileMenuOpen && !target.closest(`.${styles.navLinks}`)) {
+        setMobileMenuOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+    
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [mobileMenuOpen]); 
 
   return (
     <header className={styles.header}>
@@ -87,7 +92,9 @@ export const Header: React.FC = () => {
                 location.pathname === link.pathname ? styles.active : ""
               }`}
               to={link.pathname}
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                setMobileMenuOpen(false); 
+              }} 
             >
               {link.title === "Home" && <FaHome className={styles.iconLink} />}
               {link.title === "Profile" && (
@@ -115,19 +122,24 @@ export const Header: React.FC = () => {
               {dropdownOpen && (
                 <div
                   className={styles.dropdownMenu}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => setMobileMenuOpen(false)} 
                 >
                   <Link
                     to="/login"
                     className={styles.dropdownItem}
-                    onClick={() => setDropdownOpen(false)}
+                    onClick={() => {
+                      setDropdownOpen(false); 
+                      setMobileMenuOpen(false); 
+                    }}
                   >
                     Sign In
                   </Link>
                   <Link
                     to="/register"
                     className={styles.dropdownItem}
-                    onClick={() => setDropdownOpen(false)}
+                    onClick={() => {
+                      setMobileMenuOpen(false); 
+                    }}
                   >
                     Registration
                   </Link>
