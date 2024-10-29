@@ -1,4 +1,4 @@
-import React from "react";
+
 import styles from "./projectCreators.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -16,6 +16,7 @@ interface IParticipant {
 }
 
 const ProjectCreators: React.FC = () => {
+
   const participants: IParticipant[] = [
     {
       id: 1,
