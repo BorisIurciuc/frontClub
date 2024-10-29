@@ -86,7 +86,7 @@ const HomePage: React.FC = () => {
   <div className={styles.textOverlay}>
     <h2 className={styles.sectionTitle}>Expand Your Language Skills with Ease</h2>
     <p className={styles.highlightText}>
-      Whether you’re just starting or already an advanced learner, our platform offers a diverse range of language courses tailored to your proficiency level. Dive into engaging courses in English, Spanish, French, and many more!
+      Whether you're just starting or already an advanced learner, our platform offers a diverse range of language courses tailored to your proficiency level. Dive into engaging courses in English, Spanish, French, and many more!
     </p>
     <h3 className={styles.subTitle}>Why Choose Us?</h3>
     <ul className={styles.benefitsList}>
