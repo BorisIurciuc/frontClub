@@ -3,7 +3,7 @@ export interface ILink {
   title: string;
 }
 
-export const links = (isAuthenticated: boolean): ILink[] => {
+export const links = (isAuthenticated: boolean, username?: string): ILink[] => {
   const baseLinks: ILink[] = [
     {
       pathname: '/',
@@ -23,7 +23,7 @@ export const links = (isAuthenticated: boolean): ILink[] => {
         },
         {
           pathname: '/dashboard',
-          title: 'Dashboard',
+          title: username ? `${username}` : 'Dashboard',
         },
     );
   }
