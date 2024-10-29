@@ -1,4 +1,4 @@
-/* Container for participants */
+
 .participantsContainer {
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
   color: #333;
 }
 
-/* Header section */
+
 .headerContainer {
   margin-bottom: 2rem;
 }
@@ -22,7 +22,7 @@
   text-transform: uppercase;
 }
 
-/* Participant list container with two rows */
+
 .participantList {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -32,7 +32,7 @@
   justify-items: center;
 }
 
-/* Individual participant card */
+
 .participantCard {
   display: flex;
   flex-direction: column;
@@ -45,13 +45,13 @@
   transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
-/* Hover effect with gold background, slight rotation, and lift */
+
 .participantCard:hover {
   background-color: #ffd700;
   transform: translateY(-8px) rotate(2deg);
 }
 
-/* Participant photo styling */
+
 .participantPhoto {
   width: 120px;
   height: 120px;
@@ -65,7 +65,7 @@
   transform: scale(1.1);
 }
 
-/* Participant name */
+
 .participantCard h3 {
   font-size: 1.75rem;
   color: #333;
@@ -73,14 +73,14 @@
   text-align: center;
 }
 
-/* Specialization text */
+
 .participantCard strong {
   color: #666;
   font-size: 1.1rem;
   margin-bottom: 1rem;
 }
 
-/* Social links container */
+
 .socialLinks {
   display: flex;
   justify-content: center;
@@ -88,7 +88,7 @@
   margin-top: 1rem;
 }
 
-/* Individual social link */
+
 .iconLink {
   display: flex;
   align-items: center;
@@ -104,7 +104,7 @@
   transform: scale(1.1);
 }
 
-/* Specific styles for LinkedIn, GitHub, and CV icons */
+
 .linkedin {
   color: #0077b5;
 }
