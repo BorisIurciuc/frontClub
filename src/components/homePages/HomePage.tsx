@@ -82,21 +82,22 @@ const HomePage: React.FC = () => {
       </header>
 
       <motion.div className={styles.highlightSection} initial="hidden" animate="visible" variants={fadeIn}>
-        <img src="/src/components/homePages/imgHomePage/langue.avif" alt="Colorful crayons" className={styles.highlightImage} />
-        <div className={styles.textOverlay}>
-          <h2 className={styles.sectionTitle}>Expand Your Language Skills with Ease</h2>
-          <p className={styles.highlightText}>
-            Whether you’re just starting or already an advanced learner, our platform offers a diverse range of language courses tailored to your proficiency level. Dive into engaging courses in English, Spanish, French, and many more!
-          </p>
-          <h3 className={styles.subTitle}>Why Choose Us?</h3>
-          <ul className={styles.benefitsList}>
-            <li><strong>Create Your Own Course:</strong> Share your knowledge and design a course that empowers others to improve their skills.</li>
-            <li><strong>Flexible Learning:</strong> Learn at your own pace, fitting your studies into your busy life.</li>
-            <li><strong>Community Connection:</strong> Engage with fellow learners through discussions and collaborative activities, enriching your learning experience.</li>
-          </ul>
-          <p className={styles.cta}>Unlock your full potential and embark on your language learning journey with the Conversation Club today!</p>
-        </div>
-      </motion.div>
+  <img src="/src/components/homePages/imgHomePage/langue.avif" alt="Colorful crayons" className={styles.highlightImage} />
+  <div className={styles.textOverlay}>
+    <h2 className={styles.sectionTitle}>Expand Your Language Skills with Ease</h2>
+    <p className={styles.highlightText}>
+      Whether you’re just starting or already an advanced learner, our platform offers a diverse range of language courses tailored to your proficiency level. Dive into engaging courses in English, Spanish, French, and many more!
+    </p>
+    <h3 className={styles.subTitle}>Why Choose Us?</h3>
+    <ul className={styles.benefitsList}>
+      <li><strong>Create Your Own Course:</strong> Share your knowledge and design a course that empowers others to improve their skills.</li>
+      <li><strong>Flexible Learning:</strong> Learn at your own pace, fitting your studies into your busy life.</li>
+      <li><strong>Community Connection:</strong> Engage with fellow learners through discussions and collaborative activities, enriching your learning experience.</li>
+    </ul>
+    <p className={styles.cta}>Unlock your full potential and embark on your language learning journey with the Conversation Club today!</p>
+  </div>
+</motion.div>
+
 
       <motion.div className={styles.courseSection} initial="hidden" animate="visible" variants={fadeInUp} transition={{ delay: 0.4 }}>
         <h2 className={styles.sectionTitle}>Course Selection</h2>
