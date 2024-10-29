@@ -44,25 +44,54 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Check if the click was outside of the dropdown menu
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setDropdownOpen(false);
+        setDropdownOpen(false); // Close the dropdown if clicked outside
       }
     };
 
+    // Event listener for mobile menu
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutsideMobileMenu = (event: MouseEvent) => {
+      // Close mobile menu when clicking outside of it
+      const mobileMenu = document.querySelector(`.${styles.navLinks}`);
+      if (
+        mobileMenu &&
+        !mobileMenu.contains(event.target as Node) &&
+        mobileMenuOpen
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    // Event listener for dropdown menu
+    document.addEventListener("mousedown", handleClickOutsideMobileMenu);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideMobileMenu);
+    };
+  }, [mobileMenuOpen]); // Only run this effect if mobileMenuOpen state changes
+
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
-        <img src={iconImage} alt="Header Icon" className={styles.icon} />
-        <h1 className={styles.title}>Conversation Club</h1>
+        <img
+          src={iconImage}
+          alt="Header Icon"
+          className={styles.icon}
+          onClick={() => (window.location.href = "/")} 
+        />
+        <h1 className={styles.title} onClick={() => (window.location.href = "/")}> 
+          Conversation Club
+        </h1>
       </div>
       <nav className={styles.navbar}>
         <div className={styles.mobileMenuToggle} onClick={toggleMobileMenu}>

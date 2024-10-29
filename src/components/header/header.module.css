@@ -183,11 +183,6 @@ body {
     text-align: left;
   }
 
-  .loginButton,
-  .registerButton {
-    padding: 10px 15px;
-  }
-
   .mobileMenuToggle {
     display: block;
     font-size: 24px;
@@ -215,10 +210,5 @@ body {
     font-size: 14px;
     padding: 6px 10px;
     width: 100%;
-  }
-
-  .loginButton,
-  .registerButton {
-    padding: 6px 12px;
   }
 }
