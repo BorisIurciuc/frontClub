@@ -103,7 +103,7 @@ const ProjectCreators: React.FC = () => {
       rel="noopener noreferrer" 
       className={`${styles.iconLink} ${styles.linkedin}`}
     >
-      <FontAwesomeIcon icon={faLinkedin} /> LinkedIn
+      <FontAwesomeIcon icon={faLinkedin} /> 
     </a>
   )}
   {participant.github && (
@@ -113,7 +113,7 @@ const ProjectCreators: React.FC = () => {
       rel="noopener noreferrer" 
       className={`${styles.iconLink} ${styles.github}`}
     >
-      <FontAwesomeIcon icon={faGithub} /> GitHub
+      <FontAwesomeIcon icon={faGithub} /> 
     </a>
   )}
   {participant.cv && (
@@ -123,7 +123,7 @@ const ProjectCreators: React.FC = () => {
       rel="noopener noreferrer" 
       className={`${styles.iconLink} ${styles.cv}`}
     >
-      <FontAwesomeIcon icon={faFileAlt} /> CV
+      <FontAwesomeIcon icon={faFileAlt} /> 
     </a>
   )}
 </div>
