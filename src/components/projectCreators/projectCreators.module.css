@@ -35,6 +35,11 @@
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 400px; /* Ensures uniform height for all cards */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .participantCard:hover {
@@ -43,9 +48,10 @@
 }
 
 .participantPhoto {
-  width: 100%;
-  height: auto;
+  width: 150px;
+  height: 150px;
   border-radius: 10px;
+  object-fit: cover;
   margin-bottom: 10px;
 }
 
@@ -59,27 +65,49 @@ p {
   font-size: 0.9rem;
   color: #666;
   margin: 5px 0;
+  flex-grow: 1;
 }
 
-.linkedinLink {
-  display: inline-block;
+.socialLinks {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
   margin-top: 10px;
+}
+
+.iconLink {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   padding: 8px 12px;
-  background-color: #0e76a8;
-  color: white;
   border-radius: 4px;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.linkedinLink:hover {
+.iconLink.linkedin {
+  background-color: #0e76a8;
+}
+
+.iconLink.linkedin:hover {
   background-color: #075986;
 }
 
-.noLinkedIn {
-  font-size: 0.9rem;
-  color: #999;
-  margin-top: 10px;
+.iconLink.github {
+  background-color: #333;
+}
+
+.iconLink.github:hover {
+  background-color: #555;
+}
+
+.iconLink.cv {
+  background-color: #2c3e50;
+}
+
+.iconLink.cv:hover {
+  background-color: #1c2833;
 }
