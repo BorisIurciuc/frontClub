@@ -4,7 +4,6 @@ html, body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; 
 }
 
 body {
@@ -23,7 +22,7 @@ main {
     margin-top: 1rem;
     display: flex;
     align-items: center;
-    justify-content: flex-end; /* изменено на flex-end для правильного выравнивания */
+    justify-content: flex-end; 
     width: 100%;
 }
 
@@ -32,26 +31,4 @@ main {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-}
-
-/* Медиазапросы для адаптивности */
-@media (max-width: 768px) {
-    .buttons_container {
-        justify-content: center; /* Центрирование кнопок на маленьких экранах */
-    }
-
-    .product_List_Container {
-        align-items: center; /* Центрирование продуктов на маленьких экранах */
-    }
-}
-
-@media (max-width: 480px) {
-    main {
-        flex-direction: column; /* Переключение на колонную ориентацию для очень маленьких экранов */
-    }
-
-    .buttons_container {
-        flex-direction: column; /* Кнопки вертикально */
-        align-items: center;
-    }
 }
