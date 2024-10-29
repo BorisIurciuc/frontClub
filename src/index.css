@@ -2,7 +2,6 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    width: 100%;
     display: flex;
     flex-direction: column;
     overflow-x: hidden; 
@@ -16,7 +15,7 @@ main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    width: 100%; 
+    width: 100%;
     min-height: 100vh;
 }
 
@@ -24,7 +23,7 @@ main {
     margin-top: 1rem;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-end; /* изменено на flex-end для правильного выравнивания */
     width: 100%;
 }
 
@@ -33,4 +32,26 @@ main {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+}
+
+/* Медиазапросы для адаптивности */
+@media (max-width: 768px) {
+    .buttons_container {
+        justify-content: center; /* Центрирование кнопок на маленьких экранах */
+    }
+
+    .product_List_Container {
+        align-items: center; /* Центрирование продуктов на маленьких экранах */
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        flex-direction: column; /* Переключение на колонную ориентацию для очень маленьких экранов */
+    }
+
+    .buttons_container {
+        flex-direction: column; /* Кнопки вертикально */
+        align-items: center;
+    }
 }

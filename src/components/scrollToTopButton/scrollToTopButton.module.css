@@ -1,46 +1,45 @@
 .bs-scroll-to-top-button {
-  align-items: center;
-  background-color: #fff;
-  border-radius: 50%;
-  bottom: 3vh;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
-  display: flex;
-  height: 8vw;
-  justify-content: center;
-  max-height: 70px;
-  max-width: 70px;
-  min-height: 40px;
-  min-width: 40px;
-  opacity: 0;
-  pointer-events: none;
-  position: fixed;
-  right: 3vw;
-  transition-duration: 0.4s;
-  transition-property: opacity;
-  width: 8vw;
-  z-index: 12000;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50%;
+    bottom: 3vh;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+    display: flex;
+    justify-content: center;
+    height: 8vw;
+    max-height: 70px;
+    max-width: 70px;
+    min-height: 40px;
+    min-width: 40px;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    right: 3vw;
+    transition: opacity 0.4s ease;
+    width: 8vw;
+    z-index: 12000;
 }
 
 .bs-scroll-to-top-button--visible {
-  opacity: 1;
-  pointer-events: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .bs-scroll-to-top-button__icon {
-  height: 60%;
-  width: 60%;
+    height: 60%;
+    width: 60%;
 }
 
 @media (max-width: 768px) {
-  .bs-scroll-to-top-button {
-    height: 10vw;
-    width: 10vw;
-  }
+    .bs-scroll-to-top-button {
+        height: 10vw;
+        width: 10vw;
+    }
 }
 
 @media (max-width: 480px) {
-  .bs-scroll-to-top-button {
-    height: 12vw;
-    width: 12vw;
-  }
+    .bs-scroll-to-top-button {
+        height: 12vw;
+        width: 12vw;
+    }
 }
