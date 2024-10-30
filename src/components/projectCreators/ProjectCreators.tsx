@@ -1,4 +1,4 @@
-import React from "react";
+
 import styles from "./projectCreators.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkedin, faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -16,6 +16,7 @@ interface IParticipant {
 }
 
 const ProjectCreators: React.FC = () => {
+
   const participants: IParticipant[] = [
     {
       id: 1,
@@ -103,7 +104,7 @@ const ProjectCreators: React.FC = () => {
       rel="noopener noreferrer" 
       className={`${styles.iconLink} ${styles.linkedin}`}
     >
-      <FontAwesomeIcon icon={faLinkedin} /> LinkedIn
+      <FontAwesomeIcon icon={faLinkedin} /> 
     </a>
   )}
   {participant.github && (
@@ -113,7 +114,7 @@ const ProjectCreators: React.FC = () => {
       rel="noopener noreferrer" 
       className={`${styles.iconLink} ${styles.github}`}
     >
-      <FontAwesomeIcon icon={faGithub} /> GitHub
+      <FontAwesomeIcon icon={faGithub} /> 
     </a>
   )}
   {participant.cv && (
@@ -123,7 +124,7 @@ const ProjectCreators: React.FC = () => {
       rel="noopener noreferrer" 
       className={`${styles.iconLink} ${styles.cv}`}
     >
-      <FontAwesomeIcon icon={faFileAlt} /> CV
+      <FontAwesomeIcon icon={faFileAlt} /> 
     </a>
   )}
 </div>
