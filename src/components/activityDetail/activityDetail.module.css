@@ -2,49 +2,102 @@
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #F9F9F9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 95%;
 }
+
 .activityDetailTitle {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 20px;
     text-align: center;
 }
+
 .activityDetailImage {
     width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 12px;
     margin-bottom: 20px;
     object-fit: cover;
 }
+
 .activityDetailAddress,
 .activityDetailDate {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 15px;
 }
+
 .activityDetailAddress strong,
 .activityDetailDate strong {
-    color: #333;
+    color: #2c3e50;
 }
+
 .activityDetailDescription {
     font-size: 1rem;
-    line-height: 1.6;
-    color: #444;
+    line-height: 1.7;
+    color: #555;
     margin-top: 15px;
     text-align: justify;
 }
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.participateButton,
+.revokeButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    width: 150px;
+}
+
+.participateButton {
+    background-color: #28a745;
+}
+
+.revokeButton {
+    background-color: #dc3545;
+}
+
+.participateButton:hover {
+    background-color: #218838;
+}
+
+.revokeButton:hover {
+    background-color: #c82333;
+}
+
 @media (max-width: 768px) {
     .activityDetailContainer {
         padding: 15px;
         max-width: 90%;
     }
+
+    .participateButton,
+    .revokeButton {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .buttonContainer {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }
+
 @media (min-width: 1440px) {
     .activityDetailContainer {
         max-width: 1000px;
