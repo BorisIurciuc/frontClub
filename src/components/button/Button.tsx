@@ -1,9 +1,6 @@
 import { FormEvent } from 'react';
 import styles from './button.module.css';
 
-//добавили interface props
-// которые просил добавить ts для безопасности
-
 interface IButtonProps {
   isGetButton?: boolean;
   name?: string;

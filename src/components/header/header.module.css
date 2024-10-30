@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+  padding: 0; 
   
 }
 
@@ -32,6 +32,18 @@ body {
   margin-right: 20px;
   font-size: 24px;
 }
+.title:hover{
+  color: #A8C686;
+  transition: transform 0.6s ease-in-out;
+  transform: rotate(-8px);
+}
+
+.icon:hover {
+  color: #ff4757;
+  transition: transform 0.3s ease-in-out;
+ font-size: larger;
+ cursor: pointer;
+}
 
 .icon {
   width: 80px;
@@ -40,6 +52,13 @@ body {
   object-fit: cover;
   margin-left: 28px;
 }
+.icon:hover {
+  
+  transition: transform 0.5s ease-in-out;
+  transform: rotate(-15deg);
+}
+
+
 
 .navbar {
   display: flex;
