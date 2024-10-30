@@ -1,39 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styles from './activityDetail.module.css';
 import BackButton from '../backButton/BackButton';
 import { useAppSelector } from '../../app/hooks';
-
-interface Activity {
-  id: number;
-  title: string;
-  address: string;
-  startDate: string;
-  image: string;
-  description: string;
-  authorId: number;
-}
+import { handleParticipate, handleRevokeParticipation } from "./activityActions";
 
 const ActivityDetail: React.FC = () => {
   const user = useAppSelector((state) => state.user.user);
   const [authorName, setAuthorName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
+
   const location = useLocation();
-  const activity = location.state?.activity as Activity | undefined;
+  const navigate = useNavigate(); 
+  const activity = location.state?.activity;
 
   useEffect(() => {
     const fetchAuthorName = async () => {
       if (!activity?.id) return;
-      
+
       try {
         setLoading(true);
         const response = await axios.get(`/api/activity/${activity.id}/author`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         setAuthorName(response.data);
       } catch (err) {
@@ -44,41 +37,49 @@ const ActivityDetail: React.FC = () => {
       }
     };
 
+    const checkRegistration = async () => {
+      if (!activity?.id || !user) return;
+
+      try {
+        const response = await axios.get(`/api/activity/${activity.id}/is-registered`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setIsRegistered(response.data); // Assuming the response returns a boolean value
+      } catch (error) {
+        console.error("Error checking registration status:", error);
+      }
+    };
+
     fetchAuthorName();
-  }, [activity?.id]);
+    checkRegistration();
+  }, [activity?.id, user]);
+
+  const handleParticipationClick = async () => {
+    if (!user) {
+      alert("Please log in to participate in this event."); 
+      navigate("/login"); 
+      return;
+    }
+
+    if (!activity) {
+      console.error("Activity is not defined");
+      return;
+    }
+
+    if (isRegistered) {
+      await handleRevokeParticipation(activity.id);
+      setIsRegistered(false);
+    } else {
+      await handleParticipate(activity.id);
+      setIsRegistered(true); 
+    }
+  };
 
   if (!activity) {
     return <div>Activity not found</div>;
   }
-
-  const handleParticipate = async (activityId: number) => {
-    try {
-      const response = await axios.put(
-        `/api/activity/${activityId}/add-user`, 
-        null, 
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, 
-          },
-        }
-      );
-      
-      if (response.status === 200) {
-        alert("Successfully registered for the activity!");
-      }
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      
-      if (axiosError.response) {
-        // Получаем сообщение об ошибке напрямую из response.data
-        const errorMessage = axiosError.response.data;
-        console.log("Error response:", errorMessage);
-        alert(errorMessage || "Failed to register for the activity. Please try again.");
-      } else {
-        alert("Failed to register for the activity. Network error.");
-      }
-    }
-  };
 
   return (
     <div className={styles.activityDetailContainer}>
@@ -87,7 +88,6 @@ const ActivityDetail: React.FC = () => {
         src={activity.image}
         alt={activity.title}
         className={styles.activityDetailImage}
-        style={{ maxWidth: '500px', width: '100%', height: 'auto' }}
       />
       <p className={styles.activityDetailAddress}>
         <strong>Address:</strong> {activity.address}
@@ -99,26 +99,21 @@ const ActivityDetail: React.FC = () => {
       
       <div className={styles.authorInfo}>
         <strong>Author:</strong>{' '}
-        {loading ? (
-          'Loading...'
-        ) : error ? (
-          <span className={styles.error}>{error}</span>
-        ) : (
-          authorName
-        )}
+        {loading ? 'Loading...' : error ? <span className={styles.error}>{error}</span> : authorName}
       </div>
       
       <p>Current user: {user?.username}</p>
       
-      
-      {user?.id !== activity.authorId && (
-        <button
-          className={styles.participateButton}
-          onClick={() => handleParticipate(activity.id)}
-        >
-          Participate
-        </button>
-      )}
+      <div className={styles.buttonContainer}>
+        {user?.id !== activity.authorId && (
+          <button
+            className={isRegistered ? styles.revokeButton : styles.participateButton}
+            onClick={handleParticipationClick}
+          >
+            {isRegistered ? "Revoke Participation" : "Participate"}
+          </button>
+        )}
+      </div>
       <BackButton />
     </div>
   );
