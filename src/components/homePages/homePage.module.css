@@ -15,7 +15,7 @@
 
 .imageContainer,
 .backgroundImage {
-  /* position: absolute; */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -73,7 +73,7 @@
   position: relative;
   width: 100%;
   height: auto;
-  color: white;
+  color: D8572A;
   display: flex;
   flex-direction: column; 
   align-items: center;
