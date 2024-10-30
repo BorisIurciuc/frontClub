@@ -1,42 +1,60 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-export const getReviews = createAsyncThunk(
-    "reviews",
-    async (_, thunkAPI) => {
-        try {
-            const response = await axios.get("/api/reviews");
-            return response.data;
-        } catch (error) {
-            const axiosError = error as AxiosError;
-            return thunkAPI.rejectWithValue(
-                axiosError.response?.data || axiosError.message
-            );
-        }
-    }
-);
+interface AddReviewData {
+  title: string;
+  description: string;
+  created_by: number;
+}
 
 export const addReview = createAsyncThunk(
-    "reviews/addReview",
-    async (reviewData: {title: string, description: string}, thunkAPI) => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            return thunkAPI.rejectWithValue("Пользователь неавторизован");
-        }
-
-        try {
-            const response = await axios.post("/api/reviews", reviewData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            return response.data;
-        } catch (error) {
-            const axiosError = error as AxiosError;
-            return thunkAPI.rejectWithValue(
-                axiosError.response?.data || axiosError.message
-            );
-        }
+  "reviews/addReview",
+  async (reviewData: AddReviewData, thunkAPI) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return thunkAPI.rejectWithValue("Пользователь неавторизован");
     }
 
+    try {
+      console.log('Review data before sending:', reviewData); // Для отладки
+
+      const response = await axios.post("/api/reviews", 
+        {
+          title: reviewData.title,
+          description: reviewData.description,
+          created_by: reviewData.created_by // Убедимся что передаем это поле
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log('Server response:', response.data); // Для отладки
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      console.error('Server error:', axiosError.response?.data); // Для отладки
+      return thunkAPI.rejectWithValue(
+        axiosError.response?.data || axiosError.message
+      );
+    }
+  }
+);
+
+export const getReviews = createAsyncThunk(
+  "reviews/getReviews",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get("/api/reviews");
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      return thunkAPI.rejectWithValue(
+        axiosError.response?.data || axiosError.message
+      );
+    }
+  }
 );

@@ -3,19 +3,18 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { addReview, getReviews } from './reviewAction';
 
 interface ReviewFormData {
-  title: string;
-  description: string;
-  
-}
+    title: string;
+    description: string;
+  }
 
 const Reviews: React.FC = () => {
+  const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const { reviews, isLoading, error } = useAppSelector((state) => state.reviews);
-  
+
   const [formData, setFormData] = useState<ReviewFormData>({
     title: '',
-    description: ''
-    
+    description: '',
   });
 
   useEffect(() => {
@@ -32,26 +31,47 @@ const Reviews: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    if (!user) {
+      console.error('User not authenticated');
+      return;
+    }
+
     try {
-      await dispatch(addReview(formData)).unwrap();
+        // Явно создаем объект с нужными полями
+        const reviewDataToSubmit = {
+          title: formData.title,
+          description: formData.description,
+          created_by: user.id // Убедимся что это число
+        };
+
+        console.log('Sending review data:', reviewDataToSubmit); // Для отладки
+
+      await dispatch(addReview(reviewDataToSubmit)).unwrap();
       // Clear form after successful submission
       setFormData({
         title: '',
-        description: ''
+        description: '',
       });
-      // Refresh reviews list
       dispatch(getReviews());
     } catch (err) {
       console.error('Failed to add review:', err);
     }
   };
 
+  if (!user) {
+    return (
+      <div className="p-4">
+        <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">
+          Please log in to add reviews.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
       
-      {/* Add Review Form */}
       <form onSubmit={handleSubmit} className="mb-6 space-y-4">
         <div>
           <label htmlFor="title" className="block mb-1">Title:</label>
@@ -77,9 +97,10 @@ const Reviews: React.FC = () => {
             required
           />
         </div>
-        
-       
-        
+
+        <div className="text-sm text-gray-600">
+          Posting as user ID: {user.id}
+        </div>
 
         <button 
           type="submit" 
@@ -90,14 +111,12 @@ const Reviews: React.FC = () => {
         </button>
       </form>
 
-      {/* Error Display */}
       {error && (
         <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">
           Error: {error}
         </div>
       )}
 
-      {/* Reviews List */}
       <div className="space-y-4">
         {reviews.length > 0 ? (
           reviews.map((review) => (
@@ -107,7 +126,7 @@ const Reviews: React.FC = () => {
               <div className="mt-2 text-sm text-gray-600">
                 <p>ID: {review.id}</p>
                 <p>Created by: {review.created_by}</p>
-                <p>Created at: {new Date(review.created_at).toLocaleDateString()}</p>
+                <p>Created at: {review.created_at}</p>
                 {review.rating && <p>Rating: {review.rating}</p>}
               </div>
             </div>
