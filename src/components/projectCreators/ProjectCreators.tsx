@@ -52,8 +52,8 @@ const ProjectCreators: React.FC = () => {
       id: 4,
       firstName: "Boris",
       lastName: "Iurciuc",
-      specialization: "BackEnd",
-      photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4Xnp5sqAeZx9FlQUlmKKQwXFj977Cx-9TIw&s", 
+      specialization: "Full Stack",
+      photo: "https://my-activity-images.s3.eu-north-1.amazonaws.com/Boris+Iurciuc.jpg", 
       linkedin: "https://www.linkedin.com/in/boris-iurciuc-44000259",
       github: "https://github.com/BorisIurciuc",
       cv: ""
