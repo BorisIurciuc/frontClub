@@ -41,7 +41,7 @@ const Reviews: React.FC = () => {
         const reviewDataToSubmit = {
           title: formData.title,
           description: formData.description,
-          created_by: user.id // Убедимся что это число
+          created_byI: user.id // Убедимся что это число
         };
 
         console.log('Sending review data:', reviewDataToSubmit); // Для отладки
@@ -68,6 +68,8 @@ const Reviews: React.FC = () => {
     );
   }
 
+  // console.log('Server response answerB:', reviews.map(review => review.createdBy)); // Для отладки
+  
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
@@ -98,9 +100,9 @@ const Reviews: React.FC = () => {
           />
         </div>
 
-        <div className="text-sm text-gray-600">
+        {/* <div className="text-sm text-gray-600">
           Posting as user ID: {user.id}
-        </div>
+        </div> */}
 
         <button 
           type="submit" 
@@ -120,15 +122,15 @@ const Reviews: React.FC = () => {
       <div className="space-y-4">
         {reviews.length > 0 ? (
           reviews.map((review) => (
-            <div key={review.id} className="p-4 border rounded">
-              <h3 className="text-xl font-bold">{review.title}</h3>
-              <p className="mt-2">{review.description}</p>
-              <div className="mt-2 text-sm text-gray-600">
-                <p>ID: {review.id}</p>
-                <p>Created by: {review.created_by}</p>
-                <p>Created at: {review.created_at}</p>
-                {review.rating && <p>Rating: {review.rating}</p>}
-              </div>
+              <div key={review.id} className="p-4 border rounded">
+                <h3 className="text-xl font-bold">{review.title}</h3>
+                <p className="mt-2">Created by: {review.createdBy}</p>
+                <p>Created at: {review.createdAt}</p>
+                <p className="mt-2">{review.description}</p>
+                {/* <p>ID: {review.id}</p> */}
+                {/* <div className="mt-2 text-sm text-gray-600">
+                  {review.rating && <p>Rating: {review.rating}</p>}
+                </div> */}
             </div>
           ))
         ) : (

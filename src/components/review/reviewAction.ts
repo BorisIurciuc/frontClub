@@ -4,25 +4,25 @@ import axios, { AxiosError } from "axios";
 interface AddReviewData {
   title: string;
   description: string;
-  created_by: number;
+  created_byI: number;
 }
 
 export const addReview = createAsyncThunk(
   "reviews/addReview",
-  async (reviewData: AddReviewData, thunkAPI) => {
+  async (sendReviewData: AddReviewData, thunkAPI) => {
     const token = localStorage.getItem("token");
     if (!token) {
       return thunkAPI.rejectWithValue("Пользователь неавторизован");
     }
 
     try {
-      console.log('Review data before sending:', reviewData); // Для отладки
+      console.log('Review data before sending:', sendReviewData); // Для отладки
 
       const response = await axios.post("/api/reviews", 
         {
-          title: reviewData.title,
-          description: reviewData.description,
-          created_by: reviewData.created_by // Убедимся что передаем это поле
+          title: sendReviewData.title,
+          description: sendReviewData.description,
+          created_byI: sendReviewData.created_byI // Убедимся что передаем это поле
         },
         {
           headers: {

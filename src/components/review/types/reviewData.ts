@@ -4,6 +4,6 @@ export interface IReviewData {
     title: string;
     description: string;
     rating: number;
-    created_by: number;
-    created_at: string;
+    createdBy: string;
+    createdAt: string;
 }
