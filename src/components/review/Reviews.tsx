@@ -12,7 +12,7 @@ const Reviews: React.FC = () => {
   const dispatch = useAppDispatch();
   const { reviews, isLoading, error } = useAppSelector((state) => state.reviews);
 
-  const [formData, setFormData] = useState<ReviewFormData>({
+  const [inputData, setInputData] = useState<ReviewFormData>({
     title: '',
     description: '',
   });
@@ -23,7 +23,7 @@ const Reviews: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setInputData(prev => ({
       ...prev,
       [name]: value
     }));
@@ -37,18 +37,15 @@ const Reviews: React.FC = () => {
     }
 
     try {
-        // Явно создаем объект с нужными полями
         const reviewDataToSubmit = {
-          title: formData.title,
-          description: formData.description,
-          created_byI: user.id // Убедимся что это число
+          title: inputData.title,
+          description: inputData.description,
+          created_byId: user.id // Replace with the actual user ID
         };
-
-        console.log('Sending review data:', reviewDataToSubmit); // Для отладки
 
       await dispatch(addReview(reviewDataToSubmit)).unwrap();
       // Clear form after successful submission
-      setFormData({
+      setInputData({
         title: '',
         description: '',
       });
@@ -58,18 +55,6 @@ const Reviews: React.FC = () => {
     }
   };
 
-  if (!user) {
-    return (
-      <div className="p-4">
-        <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">
-          Please log in to add reviews.
-        </div>
-      </div>
-    );
-  }
-
-  // console.log('Server response answerB:', reviews.map(review => review.createdBy)); // Для отладки
-  
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
@@ -81,7 +66,7 @@ const Reviews: React.FC = () => {
             type="text"
             id="title"
             name="title"
-            value={formData.title}
+            value={inputData.title}
             onChange={handleInputChange}
             className="w-full p-2 border rounded"
             required
@@ -93,23 +78,19 @@ const Reviews: React.FC = () => {
           <textarea
             id="description"
             name="description"
-            value={formData.description}
+            value={inputData.description}
             onChange={handleInputChange}
             className="w-full p-2 border rounded"
             required
           />
         </div>
 
-        {/* <div className="text-sm text-gray-600">
-          Posting as user ID: {user.id}
-        </div> */}
-
         <button 
           type="submit" 
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400"
           disabled={isLoading}
         >
-          {isLoading ? 'Adding...' : 'Add Review'}
+          Add Review
         </button>
       </form>
 

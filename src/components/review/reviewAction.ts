@@ -4,7 +4,7 @@ import axios, { AxiosError } from "axios";
 interface AddReviewData {
   title: string;
   description: string;
-  created_byI: number;
+  created_byId: number;
 }
 
 export const addReview = createAsyncThunk(
@@ -16,13 +16,11 @@ export const addReview = createAsyncThunk(
     }
 
     try {
-      console.log('Review data before sending:', sendReviewData); // Для отладки
-
       const response = await axios.post("/api/reviews", 
         {
           title: sendReviewData.title,
           description: sendReviewData.description,
-          created_byI: sendReviewData.created_byI // Убедимся что передаем это поле
+          created_byI: sendReviewData.created_byId 
         },
         {
           headers: {
@@ -32,11 +30,9 @@ export const addReview = createAsyncThunk(
         }
       );
 
-      console.log('Server response:', response.data); // Для отладки
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.error('Server error:', axiosError.response?.data); // Для отладки
       return thunkAPI.rejectWithValue(
         axiosError.response?.data || axiosError.message
       );
