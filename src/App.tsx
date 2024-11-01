@@ -19,6 +19,7 @@ import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import RegistrationConfirmed from "./components/registrationConfirm/RegistrationConfirmed";
 import School from "./components/school/school";
 import { UserProvider } from "./components/userContext/UserContext";
+import Reviews from "./components/review/Reviews";
 
 
 const App = () => {
@@ -44,6 +45,7 @@ const App = () => {
             <Route path="/homePage" element={<HomePage />} />
             <Route path="/activityList" element={<ActivityList />} />
             <Route path="/editProfile" element={<EditProfile />} />
+            <Route path="/review" element={<Reviews />} />
             <Route
               path="/activityList/addActivity"
               element={
