@@ -1,5 +1,4 @@
 export interface IReviewData {
-    // [x: string]: any;
     id: number;
     title: string;
     description: string;
