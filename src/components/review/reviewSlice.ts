@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addReview, getReviews } from "./reviewAction";
+import { addReview, editReview, getReviews } from "./reviewAction";
 import { IReviewData } from "./types/reviewData";
 
 interface IReviewState {
@@ -37,15 +37,26 @@ const reviewSlice = createSlice({
                 state.error = null;
             })
             .addCase(addReview.fulfilled, (state, action) => {
-                state.reviews = action.payload;
+                state.reviews = [...state.reviews, action.payload];
                 state.isLoading = false;
             })
             .addCase(addReview.rejected, (state, action) => {
                 state.error = action.payload as string;
                 state.isLoading = false;
             })
-    },	
-});
-
+            .addCase(editReview.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(editReview.rejected, (state, action) => {
+                state.error = action.payload as string;
+                state.isLoading = false;
+            })
+            .addDefaultCase((state) => {
+                state.isLoading = false;
+                state.error = null;
+            });
+        }
+    });
 export default reviewSlice;
 // export const {} = reviewSlice.actions;
