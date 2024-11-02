@@ -1,10 +1,12 @@
-// Reviews.tsx
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { addReview, editReview, getReviews, deleteReview } from './reviewAction';
 import { IReviewData } from './types/reviewData';
 import ReviewAdd from './ReviewAdd';
 import ReviewEdit from './ReviewEdit';
+import { ResponsesRev } from '../response/ResponsesRev';
+// import { style } from 'framer-motion/client';
+import styles from './review.module.css';
 
 interface ReviewFormData {
   title: string;
@@ -15,12 +17,12 @@ const Reviews: React.FC = () => {
   const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const { reviews, isLoading, error } = useAppSelector((state) => state.reviews);
-  
+
   const [inputData, setInputData] = useState<ReviewFormData>({
     title: '',
     description: '',
   });
-  const [editingReviewId, setEditingReviewId] = useState<number | null>(null); // Track the review being edited
+  const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
 
   useEffect(() => {
     dispatch(getReviews());
@@ -81,7 +83,7 @@ const Reviews: React.FC = () => {
       };
 
       await dispatch(editReview(reviewDataEditToSubmit)).unwrap();
-      setEditingReviewId(null); // Exit edit mode after submission
+      setEditingReviewId(null);
       setInputData({
         title: '',
         description: '',
@@ -121,7 +123,7 @@ const Reviews: React.FC = () => {
       <div className="space-y-4">
         {reviews.length > 0 ? (
           reviews.map((review) => (
-            <div key={review.id} className="p-4 border rounded">
+            <div key={review.id} className={styles.containerMap}>
               {editingReviewId === review.id ? (
                 <ReviewEdit
                   inputData={inputData}
@@ -132,9 +134,10 @@ const Reviews: React.FC = () => {
               ) : (
                 <div>
                   <h3 className="text-xl font-bold">{review.title}</h3>
+                  <p className="mt-2">{review.description}</p>
+                  <br />
                   <p className="mt-2">Created by: {review.createdBy}</p>
                   <p>Created at: {review.createdAt}</p>
-                  <p className="mt-2">{review.description}</p>
                   <button
                     type="button"
                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-2 mr-2"
@@ -149,8 +152,11 @@ const Reviews: React.FC = () => {
                   >
                     Delete
                   </button>
+                  <ResponsesRev reviewId={review.id} />
                 </div>
+                
               )}
+             
             </div>
           ))
         ) : (
