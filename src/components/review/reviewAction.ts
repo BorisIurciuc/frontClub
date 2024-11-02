@@ -54,3 +54,38 @@ export const getReviews = createAsyncThunk(
     }
   }
 );
+
+export const editReview = createAsyncThunk(
+  "reviews/editReview",
+  async (review: { reviewId: number; title: string; description: string }, thunkAPI) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      return thunkAPI.rejectWithValue("Пользователь неавторизован");
+    }
+    
+    try {
+      const response = await axios.put(
+        `/api/reviews/${review.reviewId}`,
+        {
+          title: review.title,
+          description: review.description
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      return thunkAPI.rejectWithValue(
+        axiosError.response?.data || axiosError.message
+      );
+    }
+  }
+);
+
+
+

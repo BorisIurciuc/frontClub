@@ -1,10 +1,10 @@
 import axios from "axios";
-import { IReviewData } from "../review/types/reviewData";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { IResponseData } from "./types/responseRevData";
 
 export const getResponse = createAsyncThunk(
     "responses/getResponse",
-    async (reviewId: IReviewData) => {
+    async ({ reviewId }: { reviewId: IResponseData }) => {
         try {
             const response = await axios.get(
                 `/api/responses/review/${reviewId}`,

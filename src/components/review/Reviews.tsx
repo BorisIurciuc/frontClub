@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { addReview, getReviews } from './reviewAction';
+import { addReview, editReview, getReviews } from './reviewAction';
 
 interface ReviewFormData {
     title: string;
@@ -54,6 +54,34 @@ const Reviews: React.FC = () => {
       console.error('Failed to add review:', err);
     }
   };
+
+  const handleEditChange = async (review) => {
+    if (!user) {
+      console.error('User not authenticated');
+      return;
+    }
+  
+    try {
+      const reviewDataEditToSubmit = {
+        reviewId: review.id,
+        title: inputData.title,
+        description: inputData.description,
+      };
+  
+      await dispatch(editReview(reviewDataEditToSubmit)).unwrap();
+      // Clear form or reset inputData as needed after submission
+      setInputData({
+        title: '',
+        description: '',
+      });
+      dispatch(getReviews()); // Refresh the reviews after editing
+    } catch (err) {
+      console.error('Failed to edit review:', err);
+    }
+  };
+  
+
+
 
   return (
     <div className="p-4">
@@ -112,6 +140,15 @@ const Reviews: React.FC = () => {
                 {/* <div className="mt-2 text-sm text-gray-600">
                   {review.rating && <p>Rating: {review.rating}</p>}
                 </div> */}
+                <button
+                  type="button"
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400"
+                  disabled={isLoading}
+                  onClick={() => handleEditChange(review)} // Pass review to the function
+                >
+                  Edit
+                </button>
+
             </div>
           ))
         ) : (
