@@ -9,7 +9,7 @@ export const store = configureStore({
     reduxActivities: reduxActivitiesSlice.reducer,
     user: authSlice.reducer,
     reviews: reviewSlice.reducer,
-    responseRev: responseRevSlice.reducer,
+    responseReview: responseRevSlice.reducer,
   },
 });
 

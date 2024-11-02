@@ -1,7 +1,10 @@
+// Reviews.tsx
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { addReview, editReview, getReviews } from './reviewAction';
+import { addReview, editReview, getReviews, deleteReview } from './reviewAction';
 import { IReviewData } from './types/reviewData';
+import ReviewAdd from './ReviewAdd';
+import ReviewEdit from './ReviewEdit';
 
 interface ReviewFormData {
   title: string;
@@ -12,6 +15,7 @@ const Reviews: React.FC = () => {
   const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const { reviews, isLoading, error } = useAppSelector((state) => state.reviews);
+  
   const [inputData, setInputData] = useState<ReviewFormData>({
     title: '',
     description: '',
@@ -88,44 +92,25 @@ const Reviews: React.FC = () => {
     }
   };
 
+  const handleDelete = async (reviewId: number) => {
+    try {
+      await dispatch(deleteReview(reviewId)).unwrap();
+      dispatch(getReviews());
+    } catch (err) {
+      console.error('Failed to delete review:', err);
+    }
+  };
+
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
 
-      <form onSubmit={handleSubmit} className="mb-6 space-y-4">
-        <div>
-          <label htmlFor="title" className="block mb-1">Title:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={inputData.title}
-            onChange={handleInputChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-
-        <div>
-          <label htmlFor="description" className="block mb-1">Description:</label>
-          <textarea
-            id="description"
-            name="description"
-            value={inputData.description}
-            onChange={handleInputChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400"
-          disabled={isLoading}
-        >
-          Add Review
-        </button>
-      </form>
+      <ReviewAdd
+        inputData={inputData}
+        isLoading={isLoading}
+        handleInputChange={handleInputChange}
+        handleSubmit={handleSubmit}
+      />
 
       {error && (
         <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">
@@ -138,35 +123,12 @@ const Reviews: React.FC = () => {
           reviews.map((review) => (
             <div key={review.id} className="p-4 border rounded">
               {editingReviewId === review.id ? (
-                <div>
-                  <input
-                    type="text"
-                    name="title"
-                    value={inputData.title}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border rounded mb-2"
-                  />
-                  <textarea
-                    name="description"
-                    value={inputData.description}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border rounded mb-2"
-                  />
-                  <button
-                    type="button"
-                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mr-2"
-                    onClick={() => handleEditSubmit(review.id)}
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="button"
-                    className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-                    onClick={() => setEditingReviewId(null)}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                <ReviewEdit
+                  inputData={inputData}
+                  handleInputChange={handleInputChange}
+                  handleEditSubmit={() => handleEditSubmit(review.id)}
+                  handleCancelEdit={() => setEditingReviewId(null)}
+                />
               ) : (
                 <div>
                   <h3 className="text-xl font-bold">{review.title}</h3>
@@ -175,10 +137,17 @@ const Reviews: React.FC = () => {
                   <p className="mt-2">{review.description}</p>
                   <button
                     type="button"
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-2"
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-2 mr-2"
                     onClick={() => handleEditClick(review)}
                   >
                     Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mt-2"
+                    onClick={() => handleDelete(review.id)}
+                  >
+                    Delete
                   </button>
                 </div>
               )}
