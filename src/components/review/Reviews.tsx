@@ -104,7 +104,7 @@ const Reviews: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-44">
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
 
       <ReviewAdd
@@ -120,7 +120,7 @@ const Reviews: React.FC = () => {
         </div>
       )}
 
-      <div className="space-y-4">
+      <div >
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <div key={review.id} className={styles.containerMap}>
