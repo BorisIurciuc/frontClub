@@ -12,12 +12,10 @@ const Reviews: React.FC = () => {
   const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const { reviews, isLoading, error } = useAppSelector((state) => state.reviews);
-
   const [inputData, setInputData] = useState<ReviewFormData>({
     title: '',
     description: '',
   });
-
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null); // Track the review being edited
 
   useEffect(() => {
