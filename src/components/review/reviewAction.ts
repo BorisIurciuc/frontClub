@@ -20,7 +20,7 @@ export const addReview = createAsyncThunk(
         {
           title: sendReviewData.title,
           description: sendReviewData.description,
-          created_byI: sendReviewData.created_byId 
+          created_byId: sendReviewData.created_byId // Fixed typo here
         },
         {
           headers: {
@@ -39,6 +39,7 @@ export const addReview = createAsyncThunk(
     }
   }
 );
+
 
 export const getReviews = createAsyncThunk(
   "reviews/getReviews",

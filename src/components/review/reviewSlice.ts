@@ -37,7 +37,7 @@ const reviewSlice = createSlice({
                 state.error = null;
             })
             .addCase(addReview.fulfilled, (state, action) => {
-                state.reviews = action.payload;
+                state.reviews = [...state.reviews, action.payload];
                 state.isLoading = false;
             })
             .addCase(addReview.rejected, (state, action) => {
@@ -48,10 +48,6 @@ const reviewSlice = createSlice({
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(addReview.fulfilled, (state, action) => {
-                state.reviews.push(action.payload); // Add new review to the list
-                state.isLoading = false;
-              })
             .addCase(editReview.rejected, (state, action) => {
                 state.error = action.payload as string;
                 state.isLoading = false;
