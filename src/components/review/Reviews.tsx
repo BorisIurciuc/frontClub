@@ -1,7 +1,7 @@
 // Reviews.tsx
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { addReview, editReview, getReviews } from './reviewAction';
+import { addReview, editReview, getReviews, deleteReview } from './reviewAction';
 import { IReviewData } from './types/reviewData';
 import ReviewAdd from './ReviewAdd';
 import ReviewEdit from './ReviewEdit';
@@ -92,6 +92,15 @@ const Reviews: React.FC = () => {
     }
   };
 
+  const handleDelete = async (reviewId: number) => {
+    try {
+      await dispatch(deleteReview(reviewId)).unwrap();
+      dispatch(getReviews());
+    } catch (err) {
+      console.error('Failed to delete review:', err);
+    }
+  };
+
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
@@ -128,10 +137,17 @@ const Reviews: React.FC = () => {
                   <p className="mt-2">{review.description}</p>
                   <button
                     type="button"
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-2"
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-2 mr-2"
                     onClick={() => handleEditClick(review)}
                   >
                     Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mt-2"
+                    onClick={() => handleDelete(review.id)}
+                  >
+                    Delete
                   </button>
                 </div>
               )}
