@@ -1,23 +1,18 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IResponseData } from "./types/responseRevData";
 
 export const getResponse = createAsyncThunk(
     "responses/getResponse",
-    async ({ reviewId }: { reviewId: IResponseData }) => {
+    async ({ reviewId }: { reviewId: IResponseData }, thunkAPI) => {
         try {
-            const response = await axios.get(
-                `/api/responses/review/${reviewId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                }
-            );
+            const response = await axios.get(`/api/responses/review/${reviewId}`);
             return response.data;
         } catch (error) {
-            console.error("Failed to fetch responses:", error);
-            throw error;
+            const axiosError = error as AxiosError;
+        return thunkAPI.rejectWithValue(
+            axiosError.response?.data || axiosError.message
+        );
         }
     }
 );

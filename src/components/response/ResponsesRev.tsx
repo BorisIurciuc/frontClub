@@ -1,14 +1,16 @@
 import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { getResponse } from './responseRevAction';
+import { IResponseData } from './types/responseRevData';
 
 export const ResponsesRev = () => {
 
-  const { responses, isLoading, error } = useAppSelector((state) => state.responseRev);
+  const { responses, isLoading, error } = useAppSelector((state) => state.responseReview);
   const dispatch = useAppDispatch();
+  const reviewId: IResponseData;
   
   useEffect(() => {
-    dispatch(getResponse());
+    dispatch(getResponse({reviewId}));
   }, [dispatch]);
 
   return (
