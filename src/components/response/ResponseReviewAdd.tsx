@@ -11,7 +11,7 @@ interface ResponseRevAddProps {
     handleFormSubmit: (e: React.FormEvent) => void
 }
 
-const ResponseRevAdd: React.FC<ResponseRevAddProps> = ({ inputData, isLoading, handleInputChange, handleFormSubmit }) => {
+const ResponseReviewAdd: React.FC<ResponseRevAddProps> = ({ inputData, isLoading, handleInputChange, handleFormSubmit }) => {
     return (
         <form onSubmit={handleFormSubmit} className="mb-6 space-y-4">
             <div>
@@ -36,4 +36,4 @@ const ResponseRevAdd: React.FC<ResponseRevAddProps> = ({ inputData, isLoading, h
     );
 };
 
-export default ResponseRevAdd;
+export default ResponseReviewAdd;

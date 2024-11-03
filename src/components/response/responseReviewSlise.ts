@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addResponse, getResponse } from "./responseRevAction";
+import { addResponse, getResponse } from "./responseReviewAction";
 import { IResponseData } from "./types/responseRevData";
 
 interface IResponseState {

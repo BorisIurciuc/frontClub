@@ -1,35 +1,36 @@
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { addResponse, getResponse } from './responseRevAction';
-import styles from './response.module.css';
-import ResponseRevAdd from './ResponseRevAdd';
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { addResponse, getResponse } from "./responseReviewAction";
+import styles from "./response.module.css";
+import ResponseReviewAdd from "./ResponseReviewAdd";
 
 interface ResponsesRevProps {
-  reviewId: number
-    
+  reviewId: number;
 }
 
 interface AddResponsesRevProps {
-  content: string
-  
+  content: string;
 }
 
-export const ResponsesRev = ({ reviewId }: ResponsesRevProps) => {
-
+export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
   const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector((state) => state.responseReview);
-  const responses = useAppSelector((state) => state.responseReview.responses[reviewId] || []); // Get responses for specific reviewId
+  const responses = useAppSelector(
+    (state) => state.responseReview.responses[reviewId] || []
+  ); // Get responses for specific reviewId
 
   const [inputData, setInputData] = useState<AddResponsesRevProps>({
-    content: ''
+    content: "",
   });
 
   useEffect(() => {
     dispatch(getResponse(reviewId));
   }, [dispatch, reviewId]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setInputData((prev) => ({
       ...prev,
@@ -40,11 +41,11 @@ export const ResponsesRev = ({ reviewId }: ResponsesRevProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      console.error('User not authenticated');
+      console.error("User not authenticated");
       return;
     }
     if (!inputData.content) {
-      console.error('Content is required');
+      console.error("Content is required");
       return;
     }
 
@@ -56,19 +57,18 @@ export const ResponsesRev = ({ reviewId }: ResponsesRevProps) => {
       };
 
       await dispatch(addResponse(responseDataToSubmit)).unwrap();
-      setInputData({ content: '' });
+      setInputData({ content: "" });
       dispatch(getResponse(reviewId));
     } catch (err) {
-      console.error('Failed to add response:', err);
+      console.error("Failed to add response:", err);
     }
-    };
-
+  };
 
   return (
     <div className={styles.containerResponse}>
       <h3>Responses</h3>
 
-      <ResponseRevAdd
+      <ResponseReviewAdd
         inputData={inputData}
         isLoading={isLoading}
         handleInputChange={handleInputChange}
@@ -78,18 +78,16 @@ export const ResponsesRev = ({ reviewId }: ResponsesRevProps) => {
       {error && <div className="text-red-600">{error}</div>}
       {isLoading ? (
         <div>Loading...</div>
+      ) : responses.length > 0 ? (
+        responses.map((response) => (
+          <div key={response.id} className="p-4 border rounded">
+            <p className={styles.responseContent}>{response.content}</p>
+            <p>Created by: {response.createdBy}</p>
+            <p>Created at: {response.createdAt}</p>
+          </div>
+        ))
       ) : (
-        responses.length > 0 ? (
-          responses.map((response) => (
-            <div key={response.id} className="p-4 border rounded">
-              <p className={styles.responseContent}>{response.content}</p>
-              <p>Created by: {response.createdBy}</p>
-              <p>Created at: {response.createdAt}</p>
-            </div>
-          ))
-        ) : (
-          <p>No responses available.</p>
-        )
+        <p>No responses available.</p>
       )}
     </div>
   );

@@ -4,9 +4,9 @@ import { addReview, editReview, getReviews, deleteReview } from './reviewAction'
 import { IReviewData } from './types/reviewData';
 import ReviewAdd from './ReviewAdd';
 import ReviewEdit from './ReviewEdit';
-import { ResponsesRev } from '../response/ResponsesRev';
 // import { style } from 'framer-motion/client';
 import styles from './review.module.css';
+import { ResponsesReview } from '../response/ResponsesReview';
 
 interface ReviewFormData {
   title: string;
@@ -152,7 +152,7 @@ const Reviews: React.FC = () => {
                   >
                     Delete
                   </button>
-                  <ResponsesRev reviewId={review.id} />
+                  <ResponsesReview reviewId={review.id} />
                 </div>
                 
               )}
