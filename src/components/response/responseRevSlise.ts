@@ -32,6 +32,19 @@ const responseRevSlice = createSlice({
             .addCase(getResponse.rejected, (state, action) => {
                 state.error = action.payload as string;
                 state.isLoading = false;
+            })
+            .addCase(getResponse.fulfilled, (state, action) => {
+                state.responses[action.payload.reviewId] = action.payload.data;
+                // state.responses = [...state.responses, action.payload];
+                state.isLoading = false;
+            })
+            .addCase(getResponse.rejected, (state, action) => {
+                state.error = action.payload as string;
+                state.isLoading = false;
+            })
+            .addCase(getResponse.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
             });
     },
 });
