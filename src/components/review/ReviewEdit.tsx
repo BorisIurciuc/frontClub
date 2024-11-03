@@ -18,24 +18,24 @@ const ReviewEdit: React.FC<ReviewEditProps> = ({ inputData, handleInputChange, h
         name="title"
         value={inputData.title}
         onChange={handleInputChange}
-        className="w-full p-2 border rounded mb-2"
+        className=""
       />
       <textarea
         name="description"
         value={inputData.description}
         onChange={handleInputChange}
-        className="w-full p-2 border rounded mb-2"
+        className=""
       />
       <button
         type="button"
-        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mr-2"
+        className=""
         onClick={handleEditSubmit}
       >
         Save
       </button>
       <button
         type="button"
-        className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+        className=""
         onClick={handleCancelEdit}
       >
         Cancel
