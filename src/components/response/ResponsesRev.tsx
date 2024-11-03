@@ -8,15 +8,13 @@ interface ResponsesRevProps {
 }
 
 export const ResponsesRev = ({ reviewId }: ResponsesRevProps) => {
-  const { responses, isLoading, error } = useAppSelector((state) => state.responseReview);
   const dispatch = useAppDispatch();
+  const { isLoading, error } = useAppSelector((state) => state.responseReview);
+  const responses = useAppSelector((state) => state.responseReview.responses[reviewId] || []); // Get responses for specific reviewId
 
   useEffect(() => {
-    dispatch(getResponse(reviewId)); // Fetch responses for the specified reviewId
+    dispatch(getResponse(reviewId));
   }, [dispatch, reviewId]);
-
-// console.log(responses);
-
 
   return (
     <div className={styles.containerResponse}>
@@ -28,7 +26,7 @@ export const ResponsesRev = ({ reviewId }: ResponsesRevProps) => {
         responses.length > 0 ? (
           responses.map((response) => (
             <div key={response.id} className="p-4 border rounded">
-              <p className="font-bold">{response.content}</p>
+              <p className={styles.responseContent}>{response.content}</p>
               <p>Created by: {response.createdBy}</p>
               <p>Created at: {response.createdAt}</p>
             </div>

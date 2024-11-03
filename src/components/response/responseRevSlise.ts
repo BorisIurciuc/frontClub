@@ -3,13 +3,13 @@ import { getResponse } from "./responseRevAction";
 import { IResponseData } from "./types/responseRevData";
 
 interface IResponseState {
-    responses: IResponseData[];
+    responses: { [reviewId: number]: IResponseData[] }; // Store responses by reviewId
     isLoading: boolean;
     error: string | null;
 }
 
 const initialState: IResponseState = {
-    responses: [],
+    responses: {},  // Initialize as an empty object
     isLoading: false,
     error: null,
 };
@@ -25,7 +25,8 @@ const responseRevSlice = createSlice({
                 state.error = null;
             })
             .addCase(getResponse.fulfilled, (state, action) => {
-                state.responses = action.payload;
+                const { reviewId, data } = action.payload; // Destructure reviewId and data
+                state.responses[reviewId] = data; // Store responses under the specific reviewId
                 state.isLoading = false;
             })
             .addCase(getResponse.rejected, (state, action) => {
