@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getResponse } from "./responseRevAction";
+import { addResponse, getResponse } from "./responseRevAction";
 import { IResponseData } from "./types/responseRevData";
 
 interface IResponseState {
@@ -33,16 +33,16 @@ const responseRevSlice = createSlice({
                 state.error = action.payload as string;
                 state.isLoading = false;
             })
-            .addCase(getResponse.fulfilled, (state, action) => {
+            .addCase(addResponse.fulfilled, (state, action) => {
                 state.responses[action.payload.reviewId] = action.payload.data;
                 // state.responses = [...state.responses, action.payload];
                 state.isLoading = false;
             })
-            .addCase(getResponse.rejected, (state, action) => {
+            .addCase(addResponse.rejected, (state, action) => {
                 state.error = action.payload as string;
                 state.isLoading = false;
             })
-            .addCase(getResponse.pending, (state) => {
+            .addCase(addResponse.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
             });
