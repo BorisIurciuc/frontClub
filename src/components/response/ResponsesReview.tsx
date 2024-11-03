@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { addResponse, getResponse } from "./responseReviewAction";
+import { addResponse, deleteResponse, getResponse } from "./responseReviewAction";
 import styles from "./response.module.css";
 import ResponseRevAdd from "./ResponseReviewAdd";
 import { createSelector } from "@reduxjs/toolkit";
@@ -66,32 +66,42 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
 
       await dispatch(addResponse(responseDataToSubmit)).unwrap();
       setInputData({ content: "" });
+      setShowAddResponse(false);
       dispatch(getResponse(reviewId));
     } catch (err) {
       console.error("Failed to add response:", err);
     }
   };
 
+  const handleDelete = async (responseId: number) => {
+    try {
+      await dispatch(deleteResponse(responseId)).unwrap();
+      dispatch(getResponse(reviewId));
+    } catch (err) {
+      console.error("Failed to delete response:", err);
+    }
+  };  
+  
+
   return (
     <div className={styles.containerResponse}>
       <h3>Responses</h3>
 
-      <button onClick={() => setShowAddResponse((orev) => !orev)}>
+      <button onClick={() => setShowAddResponse((prev) => !prev)}>
         {showAddResponse ? "Cancel" : "Add Response"}
       </button>
 
       {showAddResponse && (
-      <div className={styles.containerAddResponse}>
+        <div className={styles.containerAddResponse}>
           <h3>Add Response</h3>
-        <ResponseRevAdd
-          inputData={inputData}
-          isLoading={isLoading}
-          handleInputChange={handleInputChange}
-          handleFormSubmit={handleSubmit}
-        />
-      </div>
+          <ResponseRevAdd
+            inputData={inputData}
+            isLoading={isLoading}
+            handleInputChange={handleInputChange}
+            handleFormSubmit={handleSubmit} // Pass handleSubmit here
+          />
+        </div>
       )}
-
 
       {error && <div className="">{error}</div>}
       {isLoading ? (
@@ -102,6 +112,14 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
             <p className={styles.responseContent}>{response.content}</p>
             <p>Created by: {response.createdBy}</p>
             <p>Created at: {new Date(response.createdAt).toLocaleDateString()}</p>
+
+            <button 
+              type="button"
+              className={styles.deleteButton}
+              onClick={() => handleDelete(response.id)}
+            >
+              Delete
+            </button>
           </div>
         ))
       ) : (

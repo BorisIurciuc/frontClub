@@ -54,3 +54,27 @@ export const getResponse = createAsyncThunk(
     }
   );
 
+export	const deleteResponse = createAsyncThunk(
+    "responses/deleteResponse",
+    async (responseId: number, thunkAPI) => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return thunkAPI.rejectWithValue("Пользователь неавторизован");
+      }
+      try {
+        const response = await axios.delete(`/api/responses/${responseId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        return response.data;
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        return thunkAPI.rejectWithValue(
+          axiosError.response?.data || axiosError.message
+        );
+      }
+    }
+  );
+
