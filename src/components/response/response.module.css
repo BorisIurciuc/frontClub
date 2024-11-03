@@ -1,0 +1,12 @@
+.containerResponse{
+    margin: 3px;
+    padding: 3px;
+    border: solid, 1px, darkred;
+    background-color: antiquewhite;
+}
+
+.responseContent{
+    padding: 5px;
+    border: solid, 1px, darkred;
+    background-color: rgb(247, 245, 243);
+}
