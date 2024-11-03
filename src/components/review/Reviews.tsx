@@ -144,7 +144,7 @@ const Reviews: React.FC = () => {
               ) : (
                 <div>
                   <h3 className="">{review.title}</h3>
-                  <p className="">{review.description}</p>
+                  <p className={styles.descriptionReview}>{review.description}</p>
                   <br />
                   <p className="">Created by: {review.createdBy}</p>
                   <p>Created at: {new Date(review.createdAt).toLocaleDateString()}</p>
