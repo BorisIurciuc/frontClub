@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addResponse, getResponse } from "./responseReviewAction";
 import styles from "./response.module.css";
-import ResponseReviewAdd from "./ResponseReviewAdd";
+import ResponseRevAdd from "./ResponseReviewAdd";
+import { createSelector } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 interface ResponsesRevProps {
   reviewId: number;
@@ -16,13 +18,19 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
   const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector((state) => state.responseReview);
-  const responses = useAppSelector(
-    (state) => state.responseReview.responses[reviewId] || []
-  ); // Get responses for specific reviewId
+  
+  const selectResponsesByReviewId = (reviewId: number) =>
+    createSelector(
+      (state: RootState) => state.responseReview.responses,
+      (responses) => responses[reviewId] || []
+    );
+  const responses = useAppSelector(selectResponsesByReviewId(reviewId));
 
   const [inputData, setInputData] = useState<AddResponsesRevProps>({
     content: "",
   });
+
+ 
 
   useEffect(() => {
     dispatch(getResponse(reviewId));
@@ -68,7 +76,7 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
     <div className={styles.containerResponse}>
       <h3>Responses</h3>
 
-      <ResponseReviewAdd
+      <ResponseRevAdd
         inputData={inputData}
         isLoading={isLoading}
         handleInputChange={handleInputChange}
