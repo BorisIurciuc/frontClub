@@ -4,7 +4,6 @@ import { addReview, editReview, getReviews, deleteReview } from './reviewAction'
 import { IReviewData } from './types/reviewData';
 import ReviewAdd from './ReviewAdd';
 import ReviewEdit from './ReviewEdit';
-// import { style } from 'framer-motion/client';
 import styles from './review.module.css';
 import { ResponsesReview } from '../response/ResponsesReview';
 
@@ -23,6 +22,7 @@ const Reviews: React.FC = () => {
     description: '',
   });
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
+  const [showAddReview, setShowAddReview] = useState(false); // State to control add review form visibility
 
   useEffect(() => {
     dispatch(getReviews());
@@ -56,6 +56,7 @@ const Reviews: React.FC = () => {
         description: '',
       });
       dispatch(getReviews());
+      setShowAddReview(false); // Hide add review form after submission
     } catch (err) {
       console.error('Failed to add review:', err);
     }
@@ -104,25 +105,34 @@ const Reviews: React.FC = () => {
   };
 
   return (
-    <div className="p-44">
-      <h2 className="text-2xl font-bold mb-4">Reviews</h2>
+    <div className="">
+      <h2 className="">Reviews</h2>
 
-      <ReviewAdd
-        inputData={inputData}
-        isLoading={isLoading}
-        handleInputChange={handleInputChange}
-        handleSubmit={handleSubmit}
-      />
+      <button onClick={() => setShowAddReview((prev) => !prev)}>
+        {showAddReview ? 'Cancel' : 'Add Review'}
+      </button>
+
+      {showAddReview && (
+        <div className={styles.containerAddReview}>
+          <h3>Add Review</h3>
+          <ReviewAdd
+            inputData={inputData}
+            isLoading={isLoading}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+          />
+        </div>
+      )}
 
       {error && (
-        <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">
+        <div className="">
           Error: {error}
         </div>
       )}
 
-      <div >
+      <div>
         {reviews.length > 0 ? (
-          reviews.map((review) => (
+          [...reviews].reverse().map((review) => (
             <div key={review.id} className={styles.containerMap}>
               {editingReviewId === review.id ? (
                 <ReviewEdit
@@ -133,30 +143,28 @@ const Reviews: React.FC = () => {
                 />
               ) : (
                 <div>
-                  <h3 className="text-xl font-bold">{review.title}</h3>
-                  <p className="mt-2">{review.description}</p>
+                  <h3 className="">{review.title}</h3>
+                  <p className="">{review.description}</p>
                   <br />
-                  <p className="mt-2">Created by: {review.createdBy}</p>
-                  <p>Created at: {review.createdAt}</p>
+                  <p className="">Created by: {review.createdBy}</p>
+                  <p>Created at: {new Date(review.createdAt).toLocaleDateString()}</p>
                   <button
                     type="button"
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-2 mr-2"
+                    className=""
                     onClick={() => handleEditClick(review)}
                   >
                     Edit
                   </button>
                   <button
                     type="button"
-                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mt-2"
+                    className=""
                     onClick={() => handleDelete(review.id)}
                   >
                     Delete
                   </button>
                   <ResponsesReview reviewId={review.id} />
                 </div>
-                
               )}
-             
             </div>
           ))
         ) : (

@@ -29,7 +29,7 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
   const [inputData, setInputData] = useState<AddResponsesRevProps>({
     content: "",
   });
-
+  const [showAddResponse, setShowAddResponse] = useState(false); // State to control 
  
 
   useEffect(() => {
@@ -76,22 +76,32 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
     <div className={styles.containerResponse}>
       <h3>Responses</h3>
 
-      <ResponseRevAdd
-        inputData={inputData}
-        isLoading={isLoading}
-        handleInputChange={handleInputChange}
-        handleFormSubmit={handleSubmit}
-      />
+      <button onClick={() => setShowAddResponse((orev) => !orev)}>
+        {showAddResponse ? "Cancel" : "Add Response"}
+      </button>
 
-      {error && <div className="text-red-600">{error}</div>}
+      {showAddResponse && (
+      <div className={styles.containerAddResponse}>
+          <h3>Add Response</h3>
+        <ResponseRevAdd
+          inputData={inputData}
+          isLoading={isLoading}
+          handleInputChange={handleInputChange}
+          handleFormSubmit={handleSubmit}
+        />
+      </div>
+      )}
+
+
+      {error && <div className="">{error}</div>}
       {isLoading ? (
         <div>Loading...</div>
       ) : responses.length > 0 ? (
-        responses.map((response) => (
-          <div key={response.id} className="p-4 border rounded">
+        [...responses].reverse().map((response) => (
+          <div key={response.id} className="">
             <p className={styles.responseContent}>{response.content}</p>
             <p>Created by: {response.createdBy}</p>
-            <p>Created at: {response.createdAt}</p>
+            <p>Created at: {new Date(response.createdAt).toLocaleDateString()}</p>
           </div>
         ))
       ) : (
