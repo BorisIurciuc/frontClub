@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addResponse, getResponse } from "./responseReviewAction";
+import { addResponse, deleteResponse, getResponse } from "./responseReviewAction";
 import { IResponseData } from "./types/responseRevData";
 
 interface IResponseState {
@@ -43,6 +43,22 @@ const responseRevSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(addResponse.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(deleteResponse.fulfilled, (state, action) => {
+                const { reviewId, data } = action.payload; // Destructure reviewId and data
+                state.responses[reviewId] = data; // Store responses under the specific reviewId
+                state.isLoading = false;
+                // state.responses = state.responses.filter((response) => {
+                //     return response.id !== action.payload.id; 
+                // )}
+            })
+            .addCase(deleteResponse.rejected, (state, action) => {
+                state.error = action.payload as string;
+                state.isLoading = false;
+            })
+            .addCase(deleteResponse.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
             });
