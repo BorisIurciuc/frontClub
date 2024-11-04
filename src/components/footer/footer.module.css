@@ -9,7 +9,10 @@
     position: relative; 
     bottom: 0; 
 }
-
+strong{
+    
+    font-size: 24px;
+}
 .footer_container {
     display: flex; 
     justify-content: flex-start;
@@ -34,7 +37,7 @@
 
 .footerText {
     margin: 0; 
-    font-size: 16px; 
+    font-size: 18px; 
     text-align: center; 
     color: #ffffff; 
     font-weight: bold; 

@@ -8,10 +8,10 @@ export const Footer: React.FC = () => {
             <div className={styles.footer_container}>
                 <p className={styles.footerText}>© 2024 Conversation Club | All rights reserved</p>
                 <Link to="/projectCreators" className={styles.navLink}>
-                Project Creators
+                <strong>Project Creators</strong>
                 </Link>
                 <a
-                    href="https://www.ait-tr.de/"
+                    href="https://www.ait-tr.de/en/"
                     target="_blank"
                     rel="noopener noreferrer" 
                     className={styles.navLink}

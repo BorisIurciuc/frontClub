@@ -45,7 +45,7 @@ const ResetPassword = () => {
     }
   };
 
-  // Password reset submission function
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
