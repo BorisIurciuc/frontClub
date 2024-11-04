@@ -1,18 +1,86 @@
+:root {
+  --background: #f0f0f3;
+  --primary: #ffffff;
+  --review-bg: #e8f0fe; 
+  --shadow-light: rgba(255, 255, 255, 0.7);
+  --shadow-dark: rgba(0, 0, 0, 0.15);
+  --text-color: #333;
+  --button-bg: #e0e0e0;
+}
+
+.containerAddReview,
 .containerMap {
-    margin: 10px;
-    padding: 5px;
-    border: solid, 1px, black;
-    background-color: white;
+  background: var(--review-bg); 
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: var(--text-color);
+  font-size: 24px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+h3 {
+  color: var(--text-color);
+  font-size: 20px;
+  margin-bottom: 12px;
 }
 
 .descriptionReview {
-    border: 1px solid black; 
-    padding: 8px; 
-    border-radius: 4px; 
-    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: #555;
-    margin-top: 15px;
-    text-align: justify;
-  }
+  color: var(--text-color);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button {
+  background-color: var(--button-bg);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 5px;
+  color: var(--text-color);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+  display: inline-block;
+  width: auto;
+}
+
+button:hover {
+  box-shadow: 2px 2px 4px var(--shadow-dark), -2px -2px 4px var(--shadow-light);
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+}
+
+.containerAddReview input,
+.containerAddReview textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--text-color);
+  box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+  outline: none;
+}
+
+.containerAddReview textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}

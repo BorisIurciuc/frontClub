@@ -46,7 +46,7 @@ const ActivityDetail: React.FC = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        setIsRegistered(response.data); // Assuming the response returns a boolean value
+        setIsRegistered(response.data); 
       } catch (error) {
         console.error("Error checking registration status:", error);
       }
