@@ -11,7 +11,7 @@
 }
 strong{
     
-    font-size: 24px;
+    font-size: 18px;
 }
 .footer_container {
     display: flex; 
@@ -44,4 +44,8 @@ strong{
     opacity: 1; 
     flex: 1; 
     text-align: left;
+}
+@media (max-width: 600px) {
+    .footerText { display: none; }
+
 }
