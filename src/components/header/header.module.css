@@ -20,6 +20,7 @@ body {
   box-shadow: 8px 8px 15px #1b1f27, -8px -8px 15px #333845;
   
   position: relative;
+  margin-bottom: 15px;
 }
 
 .headerContainer {
