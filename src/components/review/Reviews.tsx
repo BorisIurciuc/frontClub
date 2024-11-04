@@ -6,6 +6,7 @@ import ReviewAdd from './ReviewAdd';
 import ReviewEdit from './ReviewEdit';
 import styles from './review.module.css';
 import { ResponsesReview } from '../response/ResponsesReview';
+import { RootState } from '../../app/store';
 
 interface ReviewFormData {
   title: string;
@@ -13,7 +14,8 @@ interface ReviewFormData {
 }
 
 const Reviews: React.FC = () => {
-  const user = useAppSelector((state) => state.user.user);
+  // Select user data from the auth slice
+  const user = useAppSelector((state: RootState) => state.user.user);
   const dispatch = useAppDispatch();
   const { reviews, isLoading, error } = useAppSelector((state) => state.reviews);
 
@@ -22,7 +24,7 @@ const Reviews: React.FC = () => {
     description: '',
   });
   const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
-  const [showAddReview, setShowAddReview] = useState(false); // State to control add review form visibility
+  const [showAddReview, setShowAddReview] = useState(false);
 
   useEffect(() => {
     dispatch(getReviews());
@@ -56,7 +58,7 @@ const Reviews: React.FC = () => {
         description: '',
       });
       dispatch(getReviews());
-      setShowAddReview(false); // Hide add review form after submission
+      setShowAddReview(false);
     } catch (err) {
       console.error('Failed to add review:', err);
     }
@@ -105,8 +107,8 @@ const Reviews: React.FC = () => {
   };
 
   return (
-    <div className="">
-      <h2 className="">Reviews</h2>
+    <div className="review-container">
+      <h2>Reviews</h2>
 
       <button onClick={() => setShowAddReview((prev) => !prev)}>
         {showAddReview ? 'Cancel' : 'Add Review'}
@@ -125,7 +127,7 @@ const Reviews: React.FC = () => {
       )}
 
       {error && (
-        <div className="">
+        <div className="error">
           Error: {error}
         </div>
       )}
@@ -143,27 +145,26 @@ const Reviews: React.FC = () => {
                 />
               ) : (
                 <div>
-                  <h3 className="">{review.title}</h3>
+                  <h3>{review.title}</h3>
                   <p className={styles.descriptionReview}>{review.description}</p>
                   <br />
-                  <p className="">Created by: {review.createdBy}</p>
+                  <p>Created by: {review.createdBy}</p>
                   <p>Created at: {new Date(review.createdAt).toLocaleDateString()}</p>
-                  <button
-                    type="button"
-                    className=""
-                    onClick={() => handleEditClick(review)}
-                  >
+                  <button type="button" onClick={() => handleEditClick(review)}>
                     Edit
                   </button>
-                  <button
-                    type="button"
-                    className=""
-                    onClick={() => handleDelete(review.id)}
-                  >
-                    Delete
-                  </button>
+                 
+          {/* Conditionally render the delete button based on user role */}
+          {user?.roles.includes("ROLE_ADMIN") && (
+            <button type="button" onClick={() => handleDelete(review.id)}>
+              Delete
+            </button>
+          )}
+
                   <ResponsesReview reviewId={review.id} />
                 </div>
+
+
               )}
             </div>
           ))

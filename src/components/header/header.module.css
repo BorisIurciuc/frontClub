@@ -2,7 +2,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0; 
-  
 }
 
 body {
@@ -18,8 +17,10 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 8px 8px 15px #1b1f27, -8px -8px 15px #333845;
+  
   position: relative;
+  margin-bottom: 15px;
 }
 
 .headerContainer {
@@ -31,18 +32,13 @@ body {
 .title {
   margin-right: 20px;
   font-size: 24px;
-}
-.title:hover{
-  color: #A8C686;
-  transition: transform 0.6s ease-in-out;
-  transform: rotate(-8px);
+  color: #ffffff;
+  transition: color 0.6s ease-in-out, transform 0.6s ease-in-out;
 }
 
-.icon:hover {
-  color: #ff4757;
-  transition: transform 0.3s ease-in-out;
- font-size: larger;
- cursor: pointer;
+.title:hover {
+  color: #A8C686;
+  transform: rotate(-8px);
 }
 
 .icon {
@@ -51,14 +47,13 @@ body {
   border-radius: 50%;
   object-fit: cover;
   margin-left: 28px;
-}
-.icon:hover {
-  
+  box-shadow: inset 5px 5px 10px #1b1f27, inset -5px -5px 10px #333845;
   transition: transform 0.5s ease-in-out;
+}
+
+.icon:hover {
   transform: rotate(-15deg);
 }
-
-
 
 .navbar {
   display: flex;
@@ -77,8 +72,9 @@ body {
   display: flex;
   align-items: center;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 8px;
   transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 5px 5px 10px #1b1f27, -5px -5px 10px #333845;
 }
 
 .navLink:hover {
@@ -88,11 +84,7 @@ body {
 
 .active {
   background-color: rgba(255, 255, 255, 0.2);
-}
-
-.iconLink {
-  margin-right: 8px;
-  font-size: 18px;
+  box-shadow: inset 3px 3px 5px #1b1f27, inset -3px -3px 5px #333845;
 }
 
 .iconWrapper {
@@ -100,6 +92,7 @@ body {
   display: flex;
   align-items: center;
   transition: transform 0.3s ease;
+  box-shadow: 4px 4px 8px #1b1f27, -4px -4px 8px #333845;
 }
 
 .iconWrapper:hover {
@@ -118,17 +111,13 @@ body {
   color: #ff4757;
 }
 
-.linkText {
-  font-weight: 500;
-}
-
 .dropdownMenu {
   position: absolute;
   top: 100%;
   right: 0;
   background-color: #282c34;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  box-shadow: 8px 8px 15px #1b1f27, -8px -8px 15px #333845;
   z-index: 1000;
   margin-top: 5px;
   width: 150px;
@@ -141,29 +130,30 @@ body {
   text-decoration: none;
   padding: 10px 15px;
   transition: background-color 0.3s ease, color 0.3s ease;
-  border-radius: 5px;
+  border-radius: 8px;
+  box-shadow: inset 3px 3px 5px #1b1f27, inset -3px -3px 5px #333845;
 }
 
 .dropdownItem:hover {
   background-color: #ff4757;
   color: #ffffff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .signOutLink {
   color: white;
   text-decoration: none;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 8px;
   transition: background-color 0.3s, color 0.3s;
+  box-shadow: inset 3px 3px 5px #1b1f27, inset -3px -3px 5px #333845;
 }
 
 .signOutLink:hover {
   background-color: rgba(255, 255, 255, 0.1);
   color: #ff4757;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* Responsive styling for tablets and small screens */
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
