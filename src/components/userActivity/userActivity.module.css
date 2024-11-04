@@ -1,74 +1,120 @@
 .activityContainer {
     display: flex;
-    justify-content: space-between; /* Разделяет активности на две стороны */
+    justify-content: space-between; 
     width: 100%;
     padding: 20px;
+    gap: 20px; 
 }
 
 .activityUserContainer {
-    flex: 1; /* Каждая колонка занимает равное пространство */
-    margin-right: 20px; /* Отступ между колонками */
-    max-width: 50%; /* Ограничиваем максимальную ширину каждой колонки */
+    flex: 1; 
+    max-width: 50%; 
 }
 
 .activityUserContainer:last-child {
-    margin-right: 0; /* Убираем отступ у правой колонки */
+    margin-right: 0; 
 }
 
 .sectionTitle {
     font-size: 1.6rem;
     color: #333;
-    margin-bottom: 10px;
-}
-
-.loading {
+    margin-bottom: 15px;
+    font-family: 'Arial', sans-serif;
+    font-weight: 700; 
     text-align: center;
-    font-size: 1.2rem;
-    color: #666;
-    padding: 20px;
 }
 
-.error {
+.loading, .error, .noResults {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    padding: 20px;
     text-align: center;
-    font-size: 1.2rem;
-    color: red;
-    padding: 20px;
 }
 
-.noResults {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #999;
-    padding: 20px;
+.loading::before, .error::before, .noResults::before {
+    content: '';
+    display: inline-block;
+    margin-right: 10px;
+    width: 24px; 
+    height: 24px; 
+    background-size: cover; 
 }
 
-/* Добавленные стили для уменьшения размера карточек активности */
+.loading::before { background-image: url('/path/to/loading-icon.png'); }
+.error::before { background-image: url('/path/to/error-icon.png'); }
+.noResults::before { background-image: url('/path/to/no-results-icon.png'); }
+
 .activityList {
     background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 0.75rem; /* Уменьшенное значение отступов внутри карточки */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
     text-align: center;
-    width: 100%; /* Задает 100% ширины для карточки */
-    margin-bottom: 20px; /* Расстояние между элементами */
-    max-width: 300px; /* Установка максимальной ширины карточки */
-    margin: 0 auto; /* Центрирует карточки */
+    width: 100%; 
+    margin-bottom: 20px;
+    max-width: 300px;
+    margin: 0 auto; 
 }
 
-/* Отступы между карточками */
 .activityList + .activityList {
-    margin-top: 20px; /* Отступ между карточками */
+    margin-top: 20px; 
 }
 
 .activityList:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
+    background-color: #e9f5ff; 
 }
 
 .activityImage {
-    max-width: 100%; /* Изображение растягивается на всю ширину карточки */
-    height: auto; /* Автоматическая высота для сохранения пропорций */
-    border-radius: 5px;
+    max-width: 100%;
+    height: auto; 
+    border-radius: 10px;
+    margin-bottom: 10px; 
+}
+
+.activityList:focus {
+    outline: 2px dashed #007bff; 
+}
+
+.moreButton {
+    background-color: #2e64a1; 
+    color: #fff; 
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    margin-top: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.moreButton:hover {
+    background-color: #218838; 
+}
+
+.moreButton:focus {
+    outline: 2px solid #218838;
+}
+
+
+@media (max-width: 480px) {
+    .sectionTitle {
+        font-size: 1.4rem; 
+    }
+
+    .loading, .error, .noResults {
+        font-size: 1rem; 
+    }
+
+    .moreButton {
+        font-size: 0.9rem; 
+    }
 }

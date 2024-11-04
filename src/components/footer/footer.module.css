@@ -36,6 +36,12 @@
     font-weight: bold; 
 }
 
+.footerTitle {
+    font-size: 24px; 
+    font-weight: bold; 
+    margin-bottom: 10px;
+}
+
 @media (max-width: 600px) {
     .footer {
         padding: 15px; 
@@ -53,7 +59,14 @@
     }
 
     .footerText {
-        font-size: 14px; 
+        font-size: 14px;  
+        line-height: 1.4; 
+        margin-bottom: 10px; 
+    }
+
+    .footerTitle {
+        font-size: 20px;
+        margin-bottom: 5px;
     }
 }
 
@@ -65,6 +78,10 @@
     .footerText {
         font-size: 15px; 
     }
+
+    .footerTitle {
+        font-size: 18px; 
+    }
 }
 
 @media (min-width: 901px) {
@@ -74,5 +91,9 @@
 
     .footerText {
         font-size: 16px; 
+    }
+
+    .footerTitle {
+        font-size: 18px; 
     }
 }

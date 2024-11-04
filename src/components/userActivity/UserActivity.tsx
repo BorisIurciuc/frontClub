@@ -138,7 +138,7 @@ const UserActivity: React.FC = () => {
                                     <Link
                                         to={`/activityList/${activity.id}`}
                                         state={{ activity }}
-                                        className={buttonStyles.button}
+                                        className={styles.moreButton} // Применяем стиль для кнопки "More"
                                         aria-label={`more ${activity.title}`}
                                     >
                                         More
@@ -177,7 +177,7 @@ const UserActivity: React.FC = () => {
                                     <Link
                                         to={`/activityList/${activity.id}`}
                                         state={{ activity }}
-                                        className={buttonStyles.button}
+                                        className={styles.moreButton} // Применяем стиль для кнопки "More"
                                         aria-label={`more ${activity.title}`}
                                     >
                                         More
