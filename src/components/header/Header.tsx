@@ -15,6 +15,7 @@ import {
   FaTimes,
   FaBook,
   FaSchool,
+  FaComments,
 } from "react-icons/fa";
 
 export const Header: React.FC = () => {
@@ -106,6 +107,7 @@ export const Header: React.FC = () => {
               {link.title === "School" && (
                 <FaSchool className={styles.iconLink} />
               )}
+              {link.title === "Review" && <FaComments className={styles.iconLink} />}
               <span className={styles.linkText}>{link.title}</span>
             </Link>
           ))}
