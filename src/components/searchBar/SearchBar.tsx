@@ -33,7 +33,7 @@ const fetchActivities = async () => {
         onFiltered(response.data); 
     } catch (error) {
     console.error("Error fetching activities:", error);
-    setError("Не удалось загрузить активности. Попробуйте позже.");
+    setError("Failed to load activity. Try again later.");
     } finally {
     setLoading(false);
     }
@@ -55,13 +55,13 @@ useEffect(() => {
 return (
     <div className={styles.searchContainer}>
     {loading ? (
-        <div>Загрузка...</div>
+        <div>loading...</div>
     ) : error ? (
         <div className={styles.error}>{error}</div>
     ) : (
         <input
         type="text"
-        placeholder="Поиск активностей..."
+        placeholder="search..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className={styles.searchInput}

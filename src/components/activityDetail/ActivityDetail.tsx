@@ -89,11 +89,11 @@ const ActivityDetail: React.FC = () => {
         alt={activity.title}
         className={styles.activityDetailImage}
       />
-      <p className={styles.activityDetailAddress}>
-        <strong>Address:</strong> {activity.address}
-      </p>
       <p className={styles.activityDetailDate}>
         <strong>Date:</strong> {activity.startDate}
+      </p>
+      <p className={styles.activityDetailAddress}>
+        <strong>Address:</strong> {activity.address}
       </p>
       <p className={styles.activityDetailDescription}>{activity.description}</p>
       
