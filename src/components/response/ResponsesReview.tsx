@@ -113,7 +113,7 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
             <p>Created by: {response.createdBy}</p>
             <p>Created at: {new Date(response.createdAt).toLocaleDateString()}</p>
 
-            {user?.roles.includes("ROLE_ADMIN") && (
+            {user?.roles.includes("ROLE_ADMIN") || user?.username === response.createdBy && (
             <button 
               type="button" 
               className={styles.deleteButton}

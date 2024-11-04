@@ -153,14 +153,11 @@ const Reviews: React.FC = () => {
                   <button type="button" onClick={() => handleEditClick(review)}>
                     Edit
                   </button>
-                 
-          {/* Conditionally render the delete button based on user role */}
-          {user?.roles.includes("ROLE_ADMIN") && (
-            <button type="button" onClick={() => handleDelete(review.id)}>
-              Delete
-            </button>
-          )}
-
+                  {(user?.roles.includes("ROLE_ADMIN") || user?.username === review.createdBy) && (
+                  <button type="button" onClick={() => handleDelete(review.id)}>
+                    Delete
+                  </button>
+                  )}
                   <ResponsesReview reviewId={review.id} />
                 </div>
 
