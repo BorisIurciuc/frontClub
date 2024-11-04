@@ -10,6 +10,7 @@ export interface IUserData {
 }
 
 export interface IUser {
+  [x: string]: string;
   id: number;
   username: string;
   email: string;
@@ -24,12 +25,22 @@ export interface ITokenDto {
 }
 
 interface IUserState {
-  user: IUser|undefined;
+  [x: string]: any;
+  user: IUser | undefined;
   isLoading: boolean;
   error: string;
   isAuthenticated: boolean;
-  
+}
 
+export interface ILoginFormValues {
+  username: string;
+  password: string;
+}
+
+export interface IRegisterFormValues {
+  username: string;
+  password: string;
+  email: string;
 }
 
 const initialState: IUserState = {
@@ -37,7 +48,6 @@ const initialState: IUserState = {
   isLoading: false,
   error: "",
   isAuthenticated: false,
-
 };
 
 export const authSlice = createSlice({
@@ -51,16 +61,16 @@ export const authSlice = createSlice({
       state.error = "";
     },
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
         state.error = "";
       })
-      .addCase(loginUser.fulfilled, (state) => {
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = true;
+        state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -86,5 +96,6 @@ export const authSlice = createSlice({
   },
 });
 
-export default authSlice;
+export default authSlice.reducer;
 export const { logoutUser } = authSlice.actions;
+
