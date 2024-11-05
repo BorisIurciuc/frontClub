@@ -3,6 +3,7 @@ import App from "./App";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import { HashRouter } from "react-router-dom";
 
 const container = document.getElementById("root");
 if (container) {
@@ -10,7 +11,9 @@ if (container) {
 
   root.render(
     <Provider store={store}>
-      <App />
+      <HashRouter>
+        <App />
+      </HashRouter>
     </Provider>
   );
 } else {
