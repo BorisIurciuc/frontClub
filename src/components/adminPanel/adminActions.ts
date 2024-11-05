@@ -14,7 +14,9 @@ export const fetchAllUsers = createAsyncThunk(
       });
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch users");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch users"
+      );
     }
   }
 );
@@ -31,7 +33,9 @@ export const getUser = createAsyncThunk(
       });
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch user");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch user"
+      );
     }
   }
 );
@@ -48,7 +52,9 @@ export const getUserById = createAsyncThunk(
       });
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch user");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch user"
+      );
     }
   }
 );
@@ -65,7 +71,9 @@ export const deleteUser = createAsyncThunk(
       });
       return userId;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to delete user");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to delete user"
+      );
     }
   }
 );
