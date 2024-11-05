@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import {  Routes, Route, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "./app/hooks";
 import ActivityDetail from "./components/activityDetail/ActivityDetail";
 import ActivityList from "./components/activityList/ActivityList";
@@ -25,29 +25,21 @@ import NewsList from "./components/adminPanel/manageNews/NewsList";
 import AdminPanel from "./components/adminPanel/AdminPanel";
 import { PayloadAction } from "@reduxjs/toolkit";
 
-
 const App = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAppSelector((store) => store.user);
-
-  // Функция для выхода (очистка токена и перезагрузка страницы)
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
-  };
+  const { isAuthenticated, user } = useAppSelector((store) => store.user);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res: PayloadAction<any> = await dispatch(getUserWithToken()).unwrap();
-        const userRoles = res?.payload?.roles || [];
+        const res: PayloadAction<any> = await dispatch(
+          getUserWithToken()
+        ).unwrap();
         
-        // Если у пользователя есть роль администратора, перенаправляем на панель администратора
-        if (userRoles.includes("ROLE_ADMIN")) {
-          navigate("/admin");
-        } else if (!isAuthenticated) {
-          navigate("/login"); // Перенаправляем неаутентифицированных пользователей на страницу логина
+        // Navigate to login if user is not authenticated
+        if (!isAuthenticated) {
+          navigate("/login");
         }
       } catch (error) {
         console.error("Error fetching user with token", error);
@@ -59,55 +51,54 @@ const App = () => {
 
   return (
     <UserProvider>
-      {/* Добавление кнопки "Выйти" */}
-      <header>
-        <button onClick={handleLogout}>Выйти</button>
-      </header>
-
-     
-        <Routes>
+      <Routes>
+        <Route
+          path="/registration-confirmed"
+          element={<RegistrationConfirmed />}
+        />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/homePage" element={<HomePage />} />
+          <Route path="/activityList" element={<ActivityList />} />
+          <Route path="/editProfile" element={<EditProfile />} />
+          <Route path="/review" element={<Reviews />} />
           <Route
-            path="/registration-confirmed"
-            element={<RegistrationConfirmed />}
+            path="/activityList/addActivity"
+            element={
+              <AddActivityForm
+                onSuccess={() => {
+                  navigate("/activityList");
+                }}
+              />
+            }
           />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="/homePage" element={<HomePage />} />
-            <Route path="/activityList" element={<ActivityList />} />
-            <Route path="/editProfile" element={<EditProfile />} />
-            <Route path="/review" element={<Reviews />} />
-            <Route
-              path="/activityList/addActivity"
-              element={
-                <AddActivityForm
-                  onSuccess={function (): void {
-                    throw new Error("Function not implemented.");
-                  }}
-                />
-              }
-            />
-            <Route path="/activityList/:id" element={<ActivityDetail />} />
-            <Route path="/dashBoard" element={<DashBoard />} />
-            <Route
-              path="/news"
-              element={<ProtectedRoute element={<News />} />}
-            />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="/projectCreators" element={<ProjectCreators />} />
-            <Route path="*" element={<h1>Error 404 😵</h1>} />
+          <Route path="/activityList/:id" element={<ActivityDetail />} />
+          <Route path="/dashBoard" element={<DashBoard />} />
+          <Route path="/news" element={<ProtectedRoute element={<News />} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/projectCreators" element={<ProjectCreators />} />
+          <Route path="*" element={<h1>Error 404 😵</h1>} />
 
-            <Route path="/admin" element={<ProtectedRoute element={<AdminPanel />} />}>
+          {/* Admin Panel Protected Route */}
+          <Route
+            path="/admin/*"
+            element={
+              <ProtectedRoute
+                element={<AdminPanel />}
+                requiredRole="ROLE_ADMIN" // This would be your custom role check prop
+              />
+            }
+          >
             <Route path="users" element={<UserList />} />
             <Route path="activities" element={<ActivityList />} />
             <Route path="news" element={<NewsList />} />
           </Route>
-          </Route>
-        </Routes>
-        <Footer />
-      
+        </Route>
+      </Routes>
+      <Footer />
     </UserProvider>
   );
 };
