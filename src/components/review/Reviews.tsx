@@ -1,10 +1,12 @@
-// Reviews.tsx
 import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { addReview, editReview, getReviews, deleteReview } from './reviewAction';
 import { IReviewData } from './types/reviewData';
 import ReviewAdd from './ReviewAdd';
 import ReviewEdit from './ReviewEdit';
+import styles from './review.module.css';
+import { ResponsesReview } from '../response/ResponsesReview';
+import { RootState } from '../../app/store';
 
 interface ReviewFormData {
   title: string;
@@ -12,15 +14,17 @@ interface ReviewFormData {
 }
 
 const Reviews: React.FC = () => {
-  const user = useAppSelector((state) => state.user.user);
+  // Select user data from the auth slice
+  const user = useAppSelector((state: RootState) => state.user.user);
   const dispatch = useAppDispatch();
   const { reviews, isLoading, error } = useAppSelector((state) => state.reviews);
-  
+
   const [inputData, setInputData] = useState<ReviewFormData>({
     title: '',
     description: '',
   });
-  const [editingReviewId, setEditingReviewId] = useState<number | null>(null); // Track the review being edited
+  const [editingReviewId, setEditingReviewId] = useState<number | null>(null);
+  const [showAddReview, setShowAddReview] = useState(false);
 
   useEffect(() => {
     dispatch(getReviews());
@@ -54,6 +58,7 @@ const Reviews: React.FC = () => {
         description: '',
       });
       dispatch(getReviews());
+      setShowAddReview(false);
     } catch (err) {
       console.error('Failed to add review:', err);
     }
@@ -81,7 +86,7 @@ const Reviews: React.FC = () => {
       };
 
       await dispatch(editReview(reviewDataEditToSubmit)).unwrap();
-      setEditingReviewId(null); // Exit edit mode after submission
+      setEditingReviewId(null);
       setInputData({
         title: '',
         description: '',
@@ -102,26 +107,35 @@ const Reviews: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Reviews</h2>
+    <div className="review-container">
+      <h2>Reviews</h2>
 
-      <ReviewAdd
-        inputData={inputData}
-        isLoading={isLoading}
-        handleInputChange={handleInputChange}
-        handleSubmit={handleSubmit}
-      />
+      <button onClick={() => setShowAddReview((prev) => !prev)}>
+        {showAddReview ? 'Cancel' : 'Add Review'}
+      </button>
+
+      {showAddReview && (
+        <div className={styles.containerAddReview}>
+          <h3>Add Review</h3>
+          <ReviewAdd
+            inputData={inputData}
+            isLoading={isLoading}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+          />
+        </div>
+      )}
 
       {error && (
-        <div className="p-4 mb-4 text-red-700 bg-red-100 rounded">
+        <div className="error">
           Error: {error}
         </div>
       )}
 
-      <div className="space-y-4">
+      <div>
         {reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div key={review.id} className="p-4 border rounded">
+          [...reviews].reverse().map((review) => (
+            <div key={review.id} className={styles.containerMap}>
               {editingReviewId === review.id ? (
                 <ReviewEdit
                   inputData={inputData}
@@ -131,25 +145,23 @@ const Reviews: React.FC = () => {
                 />
               ) : (
                 <div>
-                  <h3 className="text-xl font-bold">{review.title}</h3>
-                  <p className="mt-2">Created by: {review.createdBy}</p>
-                  <p>Created at: {review.createdAt}</p>
-                  <p className="mt-2">{review.description}</p>
-                  <button
-                    type="button"
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-2 mr-2"
-                    onClick={() => handleEditClick(review)}
-                  >
+                  <h3>{review.title}</h3>
+                  <p className={styles.descriptionReview}>{review.description}</p>
+                  <br />
+                  <p>Created by: {review.createdBy}</p>
+                  <p>Created at: {new Date(review.createdAt).toLocaleDateString()}</p>
+                  <button type="button" onClick={() => handleEditClick(review)}>
                     Edit
                   </button>
-                  <button
-                    type="button"
-                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 mt-2"
-                    onClick={() => handleDelete(review.id)}
-                  >
+                  {(user?.roles.includes("ROLE_ADMIN") || user?.username === review.createdBy) && (
+                  <button type="button" onClick={() => handleDelete(review.id)}>
                     Delete
                   </button>
+                  )}
+                  <ResponsesReview reviewId={review.id} />
                 </div>
+
+
               )}
             </div>
           ))

@@ -1,15 +1,20 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import authSlice from "../components/auth/features/authSlice";
-import reduxActivitiesSlice from "../components/auth/reduxActivities/reduxActivitiesSlice";
+import authReducer from "../components/auth/features/authSlice";
+import reduxActivitiesReducer from "../components/auth/reduxActivities/reduxActivitiesSlice";
+import adminReducer from '../components/adminPanel/adminSlice';
+import newsReducer from "../components/adminPanel/manageNews/newsSlice";
 import reviewSlice from "../components/review/reviewSlice";
-import responseRevSlice from "../components/response/responseRevSlise";
+import responseRevSlice from "../components/response/responseReviewSlise";
 
+// Configure the store
 export const store = configureStore({
   reducer: {
-    reduxActivities: reduxActivitiesSlice.reducer,
-    user: authSlice.reducer,
+    reduxActivities: reduxActivitiesReducer,
+    user: authReducer,
+    admin: adminReducer,
     reviews: reviewSlice.reducer,
     responseReview: responseRevSlice.reducer,
+    news: newsReducer,
   },
 });
 

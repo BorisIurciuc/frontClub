@@ -29,6 +29,7 @@ const ActivityDetail: React.FC = () => {
           },
         });
         setAuthorName(response.data);
+        console.log(response.data)
       } catch (err) {
         console.error("Error fetching author name:", err);
         setError("Failed to load author information");
@@ -89,11 +90,11 @@ const ActivityDetail: React.FC = () => {
         alt={activity.title}
         className={styles.activityDetailImage}
       />
-      <p className={styles.activityDetailAddress}>
-        <strong>Address:</strong> {activity.address}
-      </p>
       <p className={styles.activityDetailDate}>
         <strong>Date:</strong> {activity.startDate}
+      </p>
+      <p className={styles.activityDetailAddress}>
+        <strong>Address:</strong> {activity.address}
       </p>
       <p className={styles.activityDetailDescription}>{activity.description}</p>
       
@@ -103,7 +104,7 @@ const ActivityDetail: React.FC = () => {
       </div>
       
       <p>Current user: {user?.username}</p>
-      
+
       <div className={styles.buttonContainer}>
         {user?.id !== activity.authorId && (
           <button

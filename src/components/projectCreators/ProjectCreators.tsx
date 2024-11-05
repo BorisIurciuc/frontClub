@@ -73,7 +73,7 @@ const ProjectCreators: React.FC = () => {
       firstName: "Dimitri",
       lastName: "Heinrich",
       specialization: "BackEnd",
-      photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4Xnp5sqAeZx9FlQUlmKKQwXFj977Cx-9TIw&s", 
+      photo: "https://my-activity-images.s3.eu-north-1.amazonaws.com/dima.jpg", 
       linkedin: "https://www.linkedin.com/in/dimitri-heinrich-813789333",
       github: "https://github.com/DmitriH-ich",
       cv: ""
