@@ -34,7 +34,7 @@ body {
 }
 
 .title:hover {
-  color: #A8C686;
+  color: white;
   transform: translateY(-5px);
 }
 

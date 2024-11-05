@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./userActivity.module.css";
-import buttonStyles from "../button/button.module.css";
 import ScrollToTopButton from "../scrollToTopButton/ScrollToTopButton";
 import { useAppSelector } from "../../app/hooks.ts";
 
@@ -12,7 +11,6 @@ interface IActivity {
     image: string;
     startDate: string;
     description: string;
-    authorId: number;
 }
 
 const UserActivity: React.FC = () => {
@@ -109,11 +107,11 @@ const UserActivity: React.FC = () => {
     }, [isAuthenticated]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className={styles.loading}>Loading...</div>;
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return <div className={styles.error}>{error}</div>;
     }
 
     return (
@@ -138,14 +136,14 @@ const UserActivity: React.FC = () => {
                                     <Link
                                         to={`/activityList/${activity.id}`}
                                         state={{ activity }}
-                                        className={styles.moreButton} // Применяем стиль для кнопки "More"
+                                        className={`${styles.button} ${styles.moreButton}`}
                                         aria-label={`more ${activity.title}`}
                                     >
                                         More
                                     </Link>
                                     <button
                                         onClick={() => handleDelete(activity.id)}
-                                        className={buttonStyles.button}
+                                        className={`${styles.button} ${styles.deleteButton}`}
                                         disabled={deleting === activity.id}
                                     >
                                         {deleting === activity.id ? "Deleting..." : "Delete"}
@@ -177,14 +175,14 @@ const UserActivity: React.FC = () => {
                                     <Link
                                         to={`/activityList/${activity.id}`}
                                         state={{ activity }}
-                                        className={styles.moreButton} // Применяем стиль для кнопки "More"
+                                        className={`${styles.button} ${styles.moreButton}`}
                                         aria-label={`more ${activity.title}`}
                                     >
                                         More
                                     </Link>
                                     <button
                                         onClick={() => handleUnsubscribe(activity.id)}
-                                        className={buttonStyles.button}
+                                        className={`${styles.button} ${styles.deleteButton}`}
                                         disabled={unsubscribing === activity.id}
                                     >
                                         {unsubscribing === activity.id ? "Unsubscribing..." : "Unsubscribe"}

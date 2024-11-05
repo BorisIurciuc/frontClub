@@ -22,13 +22,14 @@ export const links = (isAuthenticated: boolean, username?: string): ILink[] => {
       title: 'School',
         },
         {
+          pathname: '/review',
+          title: 'Review',
+        },
+        {
           pathname: '/dashboard',
           title: username ? `${username}` : 'Dashboard',
         },
-        {
-          pathname: '/review',
-          title: 'Review',
-        }
+        
     );
   }
 
