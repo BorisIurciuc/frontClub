@@ -1,10 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { format } from "date-fns";
-import * as jwtDecode from "jwt-decode";
-
-
-
+import { jwtDecode } from "jwt-decode"; // Corrected import
 
 export interface INews {
   id: number;
@@ -22,9 +19,14 @@ interface DecodedToken {
   exp: number;
 }
 
+// Wrapper function to decode the JWT with a specified type
+const decodeToken = <T>(token: string): T => {
+  return jwtDecode<T>(token); // Using the named import
+};
+
 const isTokenExpired = (token: string): boolean => {
   try {
-    const decoded: DecodedToken = jwtDecode(token);
+    const decoded = decodeToken<DecodedToken>(token);
     const currentTime = Math.floor(Date.now() / 1000);
     return decoded.exp < currentTime;
   } catch (error) {
