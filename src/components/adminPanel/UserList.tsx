@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, fetchAllUsers, getUser } from "./adminActions";
-import { RootState, AppDispatch } from "../../app/store"; // Импортируйте типы
+import { RootState, AppDispatch } from "../../app/store";
 import { IUser } from "../auth/features/authSlice";
+import styles from "./userList.module.css";
 
 const UserList: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch(); // Используем AppDispatch для типизации dispatch
-  const { users, loading, error } = useSelector((state: RootState) => state.admin); // Проверяем правильность имен полей
-  const [selectedUser, setSelectedUser] = useState<IUser | null>(null); // Состояние для выбранного пользователя
+  const dispatch: AppDispatch = useDispatch();
+  const { users, loading, error } = useSelector((state: RootState) => state.admin);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -18,32 +19,42 @@ const UserList: React.FC = () => {
   };
 
   const handleGetUser = async (userId: number) => {
-    const user = await dispatch(getUser(userId)).unwrap(); // Используем unwrap для получения результата
-    setSelectedUser(user); // Устанавливаем выбранного пользователя
+    const user = await dispatch(getUser(userId)).unwrap();
+    setSelectedUser(user);
   };
 
-  if (loading) return <p>Loading...</p>; // Используем loading вместо isLoading
+  if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div>
       <h2>Users</h2>
-      <ul>
+      <div className={styles.cardContainer}>
         {users.map((user) => (
-          <li key={user.id}>
-            {user.username} ({user.id})
-            <button onClick={() => handleDelete(user.id)}>Delete</button>
-            <button onClick={() => handleGetUser(user.id)}>Info</button>
-          </li>
+          <div key={user.id} className={styles.userCard}>
+            <h3>{user.username}</h3>
+            <p>ID: {user.id}</p>
+            <p>Email: {user.email}</p>
+            <p>Roles: {user.roles.join(", ")}</p>
+            <p className={`${styles.status} ${!user.active ? styles.inactive : ""}`}>
+              Status: {user.active ? "Active" : "Inactive"}
+            </p>
+            <div className={styles.buttonGroup}>
+              <button onClick={() => handleDelete(user.id)}>Delete</button>
+              <button onClick={() => handleGetUser(user.id)}>Info</button>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
 
-      {selectedUser && ( // Если выбранный пользователь существует, отображаем его информацию
-        <div>
+      {selectedUser && (
+        <div className={styles.userDetails}>
           <h3>User Info</h3>
           <p>Username: {selectedUser.username}</p>
           <p>ID: {selectedUser.id}</p>
-          {/* Добавьте дополнительные поля пользователя, если необходимо */}
+          <p>Email: {selectedUser.email}</p>
+          <p>Roles: {selectedUser.roles.join(", ")}</p>
+          <p>Status: {selectedUser.active ? "Active" : "Inactive"}</p>
         </div>
       )}
     </div>

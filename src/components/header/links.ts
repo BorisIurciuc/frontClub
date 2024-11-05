@@ -3,7 +3,7 @@ export interface ILink {
   title: string;
 }
 
-export const links = (isAuthenticated: boolean, isAdmin: boolean = false, username?: string): ILink[] => {
+export const links = (isAuthenticated: boolean, isAdmin: boolean , username?: string): ILink[] => {
   const baseLinks: ILink[] = [
     {
       pathname: '/',
@@ -32,8 +32,8 @@ export const links = (isAuthenticated: boolean, isAdmin: boolean = false, userna
     );
   }
 
-  // Links for administrator
-  if (isAdmin) {
+  
+  if (isAuthenticated && isAdmin) {
     baseLinks.push({
       pathname: '/admin',
       title: 'Admin Panel',
