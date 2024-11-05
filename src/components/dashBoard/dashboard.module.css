@@ -40,3 +40,10 @@
         margin-bottom: 20px;
     }
 }
+
+.edit_btn .faUserEdit {
+    margin-right: 8px; /* Отступ иконки от текста */
+    font-size: 16px; /* Размер иконки */
+    color: #007bff; /* Цвет иконки */
+}
+

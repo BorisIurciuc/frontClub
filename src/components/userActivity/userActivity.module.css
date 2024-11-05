@@ -1,65 +1,54 @@
+:root {
+    --primary-color: #007bff;
+    --hover-primary-color: #4dc216;
+    --error-color: red;
+    --loading-color: #666;
+    --no-results-color: #999;
+}
+
 .activityContainer {
     display: flex;
-    justify-content: space-between; /* Разделяет активности на две стороны */
+    justify-content: space-between;
     width: 100%;
-    padding: 20px;
+    padding: 40px;
+    flex-wrap: wrap; 
 }
 
 .activityUserContainer {
-    flex: 1; /* Каждая колонка занимает равное пространство */
-    margin-right: 20px; /* Отступ между колонками */
-    max-width: 50%; /* Ограничиваем максимальную ширину каждой колонки */
+    flex: 0 0 40%;
+    margin: 0 2.5%; 
 }
 
 .activityUserContainer:last-child {
-    margin-right: 0; /* Убираем отступ у правой колонки */
+    margin-right: 0;
 }
 
 .sectionTitle {
-    font-size: 1.6rem;
+    font-size: 2rem; 
     color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
-.loading {
+.loading, .error, .noResults {
     text-align: center;
     font-size: 1.2rem;
-    color: #666;
     padding: 20px;
 }
 
-.error {
-    text-align: center;
-    font-size: 1.2rem;
-    color: red;
-    padding: 20px;
-}
+.loading { color: var(--loading-color); }
+.error { color: var(--error-color); }
+.noResults { color: var(--no-results-color); }
 
-.noResults {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #999;
-    padding: 20px;
-}
-
-/* Добавленные стили для уменьшения размера карточек активности */
 .activityList {
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 0.75rem; /* Уменьшенное значение отступов внутри карточки */
+    padding: 0.75rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
-    width: 100%; /* Задает 100% ширины для карточки */
-    margin-bottom: 20px; /* Расстояние между элементами */
-    max-width: 300px; /* Установка максимальной ширины карточки */
-    margin: 0 auto; /* Центрирует карточки */
-}
-
-/* Отступы между карточками */
-.activityList + .activityList {
-    margin-top: 20px; /* Отступ между карточками */
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .activityList:hover {
@@ -68,7 +57,76 @@
 }
 
 .activityImage {
-    max-width: 100%; /* Изображение растягивается на всю ширину карточки */
-    height: auto; /* Автоматическая высота для сохранения пропорций */
+    width: 100%; 
+    max-width: 400px;
+    height: auto; 
+    object-fit: cover; 
     border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    width: 100%; 
+    margin: 10px 0; 
+}
+
+.moreButton:hover {
+    background-color: var(--hover-primary-color);
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.deleteButton {
+    background-color: var(--primary-color);
+}
+
+.deleteButton:hover {
+    background-color: #c70000;
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.button:focus {
+    outline: 2px solid var(--hover-primary-color); 
+    outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+    .activityUserContainer {
+        flex: 0 0 100%; 
+        margin-bottom: 20px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .button {
+        font-size: 14px; 
+        padding: 8px 16px; 
+    }
+
+    .sectionTitle {
+        font-size: 1.4rem; 
+    }
+
+    .activityList {
+        padding: 0.5rem; 
+    }
 }
