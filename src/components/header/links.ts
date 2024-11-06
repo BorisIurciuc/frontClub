@@ -22,13 +22,14 @@ export const links = (isAuthenticated: boolean, isAdmin: boolean , username?: st
         title: 'News',
       },
       {
-        pathname: '/dashboard',
-        title: username ? `${username}` : 'Dashboard',
-      },
-      {
         pathname: '/review',
         title: 'Review',
+      },
+      {
+        pathname: '/dashboard',
+        title: username ? `${username}` : 'Dashboard',
       }
+    
     );
   }
 
