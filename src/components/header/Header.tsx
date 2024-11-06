@@ -25,6 +25,7 @@ export const Header: React.FC = () => {
   const location = useLocation();
   const { user } = useAppSelector((store) => store.user);
   const isAuthenticated = Boolean(user?.username);
+  const isAdmin = user?.roles.includes("admin"); 
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -86,7 +87,7 @@ export const Header: React.FC = () => {
         <div
           className={`${styles.navLinks} ${mobileMenuOpen ? styles.active : ""}`}
         >
-          {links(isAuthenticated, user?.username).map((link) => (
+          {links(isAuthenticated, isAdmin, user?.username).map((link) => (
             <Link
               key={link.pathname}
               className={`${styles.navLink} ${

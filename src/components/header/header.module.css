@@ -30,11 +30,11 @@ body {
 .title {
   margin-right: 20px;
   font-size: 24px;
-  transition: color 0.3s ease, transform 0.3s ease; 
+  color: white; 
+  transition: transform 0.3s ease;
 }
 
 .title:hover {
-  color: white;
   transform: translateY(-5px);
 }
 
