@@ -14,8 +14,8 @@ import {
   FaBars,
   FaTimes,
   FaBook,
-  FaSchool,
   FaComments,
+  FaNewspaper,
 } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
@@ -99,7 +99,7 @@ export const Header: React.FC = () => {
               {link.title === "Home" && <FaHome className={styles.iconLink} />}
               {link.title === "Profile" && <FaUser className={styles.iconLink} />}
               {link.title === "Courses" && <FaBook className={styles.iconLink} />}
-              {link.title === "School" && <FaSchool className={styles.iconLink} />}
+              {link.title === "News" && <FaNewspaper className={styles.iconLink} />}
               {link.title === "Review" && <FaComments className={styles.iconLink} />}
               <span className={styles.linkText}>{link.title}</span>
             </Link>

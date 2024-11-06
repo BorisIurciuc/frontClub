@@ -41,7 +41,7 @@ const App = () => {
         if (userRoles.includes("ROLE_ADMIN")) {
           navigate("/admin");
         } else if (!isAuthenticated) {
-          navigate("/"); 
+          navigate("/");
         }
       } catch (error) {
         console.error("Error fetching user with token", error);
@@ -51,8 +51,6 @@ const App = () => {
   }, [dispatch, navigate, isAuthenticated]);
   return (
     <UserProvider>
-      {/* Добавление кнопки "Выйти" */}
-
       <Routes>
         <Route
           path="/registration-confirmed"
@@ -82,7 +80,6 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="/projectCreators" element={<ProjectCreators />} />
-          <Route path="*" element={<h1>Error 404 :dizzy_face:</h1>} />
           <Route
             path="/admin"
             element={<ProtectedRoute element={<AdminPanel />} />}
@@ -90,6 +87,7 @@ const App = () => {
             <Route path="users" element={<UserList />} />
             <Route path="activities" element={<ActivityList />} />
             <Route path="news" element={<NewsList />} />
+            <Route path="*" element={<h1>Error 404 😵</h1>} />
           </Route>
         </Route>
       </Routes>
