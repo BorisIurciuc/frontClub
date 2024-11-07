@@ -113,7 +113,7 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
       <form onSubmit={formik.handleSubmit} className={style.form}>
         <input
           type="text"
-          placeholder="Название"
+          placeholder="title"
           name="title"
           value={formik.values.title}
           onChange={formik.handleChange}
@@ -126,7 +126,7 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
 
         <input
           type="text"
-          placeholder="Адрес"
+          placeholder="address"
           name="address"
           value={formik.values.address}
           onChange={formik.handleChange}
@@ -151,7 +151,7 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
 
         <input
           type="text"
-          placeholder="URL изображения"
+          placeholder="URL for image"
           value={image}
           onChange={(e) => setImageUrl(e.target.value)}
         />

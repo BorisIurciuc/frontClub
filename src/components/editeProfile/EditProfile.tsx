@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './editProfile.module.css';
 
 function EditProfile() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -9,10 +10,9 @@ function EditProfile() {
         email: '',
         id: ''
     });
-    const [initialUsername, setInitialUsername] = useState('');
+    const [message, setMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    // Проверка наличия токена при загрузке компонента
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -21,7 +21,6 @@ function EditProfile() {
         }
     }, []);
 
-    // Функция для получения данных пользователя
     useEffect(() => {
         const fetchUserData = async () => {
             if (!accessToken) return;
@@ -35,25 +34,19 @@ function EditProfile() {
                     }
                 });
 
-                if (!response.ok) {
-                    throw new Error('Не удалось получить данные пользователя');
-                }
+                if (!response.ok) throw new Error('Failed to fetch user data');
 
                 const data = await response.json();
                 setUser(data);
-                setInitialUsername(data.username);
-            } catch (error) {
-                console.error('Ошибка при загрузке данных пользователя:', error);
-                alert('Ошибка при загрузке данных пользователя. Пожалуйста, попробуйте позже.');
+            } catch (error: unknown) {
+                console.error('Error loading user data:', error);
+                setMessage('Error loading user data.'); 
             }
         };
 
-        if (accessToken) {
-            fetchUserData();
-        }
+        fetchUserData();
     }, [accessToken]);
 
-    // Обработчик изменения полей формы
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
@@ -62,11 +55,15 @@ function EditProfile() {
         }));
     };
 
-    // Обработчик отправки формы для обновления данных
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!accessToken || !user.id) {
-            alert('Не удалось обновить данные. Токен или ID пользователя отсутствуют.');
+            console.error('Failed to update data. Token or user ID is missing.');
+            setMessage('Error: failed to update data.'); 
+            return;
+        }
+        if (!user.username.trim() || !user.email.trim()) {
+            setMessage('Please fill out all fields.'); 
             return;
         }
 
@@ -84,84 +81,60 @@ function EditProfile() {
             });
 
             if (!response.ok) {
-                throw new Error('Не удалось обновить данные пользователя');
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to update user data');
             }
 
             const updatedUser = await response.json();
             setUser(updatedUser);
-            alert('Данные успешно обновлены!');
+            setMessage('Data successfully updated!'); 
 
-            // Если имя пользователя изменилось, сбрасываем токен, выходим из учетной записи и перенаправляем на страницу логина
-            if (updatedUser.username !== initialUsername) {
-                alert('Имя пользователя изменилось. Пожалуйста, войдите снова.');
+            if (updatedUser.username !== user.username) {
+                alert('Username has changed. Please log in again.');
                 localStorage.removeItem('token');
                 setIsAuthenticated(false);
                 navigate('/login');
             }
-        } catch (error) {
-            console.error('Ошибка при обновлении данных пользователя:', error);
-            alert('Ошибка при обновлении данных. Пожалуйста, попробуйте позже.');
-        }
-    };
-
-    // Функция выхода из системы
-    const handleLogout = async () => {
-        try {
-            const response = await fetch(`/api/auth/logout`, {
-                method: 'DELETE', // Используем DELETE, как указано на сервере
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (response.ok) {
-                localStorage.removeItem('token');
-                setIsAuthenticated(false);
-                setUser({ username: '', email: '', id: '' });
-
-                // Генерируем уникальный ключ
-                const uniqueKey = Date.now().toString();
-                navigate(`/login?key=${uniqueKey}`);
+        } catch (error: unknown) {
+            console.error('Error updating user data:', error);
+            if (error instanceof Error) {
+                setMessage(`Error updating data: ${error.message}`); 
             } else {
-                console.error("Logout failed:", response.statusText);
-                alert("Не удалось выйти из системы. Пожалуйста, попробуйте позже.");
+                setMessage('Unknown error while updating data.'); 
             }
-        } catch (error) {
-            console.error("An error occurred during logout:", error);
-            alert("Ошибка при выходе из системы. Пожалуйста, попробуйте позже.");
         }
     };
 
-    // Если пользователь не авторизован, отображаем сообщение
     if (!isAuthenticated) {
-        return <div>Пожалуйста, войдите в систему для просмотра профиля.</div>;
+        return <div>Please log in to view your profile.</div>;
     }
 
-    // Отображение формы для редактирования профиля
     return (
-        <div>
-            <h2>Мой профиль</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Имя пользователя:</label>
+        <div className={styles.container}>
+            <h2 className={styles.title}>Edit Profile</h2>
+            {message && <div className={styles.message}>{message}</div>}
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.formGroup}>
                     <input
+                        placeholder='Username'
                         type="text"
                         name="username"
-                        value={user.username}
+                        value={user.username} 
                         onChange={handleChange}
+                        className={styles.input}
                     />
                 </div>
-                <div>
-                    <label>Email:</label>
+                <div className={styles.formGroup}>
                     <input
+                        placeholder='Email'
                         type="email"
                         name="email"
                         value={user.email}
                         onChange={handleChange}
+                        className={styles.input}
                     />
                 </div>
-                <button type="submit" onClick={handleLogout}>Сохранить изменения</button>
+                <button type="submit" className={styles.submitButton}>Save Changes</button>
             </form>
         </div>
     );

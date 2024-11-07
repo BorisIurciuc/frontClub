@@ -17,6 +17,8 @@ import {
   FaSchool,
   FaComments,
 } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -82,9 +84,7 @@ export const Header: React.FC = () => {
           {mobileMenuOpen ? <FaTimes /> : <FaBars />}
         </div>
         <div
-          className={`${styles.navLinks} ${
-            mobileMenuOpen ? styles.active : ""
-          }`}
+          className={`${styles.navLinks} ${mobileMenuOpen ? styles.active : ""}`}
         >
           {links(isAuthenticated, user?.username).map((link) => (
             <Link
@@ -93,54 +93,73 @@ export const Header: React.FC = () => {
                 location.pathname === link.pathname ? styles.active : ""
               }`}
               to={link.pathname}
-              onClick={() => {
-                setMobileMenuOpen(false); 
-              }} 
+              onClick={() => setMobileMenuOpen(false)}
             >
               {link.title === "Home" && <FaHome className={styles.iconLink} />}
-              {link.title === "Profile" && (
-                <FaUser className={styles.iconLink} />
-              )}
-              {link.title === "Courses" && (
-                <FaBook className={styles.iconLink} />
-              )}
-              {link.title === "School" && (
-                <FaSchool className={styles.iconLink} />
-              )}
+              {link.title === "Profile" && <FaUser className={styles.iconLink} />}
+              {link.title === "Courses" && <FaBook className={styles.iconLink} />}
+              {link.title === "School" && <FaSchool className={styles.iconLink} />}
               {link.title === "Review" && <FaComments className={styles.iconLink} />}
               <span className={styles.linkText}>{link.title}</span>
             </Link>
           ))}
-          {isAuthenticated ? (
-            <Link onClick={handleLogout} to="/" className={styles.signOutLink}>
-              <FaSignOutAlt className={styles.iconLink} />
-              <span className={styles.linkText}>Sign Out</span>
-            </Link>
-          ) : (
+          {isAuthenticated && (
             <div className={styles.authContainer} ref={dropdownRef}>
               <div className={styles.iconWrapper} onClick={toggleDropdown}>
                 <FaUserCircle className={styles.userIcon} />
               </div>
               {dropdownOpen && (
-                <div
-                  className={styles.dropdownMenu}
-                  onClick={() => setMobileMenuOpen(false)} 
-                >
-                  <Link
-                    to="/login"
+                <div className={styles.dropdownMenu}>
+                  <Link 
+                    to="/editProfile" 
+                    className={styles.dropdownItem} 
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faUserEdit} className={styles.iconLink} />
+                    <span className={styles.linkText}>Edit Profile</span>
+                  </Link>
+                  <Link 
+                    to="/" 
+                    className={styles.dropdownItem} 
+                    onClick={(event) => {
+                      handleLogout(event);
+                      setDropdownOpen(false);
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <FaSignOutAlt className={styles.iconLink} />
+                    <span className={styles.linkText}>Sign Out</span>
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
+          {!isAuthenticated && (
+            <div className={styles.authContainer} ref={dropdownRef}>
+              <div className={styles.iconWrapper} onClick={toggleDropdown}>
+                <FaUserCircle className={styles.userIcon} />
+              </div>
+              {dropdownOpen && (
+                <div className={styles.dropdownMenu}>
+                  <Link 
+                    to="/login" 
                     className={styles.dropdownItem}
                     onClick={() => {
-                      setDropdownOpen(false); 
-                      setMobileMenuOpen(false); 
+                      setDropdownOpen(false);
+                      setMobileMenuOpen(false);
                     }}
                   >
                     Sign In
                   </Link>
-                  <Link
-                    to="/register"
+                  <Link 
+                    to="/register" 
                     className={styles.dropdownItem}
                     onClick={() => {
-                      setMobileMenuOpen(false); 
+                      setDropdownOpen(false);
+                      setMobileMenuOpen(false);
                     }}
                   >
                     Registration
@@ -152,5 +171,5 @@ export const Header: React.FC = () => {
         </div>
       </nav>
     </header>
-  );
+  );  
 };
