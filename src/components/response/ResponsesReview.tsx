@@ -5,6 +5,8 @@ import styles from "./response.module.css";
 import ResponseRevAdd from "./ResponseReviewAdd";
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import { faTimes, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface ResponsesRevProps {
   reviewId: number;
@@ -18,7 +20,7 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
   const user = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector((state) => state.responseReview);
-  
+
   const selectResponsesByReviewId = (reviewId: number) =>
     createSelector(
       (state: RootState) => state.responseReview.responses,
@@ -29,8 +31,7 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
   const [inputData, setInputData] = useState<AddResponsesRevProps>({
     content: "",
   });
-  const [showAddResponse, setShowAddResponse] = useState(false); // State to control 
- 
+  const [showAddResponse, setShowAddResponse] = useState(false);
 
   useEffect(() => {
     dispatch(getResponse(reviewId));
@@ -59,7 +60,7 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
 
     try {
       const responseDataToSubmit = {
-        reviewId: reviewId, // Add this line
+        reviewId: reviewId,
         content: inputData.content,
         created_byId: user.id,
       };
@@ -80,54 +81,57 @@ export const ResponsesReview = ({ reviewId }: ResponsesRevProps) => {
     } catch (err) {
       console.error("Failed to delete response:", err);
     }
-  };  
-  
+  };
 
   return (
-    <div className={styles.containerResponse}>
-      <h3>Responses</h3>
+    <div className={styles.responseContainer}>
+      <h3 className={styles.title}>Responses</h3>
 
-      <button onClick={() => setShowAddResponse((prev) => !prev)}>
+      <button
+        onClick={() => setShowAddResponse((prev) => !prev)}
+        className={styles.toggleButton}
+      >
+        <FontAwesomeIcon icon={showAddResponse ? faTimes : faPlus} className={styles.icon} />
         {showAddResponse ? "Cancel" : "Add Response"}
       </button>
 
       {showAddResponse && (
-        <div className={styles.containerAddResponse}>
-          <h3>Add Response</h3>
+        <div className={styles.addResponseContainer}>
+          <h3 className={styles.addResponseTitle}>Add Response</h3>
           <ResponseRevAdd
             inputData={inputData}
             isLoading={isLoading}
             handleInputChange={handleInputChange}
-            handleFormSubmit={handleSubmit} // Pass handleSubmit here
+            handleFormSubmit={handleSubmit}
           />
         </div>
       )}
 
-      {error && <div className="">{error}</div>}
+      {error && <div className={styles.errorMessage}>{error}</div>}
       {isLoading ? (
-        <div>Loading...</div>
+        <div className={styles.loadingMessage}>Loading...</div>
       ) : responses.length > 0 ? (
         [...responses].reverse().map((response) => (
-          <div key={response.id} className="">
+          <div key={response.id} className={styles.responseItem}>
             <p className={styles.responseContent}>{response.content}</p>
-            <p>Created by: {response.createdBy}</p>
-            <p>Created at: {new Date(response.createdAt).toLocaleDateString()}</p>
+            <p className={styles.createdBy}>Created by: {response.createdBy}</p>
+            <p className={styles.createdAt}>Created at: {new Date(response.createdAt).toLocaleDateString()}</p>
 
-            {user?.roles.includes("ROLE_ADMIN") || user?.username === response.createdBy && (
-            <button 
-              type="button" 
-              className={styles.deleteButton}
-              onClick={() => handleDelete(response.id)}>
-              Delete
-            </button>
-          )}
+            {(user?.roles.includes("ROLE_ADMIN") || user?.username === response.createdBy) && (
+              <button
+                type="button"
+                className={styles.deleteButton}
+                onClick={() => handleDelete(response.id)}
+              >
+                <FontAwesomeIcon icon={faTrash} className={styles.icon} />
+                Delete
+              </button>
+            )}
           </div>
         ))
       ) : (
-        <p>No responses available.</p>
+        <p className={styles.noResponsesMessage}>No responses available.</p>
       )}
     </div>
   );
 };
-
-// className={styles.deleteButton}

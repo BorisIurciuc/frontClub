@@ -1,0 +1,290 @@
+:root {
+  --background: #f0f0f3;
+  --primary: #ffffff;
+  --review-bg: #e8f0fe;
+  --shadow-light: rgba(255, 255, 255, 0.7);
+  --shadow-dark: rgba(0, 0, 0, 0.15);
+  --text-color: #333;
+  --button-bg: #e0e0e0;
+  --button-hover-bg: #cfcfcf;
+  --error-color: red;
+  --button-cancel-bg: #ff6347;
+  --button-cancel-hover-bg: #ff4500;
+  --button-add-bg: #4caf50;
+  --button-add-hover-bg: #45a049;
+  --button-edit-bg: #ffa500;
+  --button-edit-hover-bg: #ff7f00; 
+  --button-delete-bg: #f44336;
+  --button-delete-hover-bg: #e53935;
+}
+
+.review-container {
+  background-color: var(--background);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--shadow-dark);
+  max-width: 90%;
+  margin: 0 auto 20px;
+}
+
+.reviewContainer {
+  padding: 50px auto;
+  background-color: var(--primary);
+  border-radius: 8px;
+  box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+  margin: 0 auto 20px;
+}
+
+.containerAddReview,
+.containerMap {
+  background-color: var(--review-bg);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 10px 0;
+  box-shadow: 0 2px 4px var(--shadow-dark);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.containerAddReview:hover,
+.containerMap:hover {
+  box-shadow: 6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light);
+  transform: scale(1.02);
+}
+
+.centerButtonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.centerButtonWrapper button {
+  background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    width: 150px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.centerButtonWrapper button:hover {
+  background-color: var(--button-hover-bg);
+  transform: scale(1.05);
+}
+
+.centerButtonWrapper button.cancel {
+  background-color: var(--button-cancel-bg);
+  color: #fff;
+}
+
+.centerButtonWrapper button.cancel:hover {
+  background-color: var(--button-cancel-hover-bg);
+}
+
+.centerButtonWrapper button.addReview {
+  background-color: var(--button-add-bg);
+  color: #fff;
+}
+
+.centerButtonWrapper button.addReview:hover {
+  background-color: var(--button-add-hover-bg);
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  gap: 20px; 
+}
+
+.buttonEdit,
+.buttonDelete {
+  max-width: 200px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.4s ease, transform 0.2s ease;
+}
+
+.buttonEdit {
+  background-color: #4caf50;
+  color: white;
+}
+
+.buttonDelete {
+  background-color: #f44336;
+  color: white;
+}
+
+.buttonEdit:hover {
+  transform: scale(1.1);
+  background-color: #45a049; 
+}
+
+.buttonDelete:hover {
+  transform: scale(1.1);
+  background-color: #d32f2f; 
+}
+
+.icon {
+  margin-right: 5px; 
+  font-size: 18px; 
+}
+
+
+.centerButtonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.4s ease, transform 0.2s ease;
+}
+
+.addReview {
+  min-width: 200px;
+  background-color: #4caf50;
+  color: white;
+}
+
+.cancel {
+  background-color: #f44336;
+  color: white;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+button:focus {
+  outline: none;
+}
+
+.icon {
+  margin-right: 8px; 
+}
+
+.buttonText {
+  font-size: 16px;
+}
+
+h2 {
+  color: var(--text-color);
+  font-size: clamp(20px, 3vw, 24px); 
+  margin: 0 auto 24px;
+  text-align: center;
+  font-weight: bold;
+  max-width: 90%;
+}
+
+h3 {
+  color: var(--text-color);
+  font-size: clamp(18px, 2.5vw, 20px); 
+  margin: 0 auto 12px; 
+  text-align: center;
+  font-weight: bold;
+  max-width: 90%;
+}
+
+.descriptionReview {
+  color: var(--text-color);
+  font-size: clamp(14px, 2vw, 16px); 
+  line-height: 1.6;
+  margin: 0 auto 16px; 
+  max-width: 90%;
+}
+
+.containerAddReview input,
+.containerAddReview textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--text-color);
+  box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+  outline: none;
+  font-size: 16px;
+}
+
+.containerAddReview textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.reviewTitle {
+  color: var(--text-color);
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: bold;
+  text-align: left;
+  margin-top: 14px; 
+  margin-bottom: 26px;
+  padding: 4px 0 4px 12px;
+  border-left: 4px solid var(--button-hover-bg);
+}
+
+.reviewInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--primary);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px var(--shadow-dark);
+  max-width: 90%;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.reviewInfo p {
+  color: var(--text-color);
+  font-size: clamp(14px, 1.8vw, 16px);
+  margin: 4px 0; 
+  line-height: 1.5;
+}
+
+.errorMessage {
+  color: var(--error-color);
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .containerAddReview,
+  .containerMap {
+    padding: 12px;
+    margin: 0 auto;
+  }
+
+  button {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
+  .descriptionReview {
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}

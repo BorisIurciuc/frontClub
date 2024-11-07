@@ -110,6 +110,7 @@ const ActivityDetail: React.FC = () => {
           <button
             className={isRegistered ? styles.revokeButton : styles.participateButton}
             onClick={handleParticipationClick}
+            disabled={loading}
           >
             {isRegistered ? "Revoke Participation" : "Participate"}
           </button>

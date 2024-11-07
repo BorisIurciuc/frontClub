@@ -1,0 +1,73 @@
+.container {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 900px; 
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inputField,
+.textareaField {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  color: #333;
+  background: linear-gradient(145deg, #f4f7fb, #ffffff);
+  transition: all 0.3s ease;
+}
+
+.inputField:focus,
+.textareaField:focus {
+  border-color: #007bff;
+  background: linear-gradient(145deg, #ffffff, #f0f6ff);
+  outline: none;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 200px;
+  padding: 12px 20px;
+  margin: 8px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.4s ease, transform 0.2s ease;
+  color: white;
+}
+
+.saveButton {
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+}
+
+.cancelButton {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
+
+.saveButton:hover {
+  background: linear-gradient(135deg, #5aaf4b, #a1e36c);
+  transform: scale(1.05);
+}
+
+.cancelButton:hover {
+  background: linear-gradient(135deg, #ff4f75, #ff6a3e);
+  transform: scale(1.05);
+}
+
+.saveButton:active,
+.cancelButton:active {
+  transform: scale(1);
+  background: linear-gradient(135deg, #4a9d2f, #a0db61);
+}
+
+.icon {
+  margin-right: 8px; /* Space between icon and text */
+  font-size: 18px; /* Adjust icon size */
+}
