@@ -1,14 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
-import { format } from "date-fns";
-import { jwtDecode } from "jwt-decode"; // Corrected import
+import { jwtDecode } from "jwt-decode";
+import { format, isValid, parseISO } from 'date-fns';
+
+const dateString = "2024-11-07 11:40:58.452597"; 
+const formattedDate = format(parseISO(dateString), "dd.MM.yyyy HH:mm:ss");
+
+console.log(formattedDate);
 
 export interface INews {
+  createdAt: string | number | Date;
   id: number;
   title: string;
   description: string;
-  createdBy: string;
-  createdAt: string;
+  created_by: string;
+  created_at?: string | number | Date;
 }
 
 interface ErrorResponse {
@@ -19,9 +25,8 @@ interface DecodedToken {
   exp: number;
 }
 
-// Wrapper function to decode the JWT with a specified type
 const decodeToken = <T>(token: string): T => {
-  return jwtDecode<T>(token); // Using the named import
+  return jwtDecode<T>(token);
 };
 
 const isTokenExpired = (token: string): boolean => {
@@ -131,12 +136,7 @@ export const fetchNews = createAsyncThunk<INews[], void>(
         },
       });
 
-      const formattedNews = response.data.map(news => ({
-        ...news,
-        createdAt: news.createdAt ? format(new Date(news.createdAt), 'dd.MM.yyyy HH:mm:ss') : "Invalid Date",
-      }));
-
-      return formattedNews;
+      return response.data;
     } catch (error: unknown) {
       const axiosError = error as AxiosError<ErrorResponse>;
       console.error("Error fetching news:", axiosError);
@@ -146,7 +146,7 @@ export const fetchNews = createAsyncThunk<INews[], void>(
   }
 );
 
-// Action to fetch news by ID
+// Action to fetch news by ID with date formatting
 export const getNewsById = createAsyncThunk<INews, number>(
   "news/getNewsById",
   async (id, { rejectWithValue }) => {
@@ -162,9 +162,15 @@ export const getNewsById = createAsyncThunk<INews, number>(
         },
       });
 
+      const news = response.data;
+
+      // Format `createdAt` only if it's a valid ISO string
       const formattedNews = {
-        ...response.data,
-        createdAt: response.data.createdAt ? format(new Date(response.data.createdAt), 'dd.MM.yyyy HH:mm:ss') : "Invalid Date",
+        ...news,
+        createdAt:
+          typeof news.createdAt === "string" && isValid(parseISO(news.createdAt))
+            ? format(parseISO(news.createdAt), "dd.MM.yyyy HH:mm:ss")
+            : news.createdAt?.toString() || "Unknown Date", // Convert to string if not ISO
       };
 
       return formattedNews;

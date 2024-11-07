@@ -1,14 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createNews, deleteNews, fetchNews, getNewsById, INews, updateNews } from "./newsActions";
-import { AppDispatch, RootState } from "../../app/store";
+import {
+  createNews,
+  deleteNews,
+  fetchNews,
+  getNewsById,
+  INews,
+  updateNews,
+} from "./newsActions";
 import NewsItem from "./NewsItem";
-import './newsList.module.css';
+import "./newsList.module.css";
+import { AppDispatch, RootState } from "../../../app/store";
+
 
 const NewsList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { news, isLoading, error } = useSelector((state: RootState) => state.news);
-  const [newNews, setNewNews] = useState<Partial<INews>>({ title: "", description: "" });
+  const { news, isLoading, error } = useSelector(
+    (state: RootState) => state.news
+  );
+  const [newNews, setNewNews] = useState<Partial<INews>>({
+    title: "",
+    description: "",
+  });
   const [selectedNews, setSelectedNews] = useState<INews | null>(null);
 
   useEffect(() => {
@@ -86,7 +99,9 @@ const NewsList: React.FC = () => {
         <textarea
           placeholder="News Description"
           value={newNews.description || ""}
-          onChange={(e) => setNewNews({ ...newNews, description: e.target.value })}
+          onChange={(e) =>
+            setNewNews({ ...newNews, description: e.target.value })
+          }
         />
         <button onClick={handleCreateNews}>Create News</button>
       </div>
@@ -113,8 +128,8 @@ const NewsList: React.FC = () => {
           <h2>Selected News</h2>
           <p>{selectedNews.title}</p>
           <p>{selectedNews.description}</p>
-          <p>Created By: {selectedNews.createdBy}</p>
-          <p>Created At: {selectedNews.createdAt}</p>
+          <p>Created_by: {selectedNews.created_by}</p>
+          <p>Created_at: {new Date(selectedNews.createdAt).toLocaleDateString()}</p>
         </div>
       )}
     </div>
