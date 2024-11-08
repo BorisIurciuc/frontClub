@@ -9,9 +9,9 @@ import {
   updateNews,
 } from "./newsActions";
 import NewsItem from "./NewsItem";
-import "./newsList.module.css";
+import styles from './newsList.module.css';
 import { AppDispatch, RootState } from "../../../app/store";
-import { format } from "date-fns";  // Import date-fns for custom date formatting
+import { format } from "date-fns";
 
 const NewsList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,7 +37,7 @@ const NewsList: React.FC = () => {
     dispatch(createNews(newNews))
       .unwrap()
       .then(() => {
-        setNewNews({ title: "", description: "" }); // Reset fields after successful creation
+        setNewNews({ title: "", description: "" });
       })
       .catch((error) => {
         console.error("Failed to create news:", error);
@@ -80,7 +80,7 @@ const NewsList: React.FC = () => {
   const handleGetNews = async (id: number) => {
     try {
       const article = await dispatch(getNewsById(id)).unwrap();
-      setSelectedNews(article); // Update selectedNews when fetched
+      setSelectedNews(article);
     } catch (error) {
       console.error("Error fetching news:", error);
     }
@@ -97,9 +97,9 @@ const NewsList: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.newsListContainer}>
       <h1>News List</h1>
-      <div>
+      <div className={styles.newsForm}>
         <input
           type="text"
           placeholder="News Title"
@@ -132,9 +132,8 @@ const NewsList: React.FC = () => {
         ))
       )}
 
-      {/* Display the selected news details if available */}
       {selectedNews && (
-        <div>
+        <div className={styles.selectedNews}>
           <h2>Selected News</h2>
           <p>{selectedNews.title}</p>
           <p>{selectedNews.description}</p>
@@ -148,4 +147,3 @@ const NewsList: React.FC = () => {
 };
 
 export default NewsList;
-
