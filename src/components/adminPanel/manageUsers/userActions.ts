@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IUser } from "../auth/features/authSlice";
+import { IUser } from "../../auth/features/authSlice";
 
 export const fetchAllUsers = createAsyncThunk(
   "admin/fetchAllUsers",

@@ -11,7 +11,7 @@ import {
 import NewsItem from "./NewsItem";
 import "./newsList.module.css";
 import { AppDispatch, RootState } from "../../../app/store";
-
+import { format } from "date-fns";  // Import date-fns for custom date formatting
 
 const NewsList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -86,6 +86,16 @@ const NewsList: React.FC = () => {
     }
   };
 
+  // Function to format date with date-fns
+  const formatDate = (date: string | number | Date) => {
+    const formattedDate = new Date(date); // Convert to Date object
+    if (isNaN(formattedDate.getTime())) {
+      return "Invalid Date"; // Handle invalid date
+    }
+    // Custom format "dd.MM.yyyy"
+    return format(formattedDate, "dd.MM.yyyy");
+  };
+
   return (
     <div>
       <h1>News List</h1>
@@ -129,7 +139,8 @@ const NewsList: React.FC = () => {
           <p>{selectedNews.title}</p>
           <p>{selectedNews.description}</p>
           <p>Created_by: {selectedNews.created_by}</p>
-          <p>Created_at: {new Date(selectedNews.createdAt).toLocaleDateString()}</p>
+          {/* Use the formatDate function to format the createdAt date */}
+          <p>Created_at: {formatDate(selectedNews.createdAt)}</p>
         </div>
       )}
     </div>
@@ -137,3 +148,4 @@ const NewsList: React.FC = () => {
 };
 
 export default NewsList;
+

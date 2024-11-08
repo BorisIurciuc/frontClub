@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchAllActivities, deleteActivity } from "./activityActions";
+import { fetchAllActivities, deleteActivity } from "./manageActivity/activityActions";
 
 interface IActivity {
   id: number;

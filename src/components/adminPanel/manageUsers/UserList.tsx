@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUser, fetchAllUsers, getUser } from "./adminActions";
+import { deleteUser, fetchAllUsers, getUser } from "./userActions";
 import { RootState, AppDispatch } from "../../app/store";
 import { IUser } from "../auth/features/authSlice";
 import styles from "./userList.module.css";
