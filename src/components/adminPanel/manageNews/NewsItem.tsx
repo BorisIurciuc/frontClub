@@ -1,5 +1,6 @@
 import React from 'react';
 import { INews } from './newsActions';
+import styles from './newsList.module.css';
 
 interface NewsItemProps {
   news: INews;

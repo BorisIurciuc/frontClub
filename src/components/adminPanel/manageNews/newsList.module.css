@@ -1,126 +1,122 @@
-.news-list {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-  }
-  
-  .news-list h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-    color: #4b4b4b;
-  }
-  
-  .news-list ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .news-list li {
-    margin-bottom: 15px;
-    background-color: #ffffff;
-    border: 1px solid #d3d3d3;
-    border-radius: 5px;
-    padding: 15px;
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .news-list li:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Styles for News Item */
-  .news-item {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    background-color: #f9f9f9;
-  }
-  
-  .news-item-actions {
-    margin-top: 10px;
-  }
-  
-  .news-item button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .news-item button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Modal styles */
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .modal-content {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    text-align: center;
-  }
-  
-  .input, .textarea {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #d0d0d0;
-    border-radius: 5px;
-    background-color: #fafafa;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .input:focus, .textarea:focus {
-    border-color: #007bff;
-  }
-  
-  .create-button {
-    padding: 10px 15px;
-    margin-top: 10px;
-    font-size: 1em;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .create-button:hover {
-    background-color: #218838;
-  }
-  
-  .button {
-    padding: 10px 15px;
-    font-size: 0.95em;
-    background-color: #6c757d;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #5a6268;
-  }
+/* Container for the entire news list */
+.newsListContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.newsListContainer h1 {
+  text-align: center;
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+/* Styling for the form input area */
+.newsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.newsForm input,
+.newsForm textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.newsForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.newsForm button {
+  padding: 10px 15px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.newsForm button:hover {
+  background-color: #45a049;
+}
+
+/* News item card styling */
+.newsItem {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.newsItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.newsItem h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+}
+
+.newsItem p {
+  color: #666;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+/* Buttons for delete, update, and view details */
+.newsItem button {
+  margin-right: 10px;
+  padding: 8px 12px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.newsItem button:hover {
+  background-color: #1e88e5;
+}
+
+.newsItem button.delete {
+  background-color: #e53935;
+}
+
+.newsItem button.delete:hover {
+  background-color: #d32f2f;
+}
+
+/* Selected news details */
+.selectedNews {
+  background-color: #e3f2fd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.selectedNews h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.selectedNews p {
+  color: #555;
+  line-height: 1.6;
+}
