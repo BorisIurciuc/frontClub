@@ -45,7 +45,8 @@ export default function News() {
               <h2>{item.title}</h2>
               <p>{item.description}</p>
               <p>
-                Created by: {item.createdBy} on {new Date(item.createdAt).toLocaleDateString()}
+                Created by: {item.createdBy} 
+                <br />Created on {new Date(item.createdAt).toLocaleDateString()}
               </p>
             </li>
           ))}
