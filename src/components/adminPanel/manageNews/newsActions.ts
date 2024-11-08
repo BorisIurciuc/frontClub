@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { format } from "date-fns";
-import { jwtDecode } from "jwt-decode"; // Corrected import
+import { jwtDecode } from "jwt-decode"; 
 
 export interface INews {
   id: number;
@@ -19,9 +19,9 @@ interface DecodedToken {
   exp: number;
 }
 
-// Wrapper function to decode the JWT with a specified type
+
 const decodeToken = <T>(token: string): T => {
-  return jwtDecode<T>(token); // Using the named import
+  return jwtDecode<T>(token); 
 };
 
 const isTokenExpired = (token: string): boolean => {
@@ -35,7 +35,7 @@ const isTokenExpired = (token: string): boolean => {
   }
 };
 
-// Action to create news
+
 export const createNews = createAsyncThunk<INews, Partial<INews>>(
   "news/createNews",
   async (newsData, { rejectWithValue }) => {
@@ -57,7 +57,7 @@ export const createNews = createAsyncThunk<INews, Partial<INews>>(
   }
 );
 
-// Action to delete news
+
 export const deleteNews = createAsyncThunk<number, number>(
   "news/deleteNews",
   async (newsId, { rejectWithValue }) => {
@@ -82,7 +82,7 @@ export const deleteNews = createAsyncThunk<number, number>(
   }
 );
 
-// Action to update news
+
 export const updateNews = createAsyncThunk<INews, INews>(
   "news/updateNews",
   async (newsData, { rejectWithValue }) => {
@@ -104,18 +104,22 @@ export const updateNews = createAsyncThunk<INews, INews>(
       return response.data;
     } catch (error: unknown) {
       const axiosError = error as AxiosError<ErrorResponse>;
+      
+      console.log("Update request failed:", axiosError.toJSON()); 
+      
       if (axiosError.response?.status === 403) {
         console.error("Access denied: Permission to update this news item is forbidden.");
         return rejectWithValue("Access denied: Permission to update this news item is forbidden.");
       } else {
-        console.error("An error occurred while updating the news:", axiosError);
-        return rejectWithValue(axiosError.response?.data?.message || "Failed to update news");
+        const errorMessage = axiosError.response?.data?.message || "Failed to update news";
+        console.error("An error occurred while updating the news:", errorMessage);
+        return rejectWithValue(errorMessage);
       }
     }
   }
 );
 
-// Action to fetch all news
+
 export const fetchNews = createAsyncThunk<INews[], void>(
   "news/fetchNews",
   async (_, { rejectWithValue }) => {

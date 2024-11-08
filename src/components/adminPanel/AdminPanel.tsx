@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import styles from './adminPanel.module.css';
 
 const AdminPanel: React.FC = () => {
@@ -9,18 +9,23 @@ const AdminPanel: React.FC = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/admin/users" className={styles.link}>Manage Users</Link>
+            <NavLink to="/admin/users" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
+              Manage Users
+            </NavLink>
           </li>
+          {/* <li>
+            <NavLink to="/admin/manageActivities" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
+              Manage Activities
+            </NavLink>
+          </li> */}
           <li>
-            <Link to="/admin/activities" className={styles.link}>Manage Activities</Link>
-          </li>
-          <li>
-            <Link to="/admin/news" className={styles.link}>Manage News</Link>
+            <NavLink to="/admin/news" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
+              Manage News
+            </NavLink>
           </li>
         </ul>
       </nav>
       
-      {/* Рендер выбранного раздела */}
       <div className={styles.outlet}>
         <Outlet />
       </div>

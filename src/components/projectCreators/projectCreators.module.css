@@ -44,11 +44,12 @@
   padding: 1.5rem;
   box-shadow: 10px 10px 20px #d1d1d1, -10px -10px 20px #ffffff;
   transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  
 }
 
 .participantCard:hover {
   background-color: #f9de47;
-  transform: translateY(-8px) rotate(2deg);
+  transform: translateZ(8px) rotate(0deg);
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.15), -10px -10px 20px rgba(255, 255, 255, 0.7);
 }
 
@@ -116,7 +117,7 @@
   color: #ff6600;
 }
 
-/* Responsive styling for tablets and small screens */
+
 @media (max-width: 768px) {
   .participantList {
     grid-template-columns: 1fr;
@@ -133,7 +134,7 @@
   }
 }
 
-/* Responsive styling for mobile */
+
 @media (max-width: 480px) {
   .headerContainer h2 {
     font-size: 1.5rem;
