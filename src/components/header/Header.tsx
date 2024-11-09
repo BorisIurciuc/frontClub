@@ -16,6 +16,8 @@ import {
   FaBook,
   FaSchool,
   FaComments,
+  FaNewspaper,
+  FaEdit,
 } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
@@ -29,6 +31,15 @@ export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (user?.roles?.includes("ROLE_ADMIN")) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  }, [user]);
 
   const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -86,7 +97,7 @@ export const Header: React.FC = () => {
         <div
           className={`${styles.navLinks} ${mobileMenuOpen ? styles.active : ""}`}
         >
-          {links(isAuthenticated, user?.username).map((link) => (
+          {links(isAuthenticated, isAdmin).map((link) => (
             <Link
               key={link.pathname}
               className={`${styles.navLink} ${
@@ -99,7 +110,10 @@ export const Header: React.FC = () => {
               {link.title === "Profile" && <FaUser className={styles.iconLink} />}
               {link.title === "Courses" && <FaBook className={styles.iconLink} />}
               {link.title === "School" && <FaSchool className={styles.iconLink} />}
+              {link.title === "News" && <FaNewspaper className={styles.iconLink} />}
               {link.title === "Review" && <FaComments className={styles.iconLink} />}
+              {link.title === "Dashboard" && <FaEdit className={styles.iconLink} />}
+
               <span className={styles.linkText}>{link.title}</span>
             </Link>
           ))}
