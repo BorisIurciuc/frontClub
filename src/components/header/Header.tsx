@@ -119,7 +119,9 @@ export const Header: React.FC = () => {
           ))}
           {isAuthenticated && (
             <div className={styles.authContainer} ref={dropdownRef}>
+              <p className={styles.username}>{user?.username}</p>
               <div className={styles.iconWrapper} onClick={toggleDropdown}>
+                
                 <FaUserCircle className={styles.userIcon} />
               </div>
               {dropdownOpen && (
