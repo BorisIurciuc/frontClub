@@ -75,12 +75,16 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
         setSuccessMessage("The event has been successfully added!");
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          setErrorMessage(
+          const errorMessage =
             error.response?.data?.message ||
-              "Failed to add the event. Please try again."
-          );
+            "Failed to add the event. Please try again.";
+          if (errorMessage === "User is not active") {
+            setErrorMessage("Your account is inactive. Please contact support.");
+          } else {
+            setErrorMessage(errorMessage);
+          }
         } else {
-          setSuccessMessage("The event has been successfully added!");
+          setErrorMessage("An unexpected error occurred. Confirm registration in email before posting new event.");
         }
       } finally {
         setLoading(false);
@@ -97,7 +101,7 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
       <div className={style.formContainer}>
         <p className={style.errorMessage}>Please log in to add an event.</p>
         <button onClick={handleLoginRedirect} className={style.loginButton}>
-          Sing In
+          Sign In
         </button>
       </div>
     );
