@@ -40,6 +40,31 @@ const isTokenExpired = (token: string): boolean => {
   }
 };
 
+const refreshAccessToken = async (refreshToken: string): Promise<string | null> => {
+  try {
+    const response = await axios.post('/api/auth/refresh', { refreshToken });
+    return response.data.accessToken;
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    console.log("Using refresh token to fetch new access token:", refreshToken);
+    return null;
+  }
+};
+
+const getValidAccessToken = async (accessToken: string, refreshToken: string): Promise<string> => {
+  if (isTokenExpired(accessToken)) {
+    const newAccessToken = await refreshAccessToken(refreshToken);
+    if (newAccessToken) {
+      console.log("Access token refreshed successfully.");
+      return newAccessToken;
+    } else {
+      throw new Error("Unable to refresh access token");
+    }
+  }
+  return accessToken;
+};
+
+
 // Action to create news
 export const createNews = createAsyncThunk<INews, Partial<INews>>(
   "news/createNews",
@@ -50,6 +75,9 @@ export const createNews = createAsyncThunk<INews, Partial<INews>>(
         throw new Error("Authorization token is either missing or expired");
       }
 
+      console.log("Attempting to create news with token:", token);
+      console.log("Sending request to create news with payload:", newsData);
+
       const response = await axios.post<INews>("/api/news", newsData, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -57,6 +85,7 @@ export const createNews = createAsyncThunk<INews, Partial<INews>>(
       return response.data;
     } catch (error: unknown) {
       const axiosError = error as AxiosError<ErrorResponse>;
+      console.error("Error creating news:", axiosError);
       return rejectWithValue(axiosError.response?.data?.message || "Failed to create news");
     }
   }
@@ -71,6 +100,9 @@ export const deleteNews = createAsyncThunk<number, number>(
       if (!token || isTokenExpired(token)) {
         throw new Error("Authorization token is either missing or expired");
       }
+
+      console.log("Attempting to delete news with token:", token);
+      console.log("Sending request to delete news with ID:", newsId);
 
       await axios.delete(`/api/news/${newsId}`, {
         headers: {
@@ -87,6 +119,17 @@ export const deleteNews = createAsyncThunk<number, number>(
   }
 );
 
+// Utility function to check if user has required role
+const hasRequiredRole = (token: string, requiredRole: string): boolean => {
+  try {
+    const decoded = decodeToken<DecodedToken & { roles: { role: string }[] }>(token);
+    return decoded.roles.some(role => role.role === requiredRole);
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    return false;
+  }
+};
+
 // Action to update news
 export const updateNews = createAsyncThunk<INews, INews>(
   "news/updateNews",
@@ -94,27 +137,52 @@ export const updateNews = createAsyncThunk<INews, INews>(
     try {
       const { id } = newsData;
       const token = localStorage.getItem("token");
+      const refreshToken = localStorage.getItem("refreshToken");
 
-      if (!token || isTokenExpired(token)) {
-        throw new Error("Authorization token is either missing or expired");
+      console.log("Retrieved token:", token);
+      console.log("Retrieved refresh token:", refreshToken);
+
+      // Check if both tokens are available
+      if (!token || !refreshToken) {
+        console.error("Authorization tokens are missing.");
+        return rejectWithValue("Authorization token or refresh token is missing");
+      }
+
+      // Get valid access token (handles expired token and refresh)
+      const validAccessToken = await getValidAccessToken(token, refreshToken); 
+
+      // Check if the user has the required role
+      if (!hasRequiredRole(validAccessToken, "ROLE_ADMIN")) {
+        throw new Error("User does not have the required role to update news");
       }
 
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${validAccessToken}`, // Use the valid access token
         },
       };
 
+      console.log("Attempting update with token:", validAccessToken);
+      console.log("Sending request to update news with payload:", newsData);
+      console.log("Headers:", config.headers);
+
+      // Make the update request using the valid token
       const response = await axios.put<INews>(`/api/news/${id}`, newsData, config);
+
       return response.data;
     } catch (error: unknown) {
       const axiosError = error as AxiosError<ErrorResponse>;
+
+      // Check if we got a 403 Forbidden error
       if (axiosError.response?.status === 403) {
         console.error("Access denied: Permission to update this news item is forbidden.");
         return rejectWithValue("Access denied: Permission to update this news item is forbidden.");
       } else {
+        // Log the error details and return a fallback error message
         console.error("An error occurred while updating the news:", axiosError);
-        return rejectWithValue(axiosError.response?.data?.message || "Failed to update news");
+        return rejectWithValue(
+          axiosError.response?.data?.message || "Failed to update news"
+        );
       }
     }
   }
@@ -129,6 +197,8 @@ export const fetchNews = createAsyncThunk<INews[], void>(
       if (!token || isTokenExpired(token)) {
         throw new Error("Authorization token is either missing or expired");
       }
+
+      console.log("Attempting to fetch all news with token:", token);
 
       const response = await axios.get<INews[]>("/api/news", {
         headers: {
@@ -156,6 +226,9 @@ export const getNewsById = createAsyncThunk<INews, number>(
         throw new Error("Authorization token is either missing or expired");
       }
 
+      console.log("Attempting to fetch news by ID with token:", token);
+      console.log("Sending request to fetch news by ID:", id);
+
       const response = await axios.get<INews>(`/api/news/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -164,14 +237,15 @@ export const getNewsById = createAsyncThunk<INews, number>(
 
       const news = response.data;
 
-      // Format `createdAt` only if it's a valid ISO string
       const formattedNews = {
         ...news,
         createdAt:
           typeof news.createdAt === "string" && isValid(parseISO(news.createdAt))
             ? format(parseISO(news.createdAt), "dd.MM.yyyy HH:mm:ss")
-            : news.createdAt?.toString() || "Unknown Date", // Convert to string if not ISO
+            : news.createdAt?.toString() || "Unknown Date",
       };
+
+      console.log("Fetched news data:", formattedNews);
 
       return formattedNews;
     } catch (error: unknown) {
