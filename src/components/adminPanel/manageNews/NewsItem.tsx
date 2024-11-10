@@ -15,18 +15,18 @@ const NewsItem: React.FC<NewsItemProps> = ({
   onDelete, 
   onEdit, 
   onGetNews, 
-  formatDate 
+  // formatDate 
 }) => {
   return (
     <div className={styles.newsItem}>
       <h3 className={styles.newsTitle}>{news.title}</h3>
       <p className={styles.newsDescription}>{news.description}</p>
-      {formatDate && (
+      {/* {formatDate && (
         <p className={styles.newsDate}>
           Created: {formatDate(news.createdAt)}
         </p>
-      )}
-      <p className={styles.newsAuthor}>Author: {news.created_by}</p>
+      )} */}
+      {/* <p className={styles.newsAuthor}>Author: {news.created_by}</p> */}
       <div className={styles.newsActions}>
         <button 
           onClick={() => onEdit(news)}
