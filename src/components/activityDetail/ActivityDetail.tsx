@@ -14,8 +14,9 @@ const ActivityDetail: React.FC = () => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-  const location = useLocation();
   const navigate = useNavigate(); 
+ 
+  const location = useLocation();
   const activity = location.state?.activity;
 
   useEffect(() => {
@@ -149,7 +150,9 @@ const ActivityDetail: React.FC = () => {
         )}
       </div>
       <BackButton />
+
     </div>
+
   );
 };
 
