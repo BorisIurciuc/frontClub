@@ -109,6 +109,11 @@
     outline-offset: 2px;
 }
 
+.icon {
+    margin-right: 5px; 
+    font-size: 18px; 
+    }
+
 @media (max-width: 768px) {
     .activityUserContainer {
         flex: 0 0 100%; 
