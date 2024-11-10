@@ -35,11 +35,11 @@ const App = () => {
       try {
         const res: PayloadAction<any> = await dispatch(getUserWithToken()).unwrap();
         const userRoles = res?.payload?.roles || [];
-        // Если у пользователя есть роль администратора, перенаправляем на панель администратора
+        
         if (userRoles.includes("ROLE_ADMIN")) {
           navigate("/admin");
         } else if (!isAuthenticated) {
-          navigate("/login"); // Перенаправляем неаутентифицированных пользователей на страницу логина
+          navigate("/homePage"); 
         }
       } catch (error) {
         console.error("Error fetching user with token", error);
@@ -49,7 +49,7 @@ const App = () => {
   }, [dispatch, navigate, isAuthenticated]);
   return (
     <UserProvider>
-      {/* Добавление кнопки "Выйти" */}
+      
      
         <Routes>
           <Route

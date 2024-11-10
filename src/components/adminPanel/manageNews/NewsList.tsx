@@ -12,6 +12,35 @@ import NewsItem from "./NewsItem";
 import styles from './newsList.module.css';
 import { AppDispatch, RootState } from "../../../app/store";
 import { format } from "date-fns";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+
+// Helper function to check if token is expired
+const checkTokenExpiry = (token: string): boolean => {
+  try {
+    const decoded = jwtDecode(token);
+    const currentTime = Math.floor(Date.now() / 1000);
+    return decoded.exp ? decoded.exp < currentTime : true;
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    return true;
+  }
+};
+
+// Refresh token if expired and update localStorage
+const refreshTokenIfNeeded = async (token: string, refreshToken: string): Promise<string | null> => {
+  if (!checkTokenExpiry(token)) return token; // Return existing token if still valid
+
+  try {
+    const response = await axios.post("/api/auth/refresh", { refreshToken });
+    const { accessToken } = response.data;
+    localStorage.setItem("token", accessToken);
+    return accessToken;
+  } catch (error) {
+    console.error("Failed to refresh token:", error);
+    return null;
+  }
+};
 
 const NewsList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,6 +57,7 @@ const NewsList: React.FC = () => {
     dispatch(fetchNews());
   }, [dispatch]);
 
+  // Handle news creation
   const handleCreateNews = () => {
     if (!newNews.title || !newNews.description) {
       alert("Title and description are required.");
@@ -45,10 +75,28 @@ const NewsList: React.FC = () => {
       });
   };
 
-  const handleUpdate = (updatedNews: INews) => {
+  // Handle news update
+  const handleUpdate = async (updatedNews: INews) => {
     if (!updatedNews.id) {
       console.error("News ID is required for updating");
       alert("News ID is required for updating");
+      return;
+    }
+
+    // Get token and refresh if needed
+    let token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (!token || !refreshToken) {
+      console.error("Token or refresh token is missing.");
+      alert("Please log in again.");
+      return;
+    }
+
+    token = await refreshTokenIfNeeded(token, refreshToken);
+    if (!token) {
+      console.error("Failed to refresh token.");
+      alert("Session expired. Please log in again.");
       return;
     }
 
@@ -63,6 +111,7 @@ const NewsList: React.FC = () => {
       });
   };
 
+  // Handle news deletion
   const handleDelete = (id: number) => {
     if (window.confirm("Are you sure you want to delete this news?")) {
       dispatch(deleteNews(id))
@@ -77,6 +126,7 @@ const NewsList: React.FC = () => {
     }
   };
 
+  // Fetch news by ID
   const handleGetNews = async (id: number) => {
     try {
       const article = await dispatch(getNewsById(id)).unwrap();
