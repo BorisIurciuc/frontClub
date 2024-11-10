@@ -11,22 +11,37 @@
   color: #333;
   font-size: 2.5rem;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 /* Styling for the form input area */
 .newsForm {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 15px;
+  margin-bottom: 30px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .newsForm input,
 .newsForm textarea {
-  padding: 10px;
+  padding: 12px;
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 1rem;
+  background-color: #fafafa;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.newsForm input:focus,
+.newsForm textarea:focus {
+  border-color: #4caf50;
+  background-color: #fff;
 }
 
 .newsForm textarea {
@@ -35,7 +50,7 @@
 }
 
 .newsForm button {
-  padding: 10px 15px;
+  padding: 12px 15px;
   background-color: #4caf50;
   color: white;
   border: none;
@@ -43,6 +58,7 @@
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-weight: 500;
 }
 
 .newsForm button:hover {
@@ -108,6 +124,8 @@
   padding: 15px;
   border-radius: 8px;
   margin-top: 20px;
+  border: 1px solid #bbdefb;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .selectedNews h2 {

@@ -1,99 +1,188 @@
 /* Общие стили для всех элементов новости */
 .news-item {
-    border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .news-item:hover {
-    background-color: #f1f7ff;
-  }
-  
-  .title {
-    font-size: 1.25em;
-    color: #333;
-    font-weight: 500;
-    margin: 0;
-  }
-  
-  .description,
-  .createdBy,
-  .createdAt {
-    margin-top: 8px;
-    color: #666;
-    font-size: 0.95em;
-  }
-  
-  .button {
-    margin-right: 10px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    font-size: 0.95em;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Стили для формы создания новости */
-  .create-news-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 20px;
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    max-width: 500px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  }
-  
-  .input,
-  .textarea {
-    width: 100%;
-    padding: 12px;
-    font-size: 1em;
-    border: 1px solid #d0d0d0;
-    border-radius: 5px;
-    background-color: #fafafa;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .input:focus,
-  .textarea:focus {
-    border-color: #007bff;
-    background-color: #fff;
-  }
-  
-  .textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
-  
-  /* Стили для кнопки создания */
-  .create-button {
-    padding: 12px;
-    font-size: 1em;
-    font-weight: 500;
-    color: white;
-    background-color: #28a745;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .create-button:hover {
-    background-color: #218838;
-  }
-  
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.news-item:hover {
+  background-color: #f1f7ff;
+}
+
+/* Стили для заголовка новости */
+.newsTitle {
+  margin: 0 0 12px 0;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.newsDescription {
+  margin: 0 0 12px 0;
+  color: #666;
+  line-height: 1.5;
+}
+
+.newsDate, .newsAuthor {
+  font-size: 0.9rem;
+  color: #888;
+  margin: 4px 0;
+}
+
+/* Кнопки действий */
+.newsActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.editButton, .deleteButton, .detailsButton {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.editButton {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.deleteButton {
+  background-color: #f44336;
+  color: white;
+}
+
+.detailsButton {
+  background-color: #2196F3;
+  color: white;
+}
+
+/* Стили для формы создания новости */
+.create-news-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Поля ввода и текстовое поле */
+.input,
+.textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  border: 1px solid #d0d0d0;
+  border-radius: 5px;
+  background-color: #fafafa;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: #007bff;
+  background-color: #fff;
+}
+
+/* Размер текстового поля для описания */
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Кнопка для создания новости */
+.create-button {
+  padding: 12px;
+  font-size: 1em;
+  font-weight: 500;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-button:hover {
+  background-color: #218838;
+}
+
+/* newsList.module.css */
+.newsListContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Стили для отображения выбранной новости */
+.selectedNews {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 16px 0;
+}
+
+/* updateNews.module.css */
+.updateNewsForm {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 16px 0;
+}
+
+.formGroup {
+  margin-bottom: 16px;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.saveButton, .cancelButton {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.saveButton {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancelButton {
+  background-color: #9e9e9e;
+  color: white;
+}
