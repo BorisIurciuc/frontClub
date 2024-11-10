@@ -1,136 +1,117 @@
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #45a049;
+  --delete-color: #f44336;
+  --delete-hover: #e53935;
+  --border-color: #ddd;
+  --bg-color: #f9f9f9;
+  --font-color: #333;
+  --transition: all 0.3s ease-in-out;
+}
+
 .formWrapper {
-  min-width: 95%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
+  padding: 40px;
+  background-color: var(--bg-color);
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.3rem;
 }
 
 .label {
-  font-size: 14px;
-  color: #333;
+  font-size: 0.875rem;
+  color: var(--font-color);
 }
 
 .input, .textarea {
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 0.8rem;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 1rem;
+  width: 100%; 
+  box-sizing: border-box;
 }
 
 .textarea {
   min-height: 100px;
-  resize: vertical;
+  resize: vertical; 
 }
 
 .buttonGroup {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 1rem;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
-.button {
+.buttonGroup button {
   max-width: 200px;
+  width: 100%; 
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
   border-radius: 4px;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  width: 48%;
-}
-
-.addReviewButton {
-  background-color: #4CAF50;
+  transition: background-color 0.3s ease-in-out;
   color: white;
-  border-color: #4CAF50;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-.addReviewButton:hover {
-  background-color: #45a049;
+.buttonGroup button:hover {
+  background-color: var(--primary-hover);
 }
 
 .cancelButton {
-  background-color: #f44336;
-  color: white;
-  border-color: #f44336;
+  background-color: var(--delete-color);
+  border-color: var(--delete-color);
 }
 
 .cancelButton:hover {
-  background-color: #e53935;
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  background-color: var(--delete-hover);
 }
 
 .icon {
-  margin-right: 10px;
-  font-size: 18px;
+  margin-right: 0.5rem;
+  font-size: 1.125rem;
 }
+
 
 @media (max-width: 767px) {
   .formWrapper {
-    padding: 15px;
-    max-width: 100%;
-  }
-
-  .buttonGroup {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .button {
-    width: 100%;
-    max-width: none;
+    padding: 20px; 
   }
 
   .input, .textarea {
-    font-size: 14px;
-    padding: 8px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-  .formWrapper {
-    padding: 20px;
-    max-width: 80%;
+    padding: 0.8rem;
+    font-size: 1.1rem; 
   }
 
   .buttonGroup {
-    justify-content: center;
+    flex-direction: column; 
+    gap: 0.5rem;
   }
 
-  .button {
-    width: 48%;
-  }
-}
-
-@media (min-width: 1025px) {
-  .formWrapper {
-    max-width: 600px;
+  .buttonGroup button {
+    width: 100%; 
   }
 
-  .buttonGroup {
-    justify-content: center;
+  .label {
+    font-size: 0.9rem;
   }
 
-  .button {
-    width: 48%;
+  .textarea {
+    min-height: 120px; 
   }
 }

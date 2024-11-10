@@ -1,0 +1,169 @@
+:root {
+  --primary-color: #007bff;
+  --primary-hover: #45a049;
+  --secondary-color: #f44336;
+  --text-color: #333;
+  --background-color: #f9f9f9;
+  --border-color: #ddd;
+  --hover-color: #45a049;
+  --button-delete-bg: #f44336;
+  --button-delete-hover-bg: #e53935;
+  --button-padding: 12px 24px;
+  --font-size-base: 1.2em;
+  --font-size-label: 1.1em;
+  --font-size-textarea: 1.1em;
+  --line-height: 1.5;
+  --icon-margin: 10px;
+}
+
+.responseForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 25px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--background-color);
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.responseForm.open {
+  max-height: 1000px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputLabel {
+  font-size: var(--font-size-label);
+  margin-bottom: 12px;
+  color: var(--text-color);
+}
+
+.responseTextarea {
+  width: 100%;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  font-size: var(--font-size-textarea);
+  line-height: var(--line-height);
+  color: var(--text-color);
+  background-color: #fff;
+  box-sizing: border-box;
+  resize: vertical;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.responseTextarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-color);
+}
+
+.actionsContainer {
+  display: flex;
+  gap: 25px;
+  justify-content: flex-start;
+}
+
+.commonButton[type="submit"],
+.commonButton[type="button"] {
+  max-width: 250px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--button-padding);
+  font-size: var(--font-size-base);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+}
+
+.submitButton {
+  background-color: var(--primary-color);
+}
+
+.submitButton:hover {
+  background-color: var(--primary-hover);
+}
+
+.deleteButton {
+  background-color: var(--button-delete-bg);
+}
+
+.deleteButton:hover {
+  background-color: var(--button-delete-hover-bg);
+}
+
+.icon {
+  margin-right: var(--icon-margin);
+}
+
+@media (max-width: 1024px) {
+  .responseForm {
+    padding: 20px;
+  }
+
+  .inputLabel {
+    font-size: 1em; 
+  }
+
+  .responseTextarea {
+    font-size: 1em; 
+  }
+
+  .commonButton {
+    width: 100%;
+    padding: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .responseForm {
+    padding: 18px;
+  }
+
+  .inputLabel {
+    font-size: 0.95em; 
+  }
+
+  .responseTextarea {
+    font-size: 0.95em;
+    height: 140px; 
+  }
+
+  .actionsContainer {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .commonButton {
+    padding: 12px;
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .responseForm {
+    padding: 15px;
+  }
+
+  .inputLabel {
+    font-size: 0.9em; 
+  }
+
+  .responseTextarea {
+    font-size: 0.9em;
+    height: 120px; 
+  }
+
+  .commonButton {
+    padding: 10px;
+    font-size: 0.95em;
+  }
+}

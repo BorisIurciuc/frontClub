@@ -56,18 +56,11 @@ const ReviewAdd: React.FC<ReviewAddProps> = ({
       </div>
 
       <div className={styles.buttonGroup}>
-        <button
-          type="button"
-          className={`${styles.button} ${styles.addReviewButton}`}
-        >
+        <button type="submit" className={`${styles.button} ${styles.addReviewButton}`}>
           <FontAwesomeIcon icon={faPlus} className={styles.icon} />
           Add Review
         </button>
-        <button
-          type="button"
-          className={`${styles.button} ${styles.cancelButton}`}
-          onClick={handleCancel}
-        >
+        <button type="button" className={`${styles.button} ${styles.cancelButton}`} onClick={handleCancel}>
           <FontAwesomeIcon icon={faTimes} className={styles.icon} />
           Cancel
         </button>

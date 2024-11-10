@@ -10,7 +10,7 @@
   --error-color: red;
   --button-cancel-bg: #ff6347;
   --button-cancel-hover-bg: #ff4500;
-  --button-add-bg: #4caf50;
+  --button-add-bg: #007bff;
   --button-add-hover-bg: #45a049;
   --button-edit-bg: #ffa500;
   --button-edit-hover-bg: #ff7f00; 
@@ -28,11 +28,12 @@
 }
 
 .reviewContainer {
-  padding: 50px auto;
-  background-color: var(--primary);
-  border-radius: 8px;
-  box-shadow: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
-  margin: 0 auto 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 6px 14px var(--shadow-dark);
+  margin: 30px auto;
+  border: 1px solid var(--border-light);
 }
 
 .containerAddReview,
@@ -40,7 +41,7 @@
   background-color: var(--review-bg);
   padding: 20px;
   border-radius: 8px;
-  margin: 10px 0;
+  margin: 40px 80px;
   box-shadow: 0 2px 4px var(--shadow-dark);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -59,16 +60,15 @@
 
 .centerButtonWrapper button {
   background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-transform: uppercase;
-    width: 150px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-transform: uppercase;
+  width: 150px;
 }
 
 .centerButtonWrapper button:hover {
@@ -103,20 +103,20 @@
 
 .buttonEdit,
 .buttonDelete {
-  max-width: 200px;
+  max-width: 150px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
+  padding: 15px 40px;
   font-size: 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
   transition: background 0.4s ease, transform 0.2s ease;
 }
 
 .buttonEdit {
-  background-color: #4caf50;
+  background-color: #007bff;
   color: white;
 }
 
@@ -139,7 +139,6 @@
   margin-right: 5px; 
   font-size: 18px; 
 }
-
 
 .centerButtonWrapper {
   display: flex;
@@ -165,6 +164,7 @@ button {
 }
 
 .cancel {
+  min-width: 200px;
   background-color: #f44336;
   color: white;
 }
@@ -205,10 +205,15 @@ h3 {
 
 .descriptionReview {
   color: var(--text-color);
-  font-size: clamp(14px, 2vw, 16px); 
-  line-height: 1.6;
-  margin: 0 auto 16px; 
+  font-size: clamp(14px, 1.8vw, 16px); 
+  line-height: 1.8; 
+  padding: 16px; 
+  margin: 0 auto 20px;
   max-width: 90%;
+  background-color: rgba(255, 255, 255, 0.8); 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: justify; 
 }
 
 .containerAddReview input,
@@ -244,21 +249,22 @@ h3 {
 .reviewInfo {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   background-color: var(--primary);
   padding: 12px;
   border-radius: 8px;
   box-shadow: 0 4px 6px var(--shadow-dark);
   max-width: 90%;
   margin: 10px auto;
-  text-align: center;
+  text-align: left;
 }
 
 .reviewInfo p {
   color: var(--text-color);
   font-size: clamp(14px, 1.8vw, 16px);
-  margin: 4px 0; 
+  margin: 4px 0;
   line-height: 1.5;
+  text-align: left; 
 }
 
 .errorMessage {
@@ -277,14 +283,36 @@ h3 {
 
   button {
     font-size: 13px;
-    padding: 8px 16px;
+    padding: 10px 18px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 16px;
   }
 
   .descriptionReview {
     font-size: 14px;
   }
 
-  h2 {
-    font-size: 20px;
+  .containerAddReview input,
+  .containerAddReview textarea {
+    font-size: 14px;
+  }
+
+  .reviewTitle {
+    font-size: 18px;
+  }
+
+  .reviewInfo p {
+    font-size: 14px;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+    align-items: center;
   }
 }
