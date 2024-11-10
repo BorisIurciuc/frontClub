@@ -35,7 +35,9 @@ const UserList: React.FC = () => {
             <h3>{user.username}</h3>
             <p>ID: {user.id}</p>
             <p>Email: {user.email}</p>
-            <p>Roles: {user.roles.join(", ")}</p>
+            <p>Roles: {user.roles.map((role: any) => role.name || role.role).join(", ")}</p>
+
+
             <p className={`${styles.status} ${!user.active ? styles.inactive : ""}`}>
               Status: {user.active ? "Active" : "Inactive"}
             </p>
