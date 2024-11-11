@@ -150,15 +150,16 @@ const NewsList: React.FC = () => {
         ))
       )}
 
-      {selectedNews && (
-        <div className={styles.selectedNews}>
-          <h2>News Details: {selectedNews.title}</h2>
-          <p>{selectedNews.description}</p>
-          <p>Author: {selectedNews.created_by}</p>
-          <p>Created: {formatDate(selectedNews.createdAt)}</p>
-          <button onClick={() => setSelectedNews(null)}>Close</button>
-        </div>
-      )}
+{selectedNews && (
+  <div className={styles.selectedNews}>
+    <h2>News Details: {selectedNews.title}</h2>
+    <p>{selectedNews.description}</p>
+    <p className={styles.newsAuthor}>Author: {selectedNews.createdBy.username}</p>
+    <p className={styles.newsDate}>Created: {formatDate(selectedNews.createdAt)}</p>
+    <button onClick={() => setSelectedNews(null)}>Close</button>
+  </div>
+)}
+
     </div>
   );
 };
