@@ -7,8 +7,9 @@ export interface INews {
   id: number;
   title: string;
   description: string;
-  created_by: string;
+  createdBy: string;
   createdAt: string | number | Date;
+  username: string;
 }
 
 interface ErrorResponse {
