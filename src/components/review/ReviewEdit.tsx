@@ -38,7 +38,7 @@ const ReviewEdit: React.FC<ReviewEditProps> = ({
         className={styles.textareaField}
         placeholder="Enter description"
       />
-      <button type="button" className={`${styles.button} ${styles.saveButton}`} onClick={handleEditSubmit}>
+      <button type="submit" className={`${styles.button} ${styles.saveButton}`} onClick={handleEditSubmit}>
         <FontAwesomeIcon icon={faSave} className={styles.icon} /> Save
       </button>
       <button type="button" className={`${styles.button} ${styles.cancelButton}`} onClick={handleCancelEdit}>

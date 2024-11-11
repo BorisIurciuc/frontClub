@@ -117,19 +117,19 @@ const Reviews: React.FC = () => {
   };
 
   return (
-    <div className="review-container">
-  <h2>Reviews</h2>
-  <div className={styles.centerButtonWrapper}>
-    <button
-      className={showAddReview ? styles.cancel : styles.addReview}
-      onClick={() => setShowAddReview((prev) => !prev)}
-    >
-      <FontAwesomeIcon icon={showAddReview ? faTimes : faPlus} className={styles.icon} />
-      <span className={styles.buttonText}>
-        {showAddReview ? "Cancel" : "Add Review"}
-      </span>
-    </button>
-  </div>
+    <div className={styles.reviewContainer}>
+      <h2>Reviews</h2>
+      <div className={styles.centerButtonWrapper}>
+        <button
+          className={showAddReview ? styles.cancel : styles.addReview}
+          onClick={() => setShowAddReview((prev) => !prev)}
+        >
+          <FontAwesomeIcon icon={showAddReview ? faTimes : faPlus} className={styles.icon} />
+          <span className={styles.buttonText}>
+            {showAddReview ? "Cancel" : "Add Review"}
+          </span>
+        </button>
+      </div>
       {showAddReview && (
         <div className={styles.containerAddReview}>
           <h3>Add Review</h3>
@@ -170,7 +170,7 @@ const Reviews: React.FC = () => {
 
                   <div className={styles.buttonContainer}>
                     <button
-                      type="button"
+                      type="submit"
                       onClick={() => handleEditClick(review)}
                       className={styles.buttonEdit}
                       aria-label="Edit"

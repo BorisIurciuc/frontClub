@@ -6,7 +6,7 @@ import ScrollToTopButton from "../scrollToTopButton/ScrollToTopButton";
 import { useAppSelector } from "../../app/hooks.ts";
 import { faArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FiX } from 'react-icons/fi';
+import { FiX } from "react-icons/fi";
 
 interface IActivity {
   id: number;
@@ -210,7 +210,7 @@ const UserActivity: React.FC = () => {
                   </Link>
                   <button
                     onClick={() => handleUnsubscribe(activity.id)}
-                    className={`${styles.button} ${styles.deleteButton}`}
+                    className={`${styles.button} ${styles.unsubscribeButton}`}
                     disabled={unsubscribing === activity.id}
                   >
                     {unsubscribing === activity.id ? (

@@ -54,8 +54,9 @@
   outline: none;
 }
 
+.saveButton[type="submit"],
 .button {
-  max-width: 150px;
+  max-width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,11 +69,14 @@
   border: none;
 }
 
-.saveButton {
+.saveButton[type="submit"] {
+  max-width: 200px;
   background-color: var(--primary-color);
 }
 
-.saveButton:hover {
+
+.saveButton:hover[type="submit"] {
+  max-width: 200px;
   background-color: var(--primary-hover);
 }
 

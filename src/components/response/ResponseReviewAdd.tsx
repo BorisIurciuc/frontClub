@@ -53,7 +53,7 @@ const ResponseReviewAdd: React.FC<ResponseRevAddProps> = ({
       </div>
       <div className={styles.actionsContainer}>
         <button
-          type="button"
+          type="submit"
           className={`${styles.commonButton} ${styles.submitButton}`}
           onClick={handleFormSubmit} 
         >
