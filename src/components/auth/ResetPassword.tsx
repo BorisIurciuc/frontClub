@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styles from './resetPassword.module.css';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -46,6 +45,7 @@ const ResetPassword = () => {
     }
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -87,22 +87,22 @@ const ResetPassword = () => {
 
   // Render loading state
   if (isLoading) {
-    return <div className={styles.authContainer}>Loading...</div>;
+    return <div className="auth-container">Loading...</div>;
   }
 
   return (
-    <div className={styles.authContainer}>
-      <div className={styles.authBox}>
+    <div className="auth-container">
+      <div className="auth-box">
         <h2>Reset Password</h2>
         {message && (
-          <div className={`${styles.message} ${isSuccess ? styles.success : styles.error}`}>
+          <div className={`message ${isSuccess ? 'success' : 'error'}`}>
             {message}
           </div>
         )}
         
         {isValid && (
-          <form onSubmit={handleSubmit} className={styles.authForm}>
-            <div className={styles.formGroup}>
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
               <label htmlFor="password">New Password:</label>
               <input
                 type="password"
@@ -111,11 +111,11 @@ const ResetPassword = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={8}
-                className={styles.inputControl}
+                className="form-control"
               />
             </div>
             
-            <div className={styles.formGroup}>
+            <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password:</label>
               <input
                 type="password"
@@ -124,17 +124,17 @@ const ResetPassword = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 minLength={8}
-                className={styles.inputControl}
+                className="form-control"
               />
             </div>
             
-            <button type="submit" className={styles.authButton}>
+            <button type="submit" className="auth-button">
               Reset Password
             </button>
           </form>
         )}
         
-        <div className={styles.authLinks}>
+        <div className="auth-links">
           <a href="/login">Back to Login</a>
         </div>
       </div>
