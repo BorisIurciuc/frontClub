@@ -1,14 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchAllActivities, deleteActivity } from "./manageActivity/activityActions";
+import { deleteActivity, fetchAllActivities } from "./ManageActivities";
+import { IActivity } from "../../auth/reduxActivities/types";
 
-interface IActivity {
-  id: number;
-  title: string;
-  address: string;
-  startDate: string;
-  image: string;
-  description: string;
-}
+
+
 
 interface ActivityState {
   activities: IActivity[];
@@ -22,7 +17,7 @@ const initialState: ActivityState = {
   error: null,
 };
 
-const activitySlice = createSlice({
+const manageActivitiesSlice = createSlice({
   name: "activity",
   initialState,
   reducers: {
@@ -34,6 +29,7 @@ const activitySlice = createSlice({
         state.error = null;
       })
       .addCase(fetchAllActivities.fulfilled, (state, action: PayloadAction<IActivity[]>) => {
+       // .addCase(fetchAllActivities.fulfilled, (state, action: PayloadAction<any[]>) => {
         state.activities = action.payload;
         state.loading = false;
       })
@@ -56,4 +52,4 @@ const activitySlice = createSlice({
   },
 });
 
-export default activitySlice.reducer;
+export default manageActivitiesSlice.reducer;
