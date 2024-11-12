@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {  Routes, Route, useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "./app/hooks";
+import { useAppDispatch } from "./app/hooks";
 import ActivityDetail from "./components/activityDetail/ActivityDetail";
 import ActivityList from "./components/activityList/ActivityList";
 import AddActivityForm from "./components/addActivitiesForm/AddActivitiesForm";
@@ -32,7 +32,7 @@ const App = () => {
   const [tokenChecked, setTokenChecked] = useState(false);
   
   useEffect(() => {
-    const token = localStorage.getItem("club-token");
+    const token = localStorage.getItem("token");
 
     if (token && !tokenChecked) {
       console.log("Проверка токена и получение данных пользователя...");
