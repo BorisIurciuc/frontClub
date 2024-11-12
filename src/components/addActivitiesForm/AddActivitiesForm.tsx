@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useState, useEffect } from "react";
-import { addActivity } from "../auth/reduxActivities/reduxActivitiesAction";
+import { addActivity, updateActivity } from "../auth/reduxActivities/reduxActivitiesAction";
 import style from "./formAddActivities.module.css";
 import axios from "axios";
 
@@ -20,15 +20,28 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { id } = useParams(); // Получаем ID активности из параметров маршрута
+
+  const activity = useAppSelector((state) =>
+    state.activity.activities.find((act) => act.id === Number(id))
+  );
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
+    setIsAuthenticated(!!token);
   }, []);
+
+  useEffect(() => {
+    if (activity) {
+      formik.setValues({
+        title: activity.title,
+        address: activity.address,
+        startDate: activity.startDate,
+        description: activity.description,
+      });
+      setImageUrl(activity.image);
+    }
+  }, [activity]);
 
   const formik = useFormik({
     initialValues: {
@@ -38,9 +51,7 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
       description: "",
     },
     validationSchema: Yup.object().shape({
-      title: Yup.string()
-        .required("Title is required")
-        .min(2, "Minimum 2 characters"),
+      title: Yup.string().required("Title is required").min(2, "Minimum 2 characters"),
       address: Yup.string().required("Address is required"),
       startDate: Yup.string().required("Date is required"),
       description: Yup.string().required("Description is required"),
@@ -50,41 +61,36 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
       setErrorMessage(null);
       setSuccessMessage(null);
 
+
       try {
-        const resultActivity = await dispatch(
-          addActivity({
-            title: values.title,
-            address: values.address,
-            startDate: values.startDate,
-            description: values.description,
-            image: image,
-          })
-        ).unwrap();
-
-        const { id } = resultActivity;
-
-        setTimeout(() => {
-          navigate(`/activityList/${id}`, {
-            state: { activity: resultActivity },
-          });
-        }, 2000);
+        const activityData = {
+          title: values.title,
+          address: values.address,
+          startDate: values.startDate,
+          description: values.description,
+          image: image,
+        };
+    
+        if (id) {
+          // Добавляем id только при обновлении
+          await dispatch(updateActivity({ ...activityData, id: Number(id) })).unwrap();
+          setSuccessMessage("The event has been successfully updated!");
+        } else {
+          // Создание активности без id
+          const resultActivity = await dispatch(addActivity(activityData)).unwrap();
+          setSuccessMessage("The event has been successfully added!");
+          navigate(`/activityList/${resultActivity.id}`, { state: { activity: resultActivity } });
+        }
+      
 
         onSuccess();
         formik.resetForm();
         setImageUrl("");
-        setSuccessMessage("The event has been successfully added!");
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          const errorMessage =
-            error.response?.data?.message ||
-            "Failed to add the event. Please try again.";
-          if (errorMessage === "User is not active") {
-            setErrorMessage("Your account is inactive. Please contact support.");
-          } else {
-            setErrorMessage(errorMessage);
-          }
+          setErrorMessage(error.response?.data?.message || "Failed to process the request.");
         } else {
-          setErrorMessage("An unexpected error occurred. Confirm registration in email before posting new event.");
+          setErrorMessage("An unexpected error occurred.");
         }
       } finally {
         setLoading(false);
@@ -109,15 +115,13 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
 
   return (
     <div className={style.formContainer}>
-      <h2 className={style.heading}>Add a new event</h2>
+      <h2 className={style.heading}>{id ? "Edit Event" : "Add a New Event"}</h2>
       {errorMessage && <p className={style.errorMessage}>{errorMessage}</p>}
-      {successMessage && (
-        <p className={style.successMessage}>{successMessage}</p>
-      )}
+      {successMessage && <p className={style.successMessage}>{successMessage}</p>}
       <form onSubmit={formik.handleSubmit} className={style.form}>
         <input
           type="text"
-          placeholder="title"
+          placeholder="Title"
           name="title"
           value={formik.values.title}
           onChange={formik.handleChange}
@@ -130,7 +134,7 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
 
         <input
           type="text"
-          placeholder="address"
+          placeholder="Address"
           name="address"
           value={formik.values.address}
           onChange={formik.handleChange}
@@ -178,7 +182,7 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
         )}
 
         <button type="submit" className={style.submitButton} disabled={loading}>
-          {loading ? "Loading..." : "Add activity"}
+          {loading ? "Loading..." : id ? "Update Activity" : "Add Activity"}
         </button>
       </form>
     </div>
