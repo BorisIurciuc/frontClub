@@ -1,7 +1,7 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import authReducer from "../components/auth/features/authSlice";
 import reduxActivitiesReducer from "../components/auth/reduxActivities/reduxActivitiesSlice";
-import adminReducer from '../components/adminPanel/adminSlice';
+import adminReducer from '../components/adminPanel/manageUsers/userSlice';
 import newsReducer from "../components/adminPanel/manageNews/newsSlice";
 import reviewSlice from "../components/review/reviewSlice";
 import responseRevSlice from "../components/response/responseReviewSlise";

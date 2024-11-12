@@ -1,5 +1,6 @@
 .activityDetailContainer {
-    max-width: 800px;
+    max-width: 480px;
+     
     margin: 20px auto;
     padding: 20px;
     background-color: #ffffff;
@@ -17,7 +18,7 @@
 }
 
 .activityDetailImage {
-    width: 100%;
+    width: 360px;
     height: auto;
     border-radius: 12px;
     margin-bottom: 20px;
@@ -46,13 +47,15 @@
 
 .buttonContainer {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Align buttons in a single row */
+    gap: 10px;
     margin-top: 20px;
     gap: 10px;
 }
 
 .participateButton,
-.revokeButton {
+.revokeButton,
+.deleteButton { /* Common styling for buttons */
     background-color: #007bff;
     color: white;
     border: none;
@@ -64,6 +67,8 @@
     text-transform: uppercase;
     width: 150px;
     text-align: center;
+    flex: 1; /* Make buttons take equal space */
+    max-width: 150px; /* Limit max width for consistent size */
 }
 
 .participateButton {
@@ -74,12 +79,20 @@
     background-color: #dc3545;
 }
 
+.deleteButton {
+    background-color: #ff4444;
+}
+
 .participateButton:hover {
     background-color: #218838;
 }
 
 .revokeButton:hover {
     background-color: #c82333;
+}
+
+.deleteButton:hover {
+    background-color: #d32f2f;
 }
 
 @media (max-width: 768px) {
@@ -111,6 +124,12 @@
 @media (min-width: 1440px) {
     .activityDetailContainer {
         max-width: 1000px;
+
+    .participateButton,
+    .revokeButton,
+    .deleteButton {
+        width: 100%; /* Full width for smaller screens */
+        margin: 10px 0;
     }
 
     .activityDetailTitle {
@@ -136,5 +155,6 @@
     .revokeButton {
         width: 100%;
         padding: 10px 20px;
+        }
     }
 }

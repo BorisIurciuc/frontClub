@@ -12,6 +12,7 @@ const ActivityDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const location = useLocation();
   const navigate = useNavigate(); 
@@ -29,7 +30,6 @@ const ActivityDetail: React.FC = () => {
           },
         });
         setAuthorName(response.data);
-        console.log(response.data)
       } catch (err) {
         console.error("Error fetching author name:", err);
         setError("Failed to load author information");
@@ -53,6 +53,10 @@ const ActivityDetail: React.FC = () => {
       }
     };
 
+    if (user?.roles?.includes("ROLE_ADMIN")) {
+      setIsAdmin(true);
+    }
+
     fetchAuthorName();
     checkRegistration();
   }, [activity?.id, user]);
@@ -75,6 +79,26 @@ const ActivityDetail: React.FC = () => {
     } else {
       await handleParticipate(activity.id);
       setIsRegistered(true); 
+    }
+  };
+
+  const handleDeleteActivity = async () => {
+    if (!activity) {
+      console.error("Activity is not defined");
+      return;
+    }
+
+    try {
+      await axios.delete(`/api/activity/${activity.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      alert("Activity deleted successfully");
+      navigate("/admin/activities");
+    } catch (error) {
+      console.error("Error deleting activity:", error);
+      alert("Failed to delete activity");
     }
   };
 
@@ -113,6 +137,15 @@ const ActivityDetail: React.FC = () => {
             disabled={loading}
           >
             {isRegistered ? "Revoke Participation" : "Participate"}
+          </button>
+        )}
+        
+        {isAdmin && (
+          <button
+            className={styles.deleteButton}
+            onClick={handleDeleteActivity}
+          >
+            Delete Activity
           </button>
         )}
       </div>
