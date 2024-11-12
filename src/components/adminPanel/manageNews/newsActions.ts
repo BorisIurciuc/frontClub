@@ -1,13 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
-<<<<<<< HEAD
-import { format } from "date-fns";
-import { jwtDecode } from "jwt-decode";
-
-=======
 import { jwtDecode } from "jwt-decode";
 import { format, isValid, parseISO } from "date-fns";
->>>>>>> b7930cba63df88d4f07918ab0ea53a58385fb476
 
 export interface INews {
   id: number;
@@ -156,9 +150,6 @@ export const getNewsById = createAsyncThunk<INews, number>(
       return rejectWithValue(axiosError.response?.data?.message || "Failed to fetch news by ID");
     }
   }
-<<<<<<< HEAD
-);
-=======
 );
 
 // Helper function to format dates consistently
@@ -171,4 +162,3 @@ const formatNewsDate = (date: string | number | Date): string => {
   }
   return "Unknown Date";
 };
->>>>>>> b7930cba63df88d4f07918ab0ea53a58385fb476
