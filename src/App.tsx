@@ -24,6 +24,7 @@ import NewsList from "./components/adminPanel/manageNews/NewsList";
 import AdminPanel from "./components/adminPanel/AdminPanel";
 import UserList from "./components/adminPanel/manageUsers/UserList";
 import { IUser } from "./components/auth/features/authSlice";
+import ManageActivities from "./components/adminPanel/manageActivities/ManageActivities";
 const App = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -96,7 +97,7 @@ const App = () => {
             <Route path="*" element={<h1>Error 404 :dizzy_face:</h1>} />
             <Route path="/admin" element={<ProtectedRoute element={<AdminPanel />} />}>
             <Route path="users" element={<UserList />} />
-            <Route path="activities" element={<ActivityList />} />
+            <Route path="activities" element={<ManageActivities />}  />
             <Route path="news" element={<NewsList />} />
           </Route>
           </Route>
