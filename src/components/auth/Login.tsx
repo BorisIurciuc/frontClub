@@ -50,7 +50,7 @@ export default function Login() {
 
         console.log('Login response:', response);
         
-        localStorage.setItem('club-token', response.token);
+        localStorage.setItem('token', response.accessToken);
         
         setSuccessMessage('Login successful!'); 
         navigate('/'); 
