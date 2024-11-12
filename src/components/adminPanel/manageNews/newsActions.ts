@@ -74,7 +74,7 @@ const requestWithAuth = async (
   return response.data;
 };
 
-// Async thunks
+
 export const createNews = createAsyncThunk<INews, Partial<INews>>(
   "news/createNews",
   async (newsData, { rejectWithValue }) => {
@@ -152,7 +152,7 @@ export const getNewsById = createAsyncThunk<INews, number>(
   }
 );
 
-// Helper function to format dates consistently
+
 const formatNewsDate = (date: string | number | Date): string => {
   if (typeof date === "string" && isValid(parseISO(date))) {
     return format(parseISO(date), "dd.MM.yyyy HH:mm:ss");

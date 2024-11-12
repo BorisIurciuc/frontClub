@@ -127,7 +127,7 @@ const ActivityDetail: React.FC = () => {
         {loading ? 'Loading...' : error ? <span className={styles.error}>{error}</span> : authorName}
       </div>
       
-      <p>Current user: {user?.username}</p>
+      
 
       <div className={styles.buttonContainer}>
         {user?.id !== activity.authorId && (
@@ -135,18 +135,11 @@ const ActivityDetail: React.FC = () => {
             className={isRegistered ? styles.revokeButton : styles.participateButton}
             onClick={handleParticipationClick}
           >
-            {isRegistered ? "Revoke Participation" : "Participate"}
+            {isRegistered ? "Unsubscribe" : "Participate"}
           </button>
         )}
         
-        {isAdmin && (
-          <button
-            className={styles.deleteButton}
-            onClick={handleDeleteActivity}
-          >
-            Delete Activity
-          </button>
-        )}
+        
       </div>
       <BackButton />
     </div>
