@@ -15,7 +15,7 @@ const ProtectedRoute: React.FC<IProps> = ({ element }) => {
   }
 
   // Если не аутентифицирован, перенаправляем на страницу входа
-  return <Navigate to="/login" />;
+  return <Navigate to="/Home" />;
 };
 
 export default ProtectedRoute;

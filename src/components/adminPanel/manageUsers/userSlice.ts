@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchAllUsers, deleteUser, getUser } from "./adminActions";
-import { IUser } from "../auth/features/authSlice";
+import { fetchAllUsers, deleteUser, getUser } from "./userActions";
+import { IUser } from "../../auth/features/authSlice";
 
 // Интерфейс для состояния admin
 interface AdminState {

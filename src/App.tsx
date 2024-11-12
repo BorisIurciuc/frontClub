@@ -20,10 +20,10 @@ import RegistrationConfirmed from "./components/registrationConfirm/Registration
 import { UserProvider } from "./components/userContext/UserContext";
 import Reviews from "./components/review/Reviews";
 import News from "./components/news/News";
-import UserList from "./components/adminPanel/UserList";
 import NewsList from "./components/adminPanel/manageNews/NewsList";
 import AdminPanel from "./components/adminPanel/AdminPanel";
 import { PayloadAction } from "@reduxjs/toolkit";
+import UserList from "./components/adminPanel/manageUsers/UserList";
 const App = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -35,11 +35,11 @@ const App = () => {
       try {
         const res: PayloadAction<any> = await dispatch(getUserWithToken()).unwrap();
         const userRoles = res?.payload?.roles || [];
-        // Если у пользователя есть роль администратора, перенаправляем на панель администратора
+        
         if (userRoles.includes("ROLE_ADMIN")) {
           navigate("/admin");
         } else if (!isAuthenticated) {
-          navigate("/login"); // Перенаправляем неаутентифицированных пользователей на страницу логина
+          navigate("/homePage"); 
         }
       } catch (error) {
         console.error("Error fetching user with token", error);
@@ -49,7 +49,7 @@ const App = () => {
   }, [dispatch, navigate, isAuthenticated]);
   return (
     <UserProvider>
-      {/* Добавление кнопки "Выйти" */}
+      
      
         <Routes>
           <Route

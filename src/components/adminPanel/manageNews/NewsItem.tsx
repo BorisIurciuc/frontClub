@@ -1,25 +1,47 @@
 import React from 'react';
 import { INews } from './newsActions';
+import styles from './newsItem.module.css';
 
 interface NewsItemProps {
   news: INews;
   onDelete: (id: number) => void;
-  onUpdate: (updatedNews: INews) => void;
-  onGetNews: (id: number) => Promise<void>; // Add onGetNews prop
+  onEdit: (news: INews) => void;
+  onGetNews: (id: number) => Promise<void>;
+  formatDate?: (date: string | number | Date) => string;
 }
 
-const NewsItem: React.FC<NewsItemProps> = ({ news, onDelete, onUpdate, onGetNews }) => {
-  const handleGetDetails = () => {
-    onGetNews(news.id); // Call onGetNews when needed
-  };
-
+const NewsItem: React.FC<NewsItemProps> = ({ 
+  news, 
+  onDelete, 
+  onEdit, 
+  onGetNews, 
+  // formatDate 
+}) => {
   return (
-    <div>
-      <h3>{news.title}</h3>
-      <p>{news.description}</p>
-      <button onClick={() => onDelete(news.id)}>Delete</button>
-      <button onClick={() => onUpdate(news)}>Update</button>
-      <button onClick={handleGetDetails}>View Details</button> {/* Use onGetNews */}
+    <div className={styles.newsItem}>
+      <h3 className={styles.newsTitle}>{news.title}</h3>
+      <p className={styles.newsDescription}>{news.description}</p>
+      {/* <p className={styles.newsDate}>{news.createdBy}</p>      */}
+      <div className={styles.newsActions}>
+        <button 
+          onClick={() => onEdit(news)}
+          className={styles.editButton}
+        >
+          Edit
+        </button>
+        <button 
+          onClick={() => onDelete(news.id)}
+          className={styles.deleteButton}
+        >
+          Delete
+        </button>
+        <button 
+          onClick={() => onGetNews(news.id)}
+          className={styles.detailsButton}
+        >
+          View Details
+        </button>
+      </div>
     </div>
   );
 };

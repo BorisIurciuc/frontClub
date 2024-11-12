@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteUser, fetchAllUsers, getUser } from "./adminActions";
-import { RootState, AppDispatch } from "../../app/store";
-import { IUser } from "../auth/features/authSlice";
+import { deleteUser, fetchAllUsers, getUser } from "./userActions";
 import styles from "./userList.module.css";
+import { AppDispatch, RootState } from "../../../app/store";
+import { IUser } from "../../auth/features/authSlice";
 
 const UserList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -35,7 +35,9 @@ const UserList: React.FC = () => {
             <h3>{user.username}</h3>
             <p>ID: {user.id}</p>
             <p>Email: {user.email}</p>
-            <p>Roles: {user.roles.join(", ")}</p>
+            <p>Roles: {user.roles.map((role: any) => role.name || role.role).join(", ")}</p>
+
+
             <p className={`${styles.status} ${!user.active ? styles.inactive : ""}`}>
               Status: {user.active ? "Active" : "Inactive"}
             </p>
