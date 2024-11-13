@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { addActivity, updateActivity } from "../auth/reduxActivities/reduxActivitiesAction";
 import style from "./formAddActivities.module.css";
 import axios from "axios";
+import BackButton from "../backButton/BackButton";
 
 interface AddActivityFormProps {
   onSuccess: () => void;
@@ -184,6 +185,7 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
         <button type="submit" className={style.submitButton} disabled={loading}>
           {loading ? "Loading..." : id ? "Update Activity" : "Add Activity"}
         </button>
+        <BackButton /> 
       </form>
     </div>
   );

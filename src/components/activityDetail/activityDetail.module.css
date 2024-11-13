@@ -46,7 +46,7 @@
 
 .buttonContainer {
     display: flex;
-    justify-content: space-between; /* Align buttons in a single row */
+    justify-content: center; 
     gap: 10px;
     margin-top: 20px;
     gap: 10px;
@@ -54,7 +54,7 @@
 
 .participateButton,
 .revokeButton,
-.deleteButton { /* Common styling for buttons */
+.deleteButton { 
     background-color: #007bff;
     color: white;
     border: none;
@@ -66,8 +66,8 @@
     text-transform: uppercase;
     width: 150px;
     text-align: center;
-    flex: 1; /* Make buttons take equal space */
-    max-width: 150px; /* Limit max width for consistent size */
+    flex: 1;
+    max-width: 150px;
 }
 
 .participateButton {
@@ -127,7 +127,7 @@
     .participateButton,
     .revokeButton,
     .deleteButton {
-        width: 100%; /* Full width for smaller screens */
+        width: 100%;
         margin: 10px 0;
     }
 
