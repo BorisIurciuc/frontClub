@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "./app/hooks";
+import { useEffect, useState } from "react";
+import {  Routes, Route, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "./app/hooks";
 import ActivityDetail from "./components/activityDetail/ActivityDetail";
 import ActivityList from "./components/activityList/ActivityList";
 import AddActivityForm from "./components/addActivitiesForm/AddActivitiesForm";
@@ -22,76 +22,85 @@ import Reviews from "./components/review/Reviews";
 import News from "./components/news/News";
 import NewsList from "./components/adminPanel/manageNews/NewsList";
 import AdminPanel from "./components/adminPanel/AdminPanel";
-import { PayloadAction } from "@reduxjs/toolkit";
 import UserList from "./components/adminPanel/manageUsers/UserList";
+import { IUser } from "./components/auth/features/authSlice";
+import ManageActivities from "./components/adminPanel/manageActivities/ManageActivities";
 const App = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAppSelector((store) => store.user);
-  // Функция для выхода (очистка токена и перезагрузка страницы)
-
+  //const { isAuthenticated } = useAppSelector((store) => store.user);
+  const [tokenChecked, setTokenChecked] = useState(false);
+  
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res: PayloadAction<any> = await dispatch(
-          getUserWithToken()
-        ).unwrap();
-        const userRoles = res?.payload?.roles || [];
-        
-        if (userRoles.includes("ROLE_ADMIN")) {
-          navigate("/admin");
-        } else if (!isAuthenticated) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching user with token", error);
-      }
-    };
-    fetchUser();
-  }, [dispatch, navigate, isAuthenticated]);
+    const token = localStorage.getItem("token");
+
+    if (token && !tokenChecked) {
+      console.log("Проверка токена и получение данных пользователя...");
+      dispatch(getUserWithToken())
+        .unwrap()
+        .then((res: IUser) => {
+          console.log("Данные пользователя получены:", res);
+          if (res.roles.includes("ROLE_ADMIN")) {
+            navigate("/");
+          }
+          setTokenChecked(true);
+        })
+        .catch((error) => {
+          console.error("Ошибка получения данных пользователя по токену", error);
+          setTokenChecked(true);
+        });
+    }
+  }, [dispatch, navigate, tokenChecked]);
   return (
     <UserProvider>
-      <Routes>
-        <Route
-          path="/registration-confirmed"
-          element={<RegistrationConfirmed />}
-        />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/homePage" element={<HomePage />} />
-          <Route path="/activityList" element={<ActivityList />} />
-          <Route path="/editProfile" element={<EditProfile />} />
-          <Route path="/review" element={<Reviews />} />
+        <Routes>
           <Route
+            path="/registration-confirmed"
+            element={<RegistrationConfirmed />}
+          />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="/homePage" element={<HomePage />} />
+            <Route path="/activityList" element={<ActivityList />} />
+            <Route path="/editProfile" element={<EditProfile />} />
+            <Route path="/review" element={<Reviews />} />
+            <Route
             path="/activityList/addActivity"
             element={
               <AddActivityForm
-                onSuccess={function (): void {
-                  throw new Error("Function not implemented.");
+                onSuccess={() => {
+                  console.log("Активность успешно добавлена");
                 }}
               />
             }
           />
-          <Route path="/activityList/:id" element={<ActivityDetail />} />
-          <Route path="/dashBoard" element={<DashBoard />} />
-          <Route path="/news" element={<ProtectedRoute element={<News />} />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="/projectCreators" element={<ProjectCreators />} />
           <Route
-            path="/admin"
-            element={<ProtectedRoute element={<AdminPanel />} />}
-          >
+            path="/activityList/editActivity/:id"
+            element={
+              <AddActivityForm
+                onSuccess={() => {
+                  console.log("Активность успешно обновлена");
+                }}
+              />
+            }
+          />
+            <Route path="/activityList/:id" element={<ActivityDetail />} />
+            <Route path="/dashBoard" element={<DashBoard />} />
+            <Route path="/news" element={<ProtectedRoute element={<News />} />}/>
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="/projectCreators" element={<ProjectCreators />} />
+            <Route path="*" element={<h1>Error 404 :dizzy_face:</h1>} />
+            <Route path="/admin" element={<ProtectedRoute element={<AdminPanel />} />}>
             <Route path="users" element={<UserList />} />
-            <Route path="activities" element={<ActivityList />} />
+            <Route path="activities" element={<ManageActivities />}  />
             <Route path="news" element={<NewsList />} />
-            <Route path="*" element={<h1>Error 404 😵</h1>} />
           </Route>
-        </Route>
-      </Routes>
-      <Footer />
+          </Route>
+        </Routes>
+        <Footer />
     </UserProvider>
   );
 };

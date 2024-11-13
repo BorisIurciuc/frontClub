@@ -50,12 +50,12 @@ export default function Login() {
           })
         ).unwrap();
 
-        console.log("Login response:", response);
-
-        localStorage.setItem("club-token", response.token);
-
-        setSuccessMessage("Login successful!");
-        navigate("/");
+        console.log('Login response:', response);
+        
+        localStorage.setItem('token', response.accessToken);
+        
+        setSuccessMessage('Login successful!'); 
+        navigate('/'); 
       } catch (error) {
         const errorMsg = typeof error === "string" ? error : "Failed to login.";
         setErrorMessage(errorMsg);

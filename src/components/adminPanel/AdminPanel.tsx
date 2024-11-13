@@ -13,11 +13,9 @@ const AdminPanel: React.FC = () => {
               Manage Users
             </NavLink>
           </li>
-          {/* <li>
-            <NavLink to="/admin/manageActivities" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
-              Manage Activities
-            </NavLink>
-          </li> */}
+          <li>
+            <NavLink to="/admin/activities" className={styles.link}>Manage Activities</NavLink>
+          </li>
           <li>
             <NavLink to="/admin/news" className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}>
               Manage News
