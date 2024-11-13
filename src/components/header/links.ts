@@ -3,47 +3,40 @@ export interface ILink {
   title: string;
 }
 
-
-export const links = (
-    isAuthenticated: boolean, 
-    isAdmin: boolean , 
-    ):     
-    ILink[] => {const baseLinks: ILink[] = [
+export const links = (isAuthenticated: boolean, isAdmin: boolean): ILink[] => {
+  const baseLinks: ILink[] = [
     {
-      pathname: '/',
-      title: 'Home',
+      pathname: "/",
+      title: "Home",
     },
     {
-      pathname: '/activityList',
-      title: 'Courses',
+      pathname: "/activityList",
+      title: "Courses",
     },
   ];
 
   if (isAuthenticated) {
     baseLinks.push(
       {
-        pathname: '/news',
-        title: 'News',
-      },
-            {
-        pathname: '/review',
-        title: 'Review',
+        pathname: "/news",
+        title: "News",
       },
       {
-        pathname: '/dashboard',
-        title: 'Dashboard',
+        pathname: "/review",
+        title: "Review",
+      },
+      {
+        pathname: "/dashboard",
+        title: "Dashboard",
         // title: username ? `${username}` : 'Dashboard',
-
       }
     );
   }
- 
 
-  
-  if (isAuthenticated && isAdmin) {
+  if (isAdmin) {
     baseLinks.push({
-      pathname: '/admin',
-      title: 'Admin Panel',
+      pathname: "/admin",
+      title: "Admin Panel",
     });
   }
 

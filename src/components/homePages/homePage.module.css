@@ -55,6 +55,7 @@
 }
 
 .courseButton {
+  max-width: 200px;
   padding: 0.5rem 1rem;
   font-size: 1.1rem;
   color: white;
@@ -66,7 +67,12 @@
 }
 
 .courseButton:hover {
-  background-color: #0056b3;
+  background-color: #45a049;
+}
+
+.icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
 }
 
 .highlightSection {

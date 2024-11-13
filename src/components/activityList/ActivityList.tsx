@@ -6,6 +6,8 @@ import SearchBar from "../searchBar/SearchBar";
 import ScrollToTopButton from "../scrollToTopButton/ScrollToTopButton";
 import { getActivities } from "../auth/reduxActivities/reduxActivitiesAction";
 import { useAppDispatch } from "../../app/hooks";
+import { faArrowRight, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface IActivity {
   id: number;
@@ -28,6 +30,7 @@ const ActivityList: React.FC = () => {
       <div className={styles.headerContainer}>
         <h2 className={styles.pageTitle}>Activities</h2>
         <Link to="addActivity" className={`${buttonStyles.button} ${styles.addButton}`}>
+        <FontAwesomeIcon icon={faPlusCircle} className={styles.icon} />
           Add Activity
         </Link>
       </div>
@@ -45,7 +48,7 @@ const ActivityList: React.FC = () => {
                 className={buttonStyles.button}
                 aria-label={`More about ${activity.title}`}
               >
-                More
+                More <FontAwesomeIcon icon={faArrowRight} className={styles.icon} /> 
               </Link>
             </div>
           ))

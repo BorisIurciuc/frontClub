@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import styles from "../adminPanel.module.css";
-import buttonStyles from "../../button/button.module.css";
+import styles from "./manageActivities.module.css"; 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 export const fetchAllActivities = createAsyncThunk(
   "admin/fetchAllActivities",
@@ -16,7 +16,9 @@ export const fetchAllActivities = createAsyncThunk(
       });
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to fetch activities");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch activities"
+      );
     }
   }
 );
@@ -31,7 +33,9 @@ export const deleteActivity = createAsyncThunk(
       });
       return activityId;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to delete activity");
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to delete activity"
+      );
     }
   }
 );
@@ -39,13 +43,15 @@ export const deleteActivity = createAsyncThunk(
 const ManageActivities: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isAdmin = useAppSelector((state) => state.user.user?.roles.includes("ROLE_ADMIN"));
+  const isAdmin = useAppSelector((state) =>
+    state.user.user?.roles.includes("ROLE_ADMIN")
+  );
   const activities = useAppSelector((state) => state.activity.activities);
   const loading = useAppSelector((state) => state.activity.loading);
   const error = useAppSelector((state) => state.activity.error);
 
   useEffect(() => {
-    dispatch(fetchAllActivities()); // Load activities on component mount
+    dispatch(fetchAllActivities());
   }, [dispatch]);
 
   const handleEdit = (activityId: number) => {
@@ -68,19 +74,23 @@ const ManageActivities: React.FC = () => {
       <div className={styles.activityListContainer}>
         {activities.map((activity) => (
           <div key={activity.id} className={styles.activityItem}>
-            <img src={activity.image} alt={activity.title} className={styles.activityImage} />
+            <img
+              src={activity.image}
+              alt={activity.title}
+              className={styles.activityImage}
+            />
             <div className={styles.details}>
               <h3 className={styles.activityTitle}>{activity.title}</h3>
               <p className={styles.startDate}>Start: {activity.startDate}</p>
               <div className={styles.buttonContainer}>
                 <button
-                  className={buttonStyles.button}
+                  className={styles.editButton}
                   onClick={() => handleEdit(activity.id)}
                 >
                   Edit
                 </button>
                 <button
-                  className={`${buttonStyles.button} ${buttonStyles.deleteButton}`}
+                  className={styles.deleteButton} 
                   onClick={() => handleDelete(activity.id)}
                 >
                   Delete

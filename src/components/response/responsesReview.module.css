@@ -1,0 +1,279 @@
+:root {
+  --primary-color: #45a049;
+  --primary-hover: #007bff;
+  --secondary-color: #007bff;
+  --secondary-hover: #f44336;
+  --text-color: #333;
+  --background-color: #f9f9f9;
+  --border-color: #ddd;
+  --delete-color: #f44336;
+  --delete-hover: #d32f2f;
+}
+
+.responseContainer {
+  margin: 20px;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--background-color);
+}
+
+.title {
+  font-size: 1.6em;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.buttonCommon {
+  max-width: 200px;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.addButton {
+  max-width: 200px;
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.cancelButton {
+  max-width: 200px;
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.buttonCommon:hover {
+  background-color: var(--primary-hover);
+}
+
+.addButton:hover {
+  background-color: var(--primary-hover);
+}
+
+.cancelButton:hover {
+  background-color: var(--secondary-hover);
+}
+
+.deleteButton {
+  max-width: 100px;
+  background-color: var(--delete-color);
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: var(--delete-hover);
+}
+
+.icon {
+  margin-right: 0.5rem;
+}
+
+.toggleResponsesButton {
+  max-width: 200px;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.toggleResponsesButton:hover {
+  background-color: #0056b3;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.addResponseContainer {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: #f2f8f8;
+}
+
+.addResponseTitle {
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 1em;
+  margin-top: 10px;
+}
+
+.loadingMessage {
+  font-size: 1em;
+  color: #888;
+}
+
+.responseItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.responseContent {
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.createdBy,
+.createdAt {
+  margin-bottom: 15px;
+  font-size: 0.9em;
+  color: #777;
+}
+
+.noResponsesMessage {
+  font-size: 1.2em;
+  color: #888;
+}
+
+@media (max-width: 1024px) {
+  .responseContainer {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .title {
+    font-size: 1.4em;
+  }
+
+  .buttonCommon {
+    padding: 1rem 2rem;
+    font-size: 0.9rem;
+  }
+
+  .addButton, .cancelButton {
+    max-width: 100%;
+  }
+
+  .toggleResponsesButton {
+    max-width: 100%;
+  }
+
+  .responseItem {
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .addResponseContainer {
+    padding: 12px;
+  }
+
+  .addResponseTitle {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 768px) {
+  .responseContainer {
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+  }
+
+  .buttonCommon {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .addResponseContainer {
+    padding: 10px;
+  }
+
+  .addResponseTitle {
+    font-size: 1.1em;
+  }
+
+  .responseItem {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .toggleButton {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .toggleResponsesButton {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .responseContainer {
+    margin: 5px;
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+
+  .buttonCommon {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .addButton, .cancelButton {
+    max-width: 100%;
+  }
+
+  .toggleResponsesButton {
+    max-width: 100%;
+    font-size: 1rem;
+  }
+
+  .responseItem {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .addResponseContainer {
+    padding: 8px;
+  }
+
+  .addResponseTitle {
+    font-size: 1em;
+  }
+}
