@@ -92,7 +92,7 @@ const App = () => {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="/projectCreators" element={<ProjectCreators />} />
-            <Route path="*" element={<h1>Error 404 :dizzy_face:</h1>} />
+            <Route path="*" element={<h1>Error 404 Page not found </h1>} />
             <Route path="/admin" element={<ProtectedRoute element={<AdminPanel />} />}>
             <Route path="users" element={<UserList />} />
             <Route path="activities" element={<ManageActivities />}  />

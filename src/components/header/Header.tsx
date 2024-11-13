@@ -14,7 +14,6 @@ import {
   FaBars,
   FaTimes,
   FaBook,
-  FaSchool,
   FaComments,
   FaNewspaper,
   FaEdit,
@@ -109,7 +108,6 @@ export const Header: React.FC = () => {
               {link.title === "Home" && <FaHome className={styles.iconLink} />}
               {link.title === "Profile" && <FaUser className={styles.iconLink} />}
               {link.title === "Courses" && <FaBook className={styles.iconLink} />}
-              {link.title === "School" && <FaSchool className={styles.iconLink} />}
               {link.title === "News" && <FaNewspaper className={styles.iconLink} />}
               {link.title === "Review" && <FaComments className={styles.iconLink} />}
               {link.title === "Dashboard" && <FaEdit className={styles.iconLink} />}
