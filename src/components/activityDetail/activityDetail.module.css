@@ -1,6 +1,5 @@
 .activityDetailContainer {
     max-width: 480px;
-     
     margin: 20px auto;
     padding: 20px;
     background-color: #ffffff;
@@ -18,7 +17,7 @@
 }
 
 .activityDetailImage {
-    width: 360px;
+    width: 100%;
     height: auto;
     border-radius: 12px;
     margin-bottom: 20px;
