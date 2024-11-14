@@ -3,9 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useState, useEffect } from "react";
-import { addActivity, updateActivity } from "../auth/reduxActivities/reduxActivitiesAction";
+import {
+  addActivity,
+  updateActivity,
+} from "../auth/reduxActivities/reduxActivitiesAction";
 import style from "./formAddActivities.module.css";
 import axios from "axios";
+import BackButton from "../backButton/BackButton";
 
 interface AddActivityFormProps {
   onSuccess: () => void;
@@ -51,7 +55,9 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
       description: "",
     },
     validationSchema: Yup.object().shape({
-      title: Yup.string().required("Title is required").min(2, "Minimum 2 characters"),
+      title: Yup.string()
+        .required("Title is required")
+        .min(2, "Minimum 2 characters"),
       address: Yup.string().required("Address is required"),
       startDate: Yup.string().required("Date is required"),
       description: Yup.string().required("Description is required"),
@@ -61,7 +67,6 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
       setErrorMessage(null);
       setSuccessMessage(null);
 
-
       try {
         const activityData = {
           title: values.title,
@@ -70,25 +75,32 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
           description: values.description,
           image: image,
         };
-    
+
         if (id) {
-          // Добавляем id только при обновлении
-          await dispatch(updateActivity({ ...activityData, id: Number(id) })).unwrap();
+
+          await dispatch(
+            updateActivity({ ...activityData, id: Number(id) })
+          ).unwrap();
           setSuccessMessage("The event has been successfully updated!");
         } else {
           // Создание активности без id
-          const resultActivity = await dispatch(addActivity(activityData)).unwrap();
+          const resultActivity = await dispatch(
+            addActivity(activityData)
+          ).unwrap();
           setSuccessMessage("The event has been successfully added!");
-          navigate(`/activityList/${resultActivity.id}`, { state: { activity: resultActivity } });
+          navigate(`/activityList/${resultActivity.id}`, {
+            state: { activity: resultActivity },
+          });
         }
-      
 
         onSuccess();
         formik.resetForm();
         setImageUrl("");
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          setErrorMessage(error.response?.data?.message || "Failed to process the request.");
+          setErrorMessage(
+            error.response?.data?.message || "Failed to process the request."
+          );
         } else {
           setErrorMessage("An unexpected error occurred.");
         }
@@ -117,7 +129,9 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
     <div className={style.formContainer}>
       <h2 className={style.heading}>{id ? "Edit Event" : "Add a New Event"}</h2>
       {errorMessage && <p className={style.errorMessage}>{errorMessage}</p>}
-      {successMessage && <p className={style.successMessage}>{successMessage}</p>}
+      {successMessage && (
+        <p className={style.successMessage}>{successMessage}</p>
+      )}
       <form onSubmit={formik.handleSubmit} className={style.form}>
         <input
           type="text"
@@ -181,9 +195,17 @@ const AddActivityForm: React.FC<AddActivityFormProps> = ({ onSuccess }) => {
           <p className={style.errorText}>{formik.errors.description}</p>
         )}
 
-        <button type="submit" className={style.submitButton} disabled={loading}>
-          {loading ? "Loading..." : id ? "Update Activity" : "Add Activity"}
-        </button>
+        <div className={style.buttonContainer}>
+          <button
+            type="submit"
+            className={style.submitButton}
+            disabled={loading}
+          >
+            {loading ? "Loading..." : id ? "Update Activity" : "Add Activity"}
+          </button>
+        </div>
+
+        <BackButton />
       </form>
     </div>
   );
