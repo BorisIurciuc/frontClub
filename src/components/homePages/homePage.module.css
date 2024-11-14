@@ -64,6 +64,8 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 
 .courseButton:hover {
