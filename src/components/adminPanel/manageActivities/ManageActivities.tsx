@@ -4,6 +4,7 @@ import styles from "./manageActivities.module.css";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ScrollToTopButton from "../../scrollToTopButton/ScrollToTopButton";
 
 
 export const fetchAllActivities = createAsyncThunk(
@@ -99,6 +100,7 @@ const ManageActivities: React.FC = () => {
             </div>
           </div>
         ))}
+        <ScrollToTopButton />
       </div>
     </div>
   );
