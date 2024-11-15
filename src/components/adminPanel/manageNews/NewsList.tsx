@@ -159,7 +159,7 @@ const NewsList: React.FC = () => {
                 <h2>News Details: {selectedNews.title}</h2>
                 <p>{selectedNews.description}</p>
                 <p className={styles.newsAuthor}>Author: {selectedNews.createdBy.username}</p>
-                что мне нужно исправить, чтобы появилось Created:
+                <p className={styles.newsDate}> Created: {formatDate(selectedNews.createdAt)}</p>
                 <button onClick={() => setSelectedNewsId(null)}>Close</button>
               </div>
             )}
