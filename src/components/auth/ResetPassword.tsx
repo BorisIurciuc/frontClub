@@ -29,7 +29,7 @@ const ResetPassword = () => {
   // Token validation function
   const validateToken = async (tokenParam) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/validate-reset-token?token=${tokenParam}`);
+      const response = await fetch(`/api/validate-reset-token?token=${tokenParam}`);
       if (response.ok) {
         setIsValid(true);
         setIsLoading(false);
