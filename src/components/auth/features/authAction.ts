@@ -78,7 +78,7 @@ export const resetPassword = createAsyncThunk<
   { rejectValue: string }
 >("auth/resetPassword", async ({ email }, thunkAPI) => {
   try {
-    await axios.post("http://localhost:8080/user/reset-password", { email });
+    await axios.post("/api/user/reset-password", { email });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return thunkAPI.rejectWithValue(error.message);
