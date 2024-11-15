@@ -1,0 +1,83 @@
+.updateNewsForm {
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f0f4f8;
+  margin-bottom: 16px;
+}
+
+.formGroup {
+  margin-bottom: 12px;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.saveButton {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .updateNewsForm {
+    padding: 12px;
+  }
+
+  .input, .textarea {
+    padding: 6px;
+    font-size: 0.875rem;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .saveButton, .cancelButton {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .updateNewsForm {
+    padding: 24px;
+  }
+
+  .input, .textarea {
+    padding: 10px;
+    font-size: 1.125rem;
+  }
+
+  .buttonGroup {
+    gap: 16px;
+  }
+
+  .saveButton, .cancelButton {
+    padding: 10px 20px;
+    font-size: 1.125rem;
+  }
+}

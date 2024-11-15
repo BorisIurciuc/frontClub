@@ -4,6 +4,7 @@ import { deleteUser, fetchAllUsers, getUser } from "./userActions";
 import styles from "./userList.module.css";
 import { AppDispatch, RootState } from "../../../app/store";
 import { IUser } from "../../auth/features/authSlice";
+import ScrollToTopButton from "../../scrollToTopButton/ScrollToTopButton";
 
 const UserList: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -92,6 +93,7 @@ const UserList: React.FC = () => {
           </div>
         </div>
       )}
+      <ScrollToTopButton />
     </div>
   );
 };
