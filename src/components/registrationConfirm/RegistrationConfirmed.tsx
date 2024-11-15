@@ -3,9 +3,9 @@ import { useSearchParams } from "react-router-dom";
 const RegistrationConfirmed = () => {
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
-useEffect(()=>{
-  fetch("")
-},[])
+// useEffect(()=>{
+//   fetch("")
+// },[])
   console.log("Confirmation code:", code);
 
   if (!code) {

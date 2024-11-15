@@ -1,175 +1,167 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createNews, deleteNews, fetchNews, INews, updateNews, getNewsById } from "./newsActions";
-import NewsItem from "./NewsItem";
-import styles from './newsList.module.css';
-import { AppDispatch, RootState } from "../../../app/store";
-import { format } from "date-fns";
-import UpdateNews from "./UpdateNews";
+import { useEffect, useState } from "react";
+import styles from "./newsList.module.css";
 import ScrollToTopButton from "../../scrollToTopButton/ScrollToTopButton";
+
+
+interface NewsItem {
+  id: number;
+  title: string;
+  description: string;
+  createdAt: string;
+  createdBy: string;
+}
 
 interface NewsFormData {
   title: string;
   description: string;
 }
 
-const NewsList: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { news, isLoading, error } = useSelector((state: RootState) => state.news);
-  const [inputData, setInputData] = useState<NewsFormData>({ title: "", description: "" });
-  const [editingNewsId, setEditingNewsId] = useState<number | null>(null);
-  const [selectedNewsId, setSelectedNewsId] = useState<number | null>(null);
-  const [selectedNews, setSelectedNews] = useState<INews | null>(null);
+export default function NewsList() {
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [showAddNews, setShowAddNews] = useState(false);
+  const [formData, setFormData] = useState<NewsFormData>({
+    title: "",
+    description: "",
+  });
 
   useEffect(() => {
-    dispatch(fetchNews());
-  }, [dispatch]);
+    fetchNews();
+  }, []);
+
+  const fetchNews = () => {
+    setLoading(true);
+    fetch("/api/news", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error("Failed to fetch news");
+      })
+      .then((data) => {
+        setNews(
+          data.sort((a: NewsItem, b: NewsItem) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+        );
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError("Failed to load news. Please try again later.");
+        setLoading(false);
+      });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setInputData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCreateNews = async () => {
-    if (!inputData.title || !inputData.description) {
-      alert("Please fill in all fields");
+  const handleAddNews = () => {
+    if (!formData.title || !formData.description) {
+      alert("Please fill in all fields.");
       return;
     }
-    try {
-      await dispatch(createNews(inputData)).unwrap();
-      setInputData({ title: "", description: "" });
-      setShowAddNews(false);
-    } catch (error) {
-      console.error("Failed to add news:", error);
-      alert("Failed to add news. Please try again.");
+
+    fetch("/api/news", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to add news");
+        return response.json();
+      })
+      .then((newNews) => {
+        setNews((prev) => [newNews, ...prev]);
+        setShowAddNews(false);
+        setFormData({ title: "", description: "" });
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to add news. Please try again.");
+      });
+  };
+
+  const handleDeleteNews = (id: number) => {
+    if (window.confirm("Are you sure you want to delete this news?")) {
+      fetch(`/api/news/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Failed to delete news");
+          setNews((prev) => prev.filter((item) => item.id !== id));
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("Failed to delete news. Please try again.");
+        });
     }
-  };
-
-  const handleEditClick = (newsItem: INews) => {
-    setEditingNewsId(newsItem.id);
-    setInputData({ title: newsItem.title, description: newsItem.description });
-  };
-
-  const handleUpdateNews = async () => {
-    if (!editingNewsId) return;
-
-    try {
-      const updatedNews = {
-        id: editingNewsId,
-        title: inputData.title,
-        description: inputData.description
-      };
-      await dispatch(updateNews(updatedNews)).unwrap();
-      setEditingNewsId(null);
-      setInputData({ title: "", description: "" });
-    } catch (error) {
-      console.error("Failed to update news:", error);
-      alert("Failed to update news. Please try again.");
-    }
-  };
-
-  const handleDeleteNews = async (newsId: number) => {
-    if (window.confirm("Are you sure you want to delete this news item?")) {
-      try {
-        await dispatch(deleteNews(newsId)).unwrap();
-      } catch (error) {
-        console.error("Failed to delete news:", error);
-        alert("Failed to delete news. Please try again.");
-      }
-    }
-  };
-
-  const handleGetNewsById = async (id: number) => {
-    setSelectedNewsId(selectedNewsId === id ? null : id);
-    if (selectedNewsId !== id) {
-      try {
-        const newsDetails = await dispatch(getNewsById(id)).unwrap();
-        setSelectedNews(newsDetails); 
-      } catch (error) {
-        console.error("Failed to get news details:", error);
-        alert("Failed to get news details.");
-      }
-    } else {
-      setSelectedNews(null); 
-    }
-  };
-
-  const formatDate = (date: string | number | Date) => {
-    const formattedDate = new Date(date);
-    return isNaN(formattedDate.getTime()) ? "Invalid date" : format(formattedDate, "dd.MM.yyyy");
   };
 
   return (
-    <div className={styles.newsListContainer}>
-      <h1>News List</h1>
+    <div className={styles.container}>
+      <h1>Admin News Management</h1>
 
       <button onClick={() => setShowAddNews((prev) => !prev)}>
-        {showAddNews ? 'Cancel' : 'Add News'}
+        {showAddNews ? "Cancel" : "Add News"}
       </button>
 
       {showAddNews && (
         <div className={styles.newsForm}>
-          <h3>Add News</h3>
+          <h2>Add News</h2>
           <input
             type="text"
             name="title"
             placeholder="News Title"
-            value={inputData.title}
+            value={formData.title}
             onChange={handleInputChange}
           />
           <textarea
             name="description"
             placeholder="News Description"
-            value={inputData.description}
+            value={formData.description}
             onChange={handleInputChange}
           />
-          <button onClick={handleCreateNews}>Create News</button>
+          <button onClick={handleAddNews}>Create News</button>
         </div>
       )}
 
-      {editingNewsId && (
-        <UpdateNews
-          inputData={inputData}
-          handleInputChange={handleInputChange}
-          handleUpdateSubmit={handleUpdateNews}
-          handleCancelUpdate={() => {
-            setEditingNewsId(null);
-            setInputData({ title: "", description: "" });
-          }}
-        />
-      )}
-
-      {isLoading ? (
-        <div className={styles.loader}>Loading...</div> 
+      {loading ? (
+        <div className={styles.loader}></div>
       ) : error ? (
-        <p>Error: {error}</p>
-      ) : (
-        news.map((newsItem) => (
-          <div key={newsItem.id}>
-            <NewsItem
-              news={newsItem}
-              onEdit={() => handleEditClick(newsItem)}
-              onDelete={() => handleDeleteNews(newsItem.id)}
-              onGetNews={handleGetNewsById}
-              formatDate={formatDate}
-            />
-            {selectedNewsId === newsItem.id && selectedNews && (
-              <div className={styles.selectedNews}>
-                <h2>News Details: {selectedNews.title}</h2>
-                <p>{selectedNews.description}</p>
-                <p className={styles.newsAuthor}>Author: {selectedNews.createdBy.username}</p>
-                <p className={styles.newsDate}> Created: {formatDate(selectedNews.createdAt)}</p>
-                <button onClick={() => setSelectedNewsId(null)}>Close</button>
+        <p className={styles.error}>{error}</p>
+      ) : news.length > 0 ? (
+        <ul className={styles.newsList}>
+          {news.map((item) => (
+            <li key={item.id} className={styles.newsItem}>
+              <h2>{item.title}</h2>
+              <p>{item.description}</p>
+              <p className={styles.newsMeta}>
+                Created by: <strong>{item.createdBy}</strong>
+                <br />
+                Created on: {new Date(item.createdAt).toLocaleDateString()}
+              </p>
+              <div className={styles.newsActions}>
+                <button onClick={() => handleDeleteNews(item.id)}>Delete</button>
               </div>
-            )}
-          </div>
-        ))
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className={styles.noNews}>No news available</p>
       )}
       <ScrollToTopButton />
     </div>
-    
   );
-};
-
-export default NewsList;
+}
