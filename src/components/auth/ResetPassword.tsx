@@ -62,7 +62,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/reset-password', {
+      const response = await fetch('/api/reset-password', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
