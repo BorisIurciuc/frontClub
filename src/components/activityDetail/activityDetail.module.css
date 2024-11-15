@@ -5,7 +5,8 @@
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 95%;
+    width: 800px;
+    height: auto;
 }
 
 .activityDetailTitle {
@@ -18,10 +19,12 @@
 
 .activityDetailImage {
     width: 100%;
-    height: auto;
+    max-height: 400px;
+    height: auto; 
     border-radius: 12px;
     margin-bottom: 20px;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: #f0f0f0;
 }
 
 .activityDetailAddress,
@@ -110,7 +113,8 @@
 
     .buttonContainer {
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
+        gap: 10px;
     }
 
     .participateButton,
@@ -147,7 +151,8 @@
 
     .buttonContainer {
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
+        gap: 12px;
     }
 
     .participateButton,
