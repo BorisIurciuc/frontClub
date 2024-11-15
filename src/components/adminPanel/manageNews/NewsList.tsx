@@ -6,6 +6,7 @@ import styles from './newsList.module.css';
 import { AppDispatch, RootState } from "../../../app/store";
 import { format } from "date-fns";
 import UpdateNews from "./UpdateNews";
+import ScrollToTopButton from "../../scrollToTopButton/ScrollToTopButton";
 
 interface NewsFormData {
   title: string;
@@ -17,6 +18,7 @@ const NewsList: React.FC = () => {
   const { news, isLoading, error } = useSelector((state: RootState) => state.news);
   const [inputData, setInputData] = useState<NewsFormData>({ title: "", description: "" });
   const [editingNewsId, setEditingNewsId] = useState<number | null>(null);
+  const [selectedNewsId, setSelectedNewsId] = useState<number | null>(null);
   const [selectedNews, setSelectedNews] = useState<INews | null>(null);
   const [showAddNews, setShowAddNews] = useState(false);
 
@@ -51,7 +53,7 @@ const NewsList: React.FC = () => {
 
   const handleUpdateNews = async () => {
     if (!editingNewsId) return;
-    
+
     try {
       const updatedNews = {
         id: editingNewsId,
@@ -79,12 +81,17 @@ const NewsList: React.FC = () => {
   };
 
   const handleGetNewsById = async (id: number) => {
-    try {
-      const newsDetails = await dispatch(getNewsById(id)).unwrap();
-      setSelectedNews(newsDetails);
-    } catch (error) {
-      console.error("Failed to get news details:", error);
-      alert("Failed to get news details.");
+    setSelectedNewsId(selectedNewsId === id ? null : id);
+    if (selectedNewsId !== id) {
+      try {
+        const newsDetails = await dispatch(getNewsById(id)).unwrap();
+        setSelectedNews(newsDetails); 
+      } catch (error) {
+        console.error("Failed to get news details:", error);
+        alert("Failed to get news details.");
+      }
+    } else {
+      setSelectedNews(null); 
     }
   };
 
@@ -134,33 +141,34 @@ const NewsList: React.FC = () => {
       )}
 
       {isLoading ? (
-        <p>Loading...</p>
+        <div className={styles.loader}>Loading...</div> 
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
         news.map((newsItem) => (
-          <NewsItem
-            key={newsItem.id}
-            news={newsItem}
-            onEdit={() => handleEditClick(newsItem)}
-            onDelete={() => handleDeleteNews(newsItem.id)}
-            onGetNews={handleGetNewsById}
-            formatDate={formatDate}
-          />
+          <div key={newsItem.id}>
+            <NewsItem
+              news={newsItem}
+              onEdit={() => handleEditClick(newsItem)}
+              onDelete={() => handleDeleteNews(newsItem.id)}
+              onGetNews={handleGetNewsById}
+              formatDate={formatDate}
+            />
+            {selectedNewsId === newsItem.id && selectedNews && (
+              <div className={styles.selectedNews}>
+                <h2>News Details: {selectedNews.title}</h2>
+                <p>{selectedNews.description}</p>
+                <p className={styles.newsAuthor}>Author: {selectedNews.createdBy.username}</p>
+                что мне нужно исправить, чтобы появилось Created:
+                <button onClick={() => setSelectedNewsId(null)}>Close</button>
+              </div>
+            )}
+          </div>
         ))
       )}
-
-{selectedNews && (
-  <div className={styles.selectedNews}>
-    <h2>News Details: {selectedNews.title}</h2>
-    <p>{selectedNews.description}</p>
-    <p className={styles.newsAuthor}>Author: {selectedNews.createdBy.username}</p>
-    <p className={styles.newsDate}>Created: {formatDate(selectedNews.createdAt)}</p>
-    <button onClick={() => setSelectedNews(null)}>Close</button>
-  </div>
-)}
-
+      <ScrollToTopButton />
     </div>
+    
   );
 };
 

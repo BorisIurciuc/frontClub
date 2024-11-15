@@ -56,10 +56,10 @@ nav ul li a.active {
 @media (max-width: 768px) {
   nav ul {
     flex-direction: row;
-    overflow-x: auto;
     gap: 12px;
     white-space: nowrap;
     justify-content: flex-start; 
+
   }
 
   nav ul li a {
