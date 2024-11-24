@@ -1,0 +1,142 @@
+:root {
+  --bg-color: #f8f9fa;
+  --primary-color: #007bff;
+  --primary-hover: #45a049;
+  --delete-color: #f44336;
+  --delete-hover: #d32f2f;
+  --border-color: #ddd;
+  --font-color: #333;
+  --transition: 0.3s ease;
+  --border-radius: 8px;
+  --padding: 20px;
+  --input-padding: 12px;
+  --button-padding: 0.6rem 1.2rem;
+  --font-size: 1rem;
+  --icon-margin: 0.5rem;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  background: var(--bg-color);
+  border-radius: var(--border-radius);
+  padding: var(--padding);
+  width: 100%;
+  max-width: 90%;
+  margin: 0 auto;
+  box-shadow: var(--shadow);
+  transition: box-shadow var(--transition);
+  box-sizing: border-box; 
+}
+
+.inputField,
+.textareaField {
+  width: 100%;
+  padding: var(--input-padding);
+  margin-bottom: 16px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  font-size: var(--font-size);
+  color: var(--font-color);
+  background: #fff;
+  transition: border 0.3s ease;
+  box-sizing: border-box; 
+}
+
+.textareaField {
+  min-height: 100px;
+  resize: vertical;
+  max-height: 300px;
+}
+
+.inputField:focus,
+.textareaField:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.saveButton[type="submit"],
+.button {
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--button-padding);
+  font-size: var(--font-size);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  color: white;
+  border: none;
+}
+
+.saveButton[type="submit"] {
+  max-width: 200px;
+  background-color: var(--primary-color);
+}
+
+
+.saveButton:hover[type="submit"] {
+  max-width: 200px;
+  background-color: var(--primary-hover);
+}
+
+.cancelButton {
+  background-color: var(--delete-color);
+}
+
+.cancelButton:hover {
+  background-color: var(--delete-hover);
+}
+
+.icon {
+  margin-right: var(--icon-margin);
+  font-size: 1.125rem;
+}
+
+.button:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 767px) {
+  .container {
+    padding: 15px;
+  }
+
+  .button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .inputField,
+  .textareaField {
+    font-size: 0.9rem;
+    padding: 10px;
+    width: 100%; 
+  }
+
+  .textareaField {
+    min-height: 80px;
+    max-height: 200px;
+  }
+
+  .button {
+    font-size: 1.1rem;
+  }
+}
+
+
+@media (max-width: 500px) {
+  .container {
+    padding: 10px;
+  }
+
+  .inputField,
+  .textareaField {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .button {
+    padding: 0.5rem 1rem;
+  }
+}

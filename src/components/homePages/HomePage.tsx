@@ -63,8 +63,7 @@ const HomePage: React.FC = () => {
       
       <div className={styles.imageContainer}>
         <motion.img
-          src="/src/components/homePages/imgHomePage/decoration-retour-ecole-livres_23-2147662350.jpg"
-          alt="Books and school decoration"
+          src="https://my-activity-images.s3.eu-north-1.amazonaws.com/bg1.jpg"
           className={styles.backgroundImage}
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.8 }}
@@ -82,7 +81,7 @@ const HomePage: React.FC = () => {
       </header>
 
       <motion.div className={styles.highlightSection} initial="hidden" animate="visible" variants={fadeIn}>
-  <img src="/src/components/homePages/imgHomePage/langue.avif" alt="Colorful crayons" className={styles.highlightImage} />
+  <img src="https://my-activity-images.s3.eu-north-1.amazonaws.com/bg2.jpg" alt="Colorful crayons" className={styles.highlightImage} />
   <div className={styles.textOverlay}>
     <h2 className={styles.sectionTitle}>Expand Your Language Skills with Ease</h2>
     <p className={styles.highlightText}>

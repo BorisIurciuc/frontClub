@@ -1,11 +1,12 @@
 .activityDetailContainer {
-    max-width: 800px;
+    max-width: 480px;
     margin: 20px auto;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 95%;
+    width: 800px;
+    height: auto;
 }
 
 .activityDetailTitle {
@@ -18,10 +19,12 @@
 
 .activityDetailImage {
     width: 100%;
-    height: auto;
+    max-height: 400px;
+    height: auto; 
     border-radius: 12px;
     margin-bottom: 20px;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: #f0f0f0;
 }
 
 .activityDetailAddress,
@@ -46,12 +49,15 @@
 
 .buttonContainer {
     display: flex;
-    justify-content: center;
+    justify-content: center; 
+    gap: 10px;
     margin-top: 20px;
+    gap: 10px;
 }
 
 .participateButton,
-.revokeButton {
+.revokeButton,
+.deleteButton { 
     background-color: #007bff;
     color: white;
     border: none;
@@ -62,6 +68,9 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
     text-transform: uppercase;
     width: 150px;
+    text-align: center;
+    flex: 1;
+    max-width: 150px;
 }
 
 .participateButton {
@@ -72,6 +81,10 @@
     background-color: #dc3545;
 }
 
+.deleteButton {
+    background-color: #ff4444;
+}
+
 .participateButton:hover {
     background-color: #218838;
 }
@@ -80,10 +93,28 @@
     background-color: #c82333;
 }
 
+.deleteButton:hover {
+    background-color: #d32f2f;
+}
+
 @media (max-width: 768px) {
     .activityDetailContainer {
         padding: 15px;
         max-width: 90%;
+    }
+
+    .activityDetailTitle {
+        font-size: 2rem;
+    }
+
+    .activityDetailDescription {
+        font-size: 0.95rem;
+    }
+
+    .buttonContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
     }
 
     .participateButton,
@@ -91,15 +122,43 @@
         width: 100%;
         margin: 10px 0;
     }
-
-    .buttonContainer {
-        flex-direction: column;
-        align-items: stretch;
-    }
 }
 
 @media (min-width: 1440px) {
     .activityDetailContainer {
         max-width: 1000px;
+
+    .participateButton,
+    .revokeButton,
+    .deleteButton {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .activityDetailTitle {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .activityDetailTitle {
+        font-size: 1.8rem;
+    }
+
+    .activityDetailDescription {
+        font-size: 0.9rem;
+    }
+
+    .buttonContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .participateButton,
+    .revokeButton {
+        width: 100%;
+        padding: 10px 20px;
+        }
     }
 }

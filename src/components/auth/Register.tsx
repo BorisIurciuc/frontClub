@@ -18,16 +18,16 @@ export interface IRegisterFormValues  {
 
 const schema = Yup.object().shape({
   username: Yup.string()
-    .required('Обязательное поле')
-    .min(2, 'Минимум 2 символа')
-    .max(20, 'Максимум 20 символов'),
+    .required('Mandatory field')
+    .min(2, 'Minimum 2 characters')
+    .max(20, 'Maximum 20 characters'),
   email: Yup.string()
-    .required('Обязательное поле')
-    .email('Неверный формат email'),
+    .required('Mandatory field')
+    .email('Wrong email format'),
   password: Yup.string()
-    .required('Обязательное поле')
-    .min(2, 'Минимум 2 символа')
-    .max(20, 'Максимум 20 символов'),
+    .required('Mandatory field')
+    .min(2, 'Minimum 2 characters')
+    .max(20, 'Maximum 20 characters'),
 });
 
 export default function Register() {
@@ -56,7 +56,7 @@ export default function Register() {
         })).unwrap();
         
         setSuccessMessage(
-          "Регистрация прошла успешно! Проверьте вашу почту для подтверждения."
+         "Registration successful! Check your email for verification."
         );
         resetForm();
 
@@ -67,10 +67,10 @@ export default function Register() {
         if (axios.isAxiosError(error)) {
           const message =
             error.response?.data?.message ||
-            "Ошибка регистрации. Попробуйте снова.";
+            "Error occurred during registration.";
           setErrorMessage(message);
         } else {
-          setErrorMessage("Произошла неизвестная ошибка.");
+          setErrorMessage("Unexpected error occurred.");
         }
         console.error(error);
       } finally {
@@ -81,7 +81,7 @@ export default function Register() {
 
   return (
     <section>
-      <h2>Создать аккаунт</h2>
+      <h2>Create account</h2>
       {loading ? (
         <Loader />
       ) : (
@@ -92,7 +92,7 @@ export default function Register() {
           </div>
           <Input
             name='username'
-            placeholder='Имя пользователя'
+            placeholder='username'
             type='text'
             error={formik.errors.username}
             value={formik.values.username}
@@ -108,13 +108,13 @@ export default function Register() {
           />
           <Input
             name='password'
-            placeholder='Пароль'
+            placeholder='password'
             type='password'
             error={formik.errors.password}
             value={formik.values.password}
             onChange={formik.handleChange}
           />
-          <Button type='submit' name='Зарегистрироваться' disabled={loading} />
+          <Button type='submit' name='register' disabled={loading} />
           <Link to='/login' className={styles.link}>Sing In</Link>
         </form>
       )}

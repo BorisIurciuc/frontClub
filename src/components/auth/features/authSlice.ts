@@ -1,43 +1,40 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, SerializedError } from "@reduxjs/toolkit";
 import { getUserWithToken, loginUser } from "./authAction";
-
-export interface IUserData {
-  id: number;
-  username: string;
-  email: string;
-  refreshToken: string;
-  token: string;
-}
 
 export interface IUser {
   id: number;
   username: string;
   email: string;
   roles: string[];
-  active: true;
+  active: boolean;
 }
 
 export interface ITokenDto {
-  [x: string]: string;
   refreshToken: string;
   accessToken: string;
 }
 
-interface IUserState {
-  user: IUser|undefined;
-  isLoading: boolean;
-  error: string;
-  isAuthenticated: boolean;
-  
+export interface IUserData {
+  id: number;
+  username: string;
+  email: string;
+  roles?: string[]; 
+  active?: boolean; 
+}
 
+
+interface IUserState {
+  user: IUser | null;
+  isLoading: boolean;
+  error: string | SerializedError | null;
+  isAuthenticated: boolean;
 }
 
 const initialState: IUserState = {
-  user: undefined,
+  user: null,
   isLoading: false,
-  error: "",
+  error: null,
   isAuthenticated: false,
-
 };
 
 export const authSlice = createSlice({
@@ -45,46 +42,53 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logoutUser: (state) => {
-      state.user = undefined;
+      state.user = null;
       localStorage.removeItem("token");
       state.isAuthenticated = false;
-      state.error = "";
+      state.error = null;
     },
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
-        state.error = "";
+        state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state) => {
+      .addCase(loginUser.fulfilled, (state, _: PayloadAction<ITokenDto>) => {
         state.isLoading = false;
         state.isAuthenticated = true;
+        state.user = {
+          ...state.user,
+          id: 0,
+          username: "",
+          email: "",
+          roles: [],
+          active: true,
+        };
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.user = undefined;
-        state.error = action.payload as string;
+        state.user = null;
+        state.error = action.error; 
         state.isAuthenticated = false;
       })
       .addCase(getUserWithToken.pending, (state) => {
         state.isLoading = true;
-        state.error = "";
+        state.error = null;
       })
-      .addCase(getUserWithToken.fulfilled, (state, action) => {
+      .addCase(getUserWithToken.fulfilled, (state, action: PayloadAction<IUser>) => {
         state.isLoading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
       })
       .addCase(getUserWithToken.rejected, (state, action) => {
         state.isLoading = false;
-        state.user = undefined;
-        state.error = action.payload as string;
+        state.user = null;
+        state.error = action.error; 
         state.isAuthenticated = false;
       });
   },
 });
 
-export default authSlice;
 export const { logoutUser } = authSlice.actions;
+export default authSlice.reducer;

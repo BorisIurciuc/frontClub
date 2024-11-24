@@ -12,9 +12,11 @@ const ActivityDetail: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-  const location = useLocation();
   const navigate = useNavigate(); 
+ 
+  const location = useLocation();
   const activity = location.state?.activity;
 
   useEffect(() => {
@@ -52,6 +54,10 @@ const ActivityDetail: React.FC = () => {
       }
     };
 
+    if (user?.roles?.includes("ROLE_ADMIN")) {
+      setIsAdmin(true);
+    }
+
     fetchAuthorName();
     checkRegistration();
   }, [activity?.id, user]);
@@ -77,6 +83,26 @@ const ActivityDetail: React.FC = () => {
     }
   };
 
+  const handleDeleteActivity = async () => {
+    if (!activity) {
+      console.error("Activity is not defined");
+      return;
+    }
+
+    try {
+      await axios.delete(`/api/activity/${activity.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      alert("Activity deleted successfully");
+      navigate("/admin/activities");
+    } catch (error) {
+      console.error("Error deleting activity:", error);
+      alert("Failed to delete activity");
+    }
+  };
+
   if (!activity) {
     return <div>Activity not found</div>;
   }
@@ -89,11 +115,11 @@ const ActivityDetail: React.FC = () => {
         alt={activity.title}
         className={styles.activityDetailImage}
       />
-      <p className={styles.activityDetailAddress}>
-        <strong>Address:</strong> {activity.address}
-      </p>
       <p className={styles.activityDetailDate}>
         <strong>Date:</strong> {activity.startDate}
+      </p>
+      <p className={styles.activityDetailAddress}>
+        <strong>Address:</strong> {activity.address}
       </p>
       <p className={styles.activityDetailDescription}>{activity.description}</p>
       
@@ -102,20 +128,25 @@ const ActivityDetail: React.FC = () => {
         {loading ? 'Loading...' : error ? <span className={styles.error}>{error}</span> : authorName}
       </div>
       
-      <p>Current user: {user?.username}</p>
       
+
       <div className={styles.buttonContainer}>
         {user?.id !== activity.authorId && (
           <button
             className={isRegistered ? styles.revokeButton : styles.participateButton}
             onClick={handleParticipationClick}
+            disabled={loading}
           >
-            {isRegistered ? "Revoke Participation" : "Participate"}
+            {isRegistered ? "Unsubscribe" : "Participate"}
           </button>
         )}
+        
+        
       </div>
       <BackButton />
+
     </div>
+
   );
 };
 
