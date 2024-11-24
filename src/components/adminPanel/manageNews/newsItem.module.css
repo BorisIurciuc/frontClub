@@ -1,99 +1,117 @@
-/* Общие стили для всех элементов новости */
-.news-item {
-    border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+.newsItem {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 12px 0;
+  background-color: #f9f9f9;
+  transition: transform 0.3s ease;
+}
+
+.newsItem:hover {
+  transform: scale(1.05);
+}
+
+.newsTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+  word-wrap: break-word;
+}
+
+.newsDescription {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.newsActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.editButton, .deleteButton, .detailsButton {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.editButton {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.editButton:hover {
+  background-color: #45a049;
+}
+
+.deleteButton {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.deleteButton:hover {
+  background-color: #e53935;
+}
+
+.detailsButton {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.detailsButton:hover {
+  background-color: #1976d2;
+}
+
+@media screen and (max-width: 600px) {
+  .newsItem {
+    padding: 12px;
+    margin: 8px 0;
   }
-  
-  .news-item:hover {
-    background-color: #f1f7ff;
+
+  .newsTitle {
+    font-size: 1.25rem;
   }
-  
-  .title {
-    font-size: 1.25em;
-    color: #333;
-    font-weight: 500;
-    margin: 0;
+
+  .newsDescription {
+    font-size: 0.875rem;
   }
-  
-  .description,
-  .createdBy,
-  .createdAt {
-    margin-top: 8px;
-    color: #666;
-    font-size: 0.95em;
-  }
-  
-  .button {
-    margin-right: 10px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    font-size: 0.95em;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Стили для формы создания новости */
-  .create-news-form {
-    display: flex;
+
+  .newsActions {
     flex-direction: column;
-    gap: 15px;
-    padding: 20px;
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    max-width: 500px;
-    margin: 20px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    gap: 4px;
   }
-  
-  .input,
-  .textarea {
-    width: 100%;
-    padding: 12px;
-    font-size: 1em;
-    border: 1px solid #d0d0d0;
-    border-radius: 5px;
-    background-color: #fafafa;
-    outline: none;
-    transition: border-color 0.3s ease;
+
+  .editButton, .deleteButton, .detailsButton {
+    padding: 6px 10px;
+    font-size: 0.75rem;
   }
-  
-  .input:focus,
-  .textarea:focus {
-    border-color: #007bff;
-    background-color: #fff;
+}
+
+@media screen and (min-width: 1024px) {
+  .newsItem {
+    max-width: 800px;
+    margin: 16px auto;
   }
-  
-  .textarea {
-    min-height: 100px;
-    resize: vertical;
+
+  .newsTitle {
+    font-size: 1.75rem;
   }
-  
-  /* Стили для кнопки создания */
-  .create-button {
-    padding: 12px;
-    font-size: 1em;
-    font-weight: 500;
-    color: white;
-    background-color: #28a745;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+
+  .newsDescription {
+    font-size: 1.125rem;
   }
-  
-  .create-button:hover {
-    background-color: #218838;
+
+  .newsActions {
+    gap: 16px;
   }
-  
+
+  .editButton, .deleteButton, .detailsButton {
+    padding: 10px 16px;
+    font-size: 1rem;
+  }
+}

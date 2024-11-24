@@ -5,7 +5,7 @@ export interface IUser {
   id: number;
   username: string;
   email: string;
-  roles: (string | { name: string })[];
+  roles: string[];
   active: boolean;
 }
 
@@ -14,15 +14,24 @@ export interface ITokenDto {
   accessToken: string;
 }
 
+export interface IUserData {
+  id: number;
+  username: string;
+  email: string;
+  roles?: string[]; 
+  active?: boolean; 
+}
+
+
 interface IUserState {
-  user: IUser | undefined;
+  user: IUser | null;
   isLoading: boolean;
   error: string | SerializedError | null;
   isAuthenticated: boolean;
 }
 
 const initialState: IUserState = {
-  user: undefined,
+  user: null,
   isLoading: false,
   error: null,
   isAuthenticated: false,
@@ -33,7 +42,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     logoutUser: (state) => {
-      state.user = undefined;
+      state.user = null;
       localStorage.removeItem("token");
       state.isAuthenticated = false;
       state.error = null;
@@ -45,7 +54,7 @@ export const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action: PayloadAction<ITokenDto>) => {
+      .addCase(loginUser.fulfilled, (state, _: PayloadAction<ITokenDto>) => {
         state.isLoading = false;
         state.isAuthenticated = true;
         state.user = {
@@ -59,8 +68,8 @@ export const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.user = undefined;
-        state.error = action.error; // SerializedError is directly accessible as action.error
+        state.user = null;
+        state.error = action.error; 
         state.isAuthenticated = false;
       })
       .addCase(getUserWithToken.pending, (state) => {
@@ -74,8 +83,8 @@ export const authSlice = createSlice({
       })
       .addCase(getUserWithToken.rejected, (state, action) => {
         state.isLoading = false;
-        state.user = undefined;
-        state.error = action.error; // Use action.error directly, which is already SerializedError
+        state.user = null;
+        state.error = action.error; 
         state.isAuthenticated = false;
       });
   },

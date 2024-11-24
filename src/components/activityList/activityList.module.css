@@ -5,6 +5,7 @@
   width: 100%;
   margin: 0 auto;
   padding: 0 20px;
+  grid-auto-rows: 350px;
 }
 
 .activityList {
@@ -14,17 +15,25 @@
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;  
+  height: 100%;
 }
 
 .activityList:hover {
-  transform: translateY(-5px); 
+  transform: translateY(-5px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .activityImage {
-  max-width: 380px;
+  width: 100%; 
   height: auto;
-  border-radius: 5px;
+  object-fit: contain;
+  max-height: 90%; 
+  flex-grow: 0;
+  overflow: hidden; 
 }
 
 .activityTitle {
@@ -32,7 +41,6 @@
   font-size: 1.4rem;
   font-weight: bold;
   color: #333;
-  text-align: center;
 }
 
 .activityDescription {
@@ -69,28 +77,28 @@
 
 .headerContainer {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
 }
 
 .pageTitle {
   font-size: 28px;
   font-weight: 700;
   color: #2c3e50;
-  text-align: center; 
-  flex-grow: 1; 
-  margin: 10px 0; 
-  padding: 10px; 
-  border-bottom: 3px solid #007bff; 
-  text-transform: uppercase; 
+  text-align: center;
+  flex-grow: 1;
+  margin: 10px 0;
+  padding: 10px;
+  border-bottom: 3px solid #007bff;
+  text-transform: uppercase;
   letter-spacing: 1px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  background-color: #f9f9f9; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
 }
 
 .addButton {
-  background-color: #4CAF50;
+  background-color: #007bff;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -100,20 +108,27 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
 
 .addButton:hover {
   background-color: #45a049;
   transform: scale(1.05);
 }
 
-.activityList {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-align: center; 
+
+.moreButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.icon {
+  margin-left: 8px;
+  font-size: 1.2rem;
 }
 
 .activityList button, .activityList a {
@@ -123,19 +138,96 @@
   border: none;
   padding: 10px 16px;
   cursor: pointer;
-  margin: 10px auto; 
+  margin: 10px auto;
   border-radius: 4px;
   font-size: 16px;
   transition: background-color 0.3s ease, transform 0.2s ease;
   text-align: center;
   text-decoration: none;
-  width: auto; 
-  max-width: 100%; 
+  width: auto;
+  max-width: 100%;
   text-transform: uppercase;
 }
 
 .activityList button:hover, .activityList a:hover {
-  background-color: #0056b3;
+  background-color: #45a049;
   transform: scale(1.05);
 }
 
+
+@media (max-width: 768px) {
+  .activityListContainer {
+    padding: 0 10px;
+  }
+
+  .pageTitle {
+    font-size: 24px;
+    padding: 8px;
+  }
+
+  .activityList {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .activityImage {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain; 
+  }
+
+  .activityTitle {
+    font-size: 1.2rem;
+  }
+
+  .activityDescription {
+    font-size: 0.85rem;
+  }
+
+  .activityAddress,
+  .activityStartDate {
+    font-size: 0.8rem;
+  }
+
+  .activityList button {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .headerContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .addButton {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+
+  .moreButton {
+    justify-content: center; 
+  }
+}
+
+@media (min-width: 1200px) {
+  .activityListContainer {
+    gap: 30px;
+  }
+
+  .activityList {
+    padding: 1.5rem;
+  }
+
+  .activityTitle {
+    font-size: 1.5rem;
+  }
+
+  .activityDescription {
+    font-size: 1rem;
+  }
+
+  .activityList button {
+    padding: 12px 18px;
+  }
+}

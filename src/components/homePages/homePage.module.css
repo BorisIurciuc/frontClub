@@ -55,6 +55,7 @@
 }
 
 .courseButton {
+  max-width: 200px;
   padding: 0.5rem 1rem;
   font-size: 1.1rem;
   color: white;
@@ -63,10 +64,17 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 
 .courseButton:hover {
-  background-color: #0056b3;
+  background-color: #45a049;
+}
+
+.icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
 }
 
 .highlightSection {
